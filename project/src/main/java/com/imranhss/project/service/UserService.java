@@ -4,9 +4,16 @@ import com.imranhss.project.entity.Users;
 import com.imranhss.project.repository.IUserRepo;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -17,7 +24,16 @@ public class UserService {
     @Autowired
     private EmailService emailService;
 
-    public void saveOrUpdate(Users user) {
+    @Value("src/main/resources/static/images")
+    private String uploadDir;
+
+    public void saveOrUpdate(Users user, MultipartFile imagefile) {
+
+        if (imagefile != null && !imagefile.isEmpty()) {
+            String fileName = saveImage(imagefile, user);
+            user.setPhoto(fileName);
+        }
+
         userRepo.save(user);
         sendActivationEmail(user);
     }
@@ -75,5 +91,28 @@ public class UserService {
         } catch (MessagingException e) {
             throw new RuntimeException("Failed to send activation email", e);
         }
+    }
+
+    public String saveImage(MultipartFile file, Users user) {
+        Path uploadPath = Paths.get(uploadDir+"/users");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectories(uploadPath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String fileName = user.getName()+"_"+ UUID.randomUUID().toString();
+
+
+        try {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(file.getInputStream(),filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return fileName;
     }
 }
