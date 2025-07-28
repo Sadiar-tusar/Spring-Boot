@@ -1,5 +1,7 @@
 package com.imranhss.project.service;
 
+import com.imranhss.project.entity.Jobseeker;
+import com.imranhss.project.entity.Role;
 import com.imranhss.project.entity.Users;
 import com.imranhss.project.repository.IUserRepo;
 import jakarta.mail.MessagingException;
@@ -24,6 +26,9 @@ public class UserService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private JobSeekerService jobSeekerService;
+
     @Value("src/main/resources/static/images")
     private String uploadDir;
 
@@ -34,6 +39,7 @@ public class UserService {
             user.setPhoto(fileName);
         }
 
+        user.setRole(Role.ADMIN);
         userRepo.save(user);
         sendActivationEmail(user);
     }
@@ -115,4 +121,49 @@ public class UserService {
 
         return fileName;
     }
+
+    public String saveImageForJobSeeker(MultipartFile file, Jobseeker jobseeker) {
+        Path uploadPath = Paths.get(uploadDir+"/jobSeeker");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectories(uploadPath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String jobSeekerName = jobseeker.getName();
+        String fileName = jobSeekerName.trim().replaceAll("\\s ", "_");
+        String savedFileName = fileName+ "_" + UUID.randomUUID().toString();
+
+
+        try {
+            Path filePath = uploadPath.resolve(savedFileName);
+            Files.copy(file.getInputStream(),filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return savedFileName;
+    }
+
+    public void registerJobSeeker(Users user, MultipartFile imageFile, Jobseeker jobSeekerData) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String filename = saveImage(imageFile, user);
+            String jobSeekerPhoto = saveImageForJobSeeker(imageFile, jobSeekerData);
+            jobSeekerData.setPhoto(jobSeekerPhoto);
+            user.setPhoto(filename);
+        }
+
+        user.setRole(Role.JOBSEEKER);
+        Users savedUser = userRepo.save(user); // Save User first
+
+        // Set user to jobSeeker and save it
+        jobSeekerData.setUser(savedUser);
+
+        jobSeekerService.save(jobSeekerData);
+
+        sendActivationEmail(savedUser);
+    }
+
 }
