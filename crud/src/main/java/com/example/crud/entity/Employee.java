@@ -8,7 +8,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private float salary;
     private String designation;
@@ -16,24 +16,20 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(long id, String name, float salary, String designation) {
+    public Employee(Long id, String name, float salary, String designation) {
         this.id = id;
         this.name = name;
         this.salary = salary;
         this.designation = designation;
     }
 
-    public Employee(String name, float salary, String designation) {
-        this.name = name;
-        this.salary = salary;
-        this.designation = designation;
-    }
+    public Employee(String name, float salary, String designation) {}
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
