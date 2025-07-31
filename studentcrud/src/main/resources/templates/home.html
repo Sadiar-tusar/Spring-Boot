@@ -18,8 +18,9 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Email</th>
-            <th>Fee</th>
+            <th>Roll</th>
+            <th>Marks</th>
+            <th>Subject</th>
             <th>Action</th>
 
         </tr>
@@ -31,8 +32,9 @@
         <tr th:each=" e: ${list}">
             <td th:text="${e.id}"></td>
             <td th:text="${e.name}"></td>
-            <td th:text="${e.email}"></td>
-            <td th:text="${e.fee}"></td>
+            <td th:text="${e.roll}"></td>
+            <td th:text="${e.marks}"></td>
+            <td th:text="${e.subject}"></td>
             <td>
                 <a th:href="@{'/edit/' + ${e.id}}" class="btn btn-warning">Edit</a>
                 <a th:href="@{'/delete/' + ${e.id}}" class="btn btn-danger">Delete</a>

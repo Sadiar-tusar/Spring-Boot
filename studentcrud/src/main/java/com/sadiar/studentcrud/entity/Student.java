@@ -10,17 +10,19 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String email;
-    private float fee;
+    private int roll;
+    private float marks;
+    private String subject;
 
     public Student() {
     }
 
-    public Student(int id, String name, String email, float fee) {
+    public Student(int id, String name, int roll, float marks, String subject) {
         this.id = id;
         this.name = name;
-        this.email = email;
-        this.fee = fee;
+        this.roll = roll;
+        this.marks = marks;
+        this.subject = subject;
     }
 
     public int getId() {
@@ -39,19 +41,27 @@ public class Student {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public int getRoll() {
+        return roll;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setRoll(int roll) {
+        this.roll = roll;
     }
 
-    public float getFee() {
-        return fee;
+    public float getMarks() {
+        return marks;
     }
 
-    public void setFee(float fee) {
-        this.fee = fee;
+    public void setMarks(float marks) {
+        this.marks = marks;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }
