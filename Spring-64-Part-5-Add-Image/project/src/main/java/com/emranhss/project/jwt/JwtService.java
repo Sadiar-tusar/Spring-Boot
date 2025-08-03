@@ -66,7 +66,7 @@ public class JwtService {
         return extratClaim(token,Claims::getExpiration).before(new Date());
     }
 
-    public boolean isValidToken(String token, UserDetails user) {
+    public boolean isValid(String token, UserDetails user) {
         String userName=extraUserName(token);
 
         boolean validToken =tokenRepository
