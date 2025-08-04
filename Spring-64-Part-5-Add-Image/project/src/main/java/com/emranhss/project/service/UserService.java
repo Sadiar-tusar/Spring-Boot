@@ -1,17 +1,28 @@
 package com.emranhss.project.service;
 
+import com.emranhss.project.dto.AuthenticationResponse;
 import com.emranhss.project.entity.JobSeeker;
 import com.emranhss.project.entity.Role;
+import com.emranhss.project.entity.Token;
+import com.emranhss.project.jwt.JwtService;
+import com.emranhss.project.repository.ITokenRepository;
 import com.emranhss.project.repository.IUserRepo;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.emranhss.project.entity.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,8 +36,13 @@ import java.util.UUID;
 @Service
 public class UserService implements UserDetailsService {
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
     private IUserRepo userRepo;
+
+    @Autowired
+    private ITokenRepository tokenRepository;
 
     @Autowired
     private EmailService emailService;
@@ -37,6 +53,16 @@ public class UserService implements UserDetailsService {
 
     @Value("src/main/resources/static/images")
     private String uploadDir;
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    @Lazy
+    private  AuthenticationManager authenticationManager;
+
+
+    public UserService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
 
     public void saveOrUpdate(User user, MultipartFile imageFile) {
@@ -66,6 +92,8 @@ public class UserService implements UserDetailsService {
     private void sendActivationEmail(User user) {
         String subject = "Welcome to Our Service – Confirm Your Registration";
 
+        String activationLink="http://localhost:8085/api/user/active/"+user.getId();
+
         String mailText = "<!DOCTYPE html>"
                 + "<html>"
                 + "<head>"
@@ -89,6 +117,7 @@ public class UserService implements UserDetailsService {
                 + "      <p>If you have any questions or need help, feel free to reach out to our support team.</p>"
                 + "      <br>"
                 + "      <p>Best regards,<br>The Support Team</p>"
+                + "      <p><a href=\"" + activationLink + "\">Activate Account</a></p>"
                 + "    </div>"
                 + "    <div class='footer'>"
                 + "      &copy; " + java.time.Year.now() + " YourCompany. All rights reserved."
@@ -168,7 +197,9 @@ public class UserService implements UserDetailsService {
             user.setPhoto(filename);
         }
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.JOBSEEKER);
+        user.setActive(false);
         User savedUser = userRepo.save(user); // Save User first
 
         // Set user to jobSeeker and save it
@@ -176,7 +207,68 @@ public class UserService implements UserDetailsService {
 
         jobSeekerService.save(jobSeekerData);
 
+        String jwt= jwtService.generateToken(savedUser);
+        saveUserToken(jwt, savedUser);
+
         sendActivationEmail(savedUser);
+    }
+
+    private void saveUserToken(String jwt, User user) {
+        Token token = new Token();
+        token.setToken(jwt);
+        token.setLogout(false);
+        token.setUser(user);
+
+        tokenRepository.save(token);
+    }
+
+    private void removeAllTokenByUser(User user) {
+        List<Token> validTokens= tokenRepository.findAllTokenByUser(user.getId());
+
+        if(validTokens.isEmpty()){
+            return;
+        }
+        validTokens.forEach(t -> {
+            t.setLogout(true);
+        });
+
+        tokenRepository.saveAll(validTokens);
+    }
+
+    //It is login Method
+    public AuthenticationResponse authenticate(User reqest) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        reqest.getUsername(),
+                        reqest.getPassword()
+                )
+        );
+
+        User user =userRepo.findByEmail(reqest.getEmail()).orElseThrow();
+
+        if (!user.isActive()){
+            throw new RuntimeException("Account is not activated. Please check your email for activation link.");
+        }
+
+        String jwt = jwtService.generateToken(user);
+        removeAllTokenByUser(user);
+        saveUserToken(jwt, user);
+
+        return new AuthenticationResponse(jwt, "User Login Successfully");
+    }
+
+    public String activeUser(int id){
+        User user = userRepo.findById(id).orElseThrow(()->new RuntimeException("User not found with this id"+id));
+
+        if(user !=null){
+            user.setActive(true);
+            userRepo.save(user);
+
+            return "User Active Successfully";
+        }
+        else {
+            return "User Not Active Successfully";
+        }
     }
 
 
@@ -184,10 +276,13 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user=userRepo.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
+
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
-                new ArrayList<>()
+               authorities
         ) {
         };
     }

@@ -117,7 +117,7 @@ public class User implements UserDetails {
         this.tokens = tokens;
     }
 
-    public boolean isActive(boolean active) {
+    public boolean isActive() {
         return active;
     }
 

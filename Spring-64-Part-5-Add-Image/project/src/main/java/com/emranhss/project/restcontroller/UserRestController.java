@@ -1,6 +1,7 @@
 package com.emranhss.project.restcontroller;
 
 
+import com.emranhss.project.dto.AuthenticationResponse;
 import com.emranhss.project.entity.User;
 import com.emranhss.project.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -51,12 +52,27 @@ public class UserRestController {
     }
 
 
-    @GetMapping("")
+    @GetMapping("all")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.findAll();
         return ResponseEntity.ok(users);
 
     }
+
+    @PostMapping("login")
+    public ResponseEntity<AuthenticationResponse>  login(@RequestBody User request){
+        return ResponseEntity.ok(userService.authenticate(request));
+
+    }
+
+
+    @GetMapping("/active/{id}")
+    public ResponseEntity<String> activeUser(@PathVariable("id") int id){
+
+        String response= userService.activeUser(id);
+        return  ResponseEntity.ok(response);
+    }
+
 
 
 }
