@@ -1,0 +1,135 @@
+
+<div class="key-frames">
+    <div class="container my-3">
+        <div class="bg-success text-center">
+            <h1 class="jumborton">Add Policy</h1>
+        </div>
+        <!--    start form-->
+        <form [formGroup]="formValue" method="post">
+            <div class="row">
+               
+
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Date</label>
+                    <input type="date" class="form-control" formControlName="date" placeholder="example@gmail.com">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Bank Name</label>
+                    <input type="text" class="form-control" formControlName="bankName" placeholder="Full Name">
+                </div>
+
+
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Policy Holder</label>
+                    <input type="text" class="form-control" formControlName="policyholder" placeholder="Full Name">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Address</label>
+                    <input type="text" class="form-control" formControlName="address" placeholder="Full Name">
+                </div>
+
+
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Sum Insured</label>
+                    <input type="number" class="form-control" formControlName="sumInsured" placeholder="Full Name">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Stock Insured</label>
+                    <input type="text" class="form-control" formControlName="stockInsured" placeholder="Full Name">
+                </div>
+
+
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Interested Insured</label>
+                    <input type="text" class="form-control" formControlName="interestInsured" placeholder="Full Name">
+                </div>
+
+            </div>
+            <div class="row">
+               
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Coverage</label>
+                    <input type="text" class="form-control" formControlName="coverage" placeholder="Full Name" readonly>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Location</label>
+                    <input type="text" class="form-control" formControlName="location" placeholder="Full Name">
+                </div>
+
+
+                <div class="col-md-6">
+                    <label for="construction" class="form-label">Construction</label>
+                    <select class="form-control" formControlName="construction" id="construction">
+                        <option value="">-- Select Construction Type --</option>
+                        <option value="1st class">1st class</option>
+                        <option value="2nd class">2nd class</option>
+                        <option value="3rd class">3rd class</option>
+                    </select>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Owner</label>
+                    <input type="text" class="form-control" formControlName="owner" placeholder="Full Name">
+                </div>
+
+
+                <div class="col-md-6">
+                    <label for="usedAs" class="form-label">Used As</label>
+                    <select class="form-control" formControlName="usedAs" id="usedAs">
+                        <option value="">-- Select Usage Type --</option>
+                        <option value="Shop Only">Shop Only</option>
+                        <option value="Godown Only">Godown Only</option>
+                        <option value="Shop-Cum-Godown Only">Shop-Cum-Godown Only</option>
+                    </select>
+                </div>
+
+
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Period From</label>
+                    <input type="date" class="form-control" formControlName="periodFrom" placeholder="Full Name">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Period To</label>
+                    <input type="date" class="form-control" formControlName="periodTo" placeholder="Full Name">
+                </div>
+
+            </div>
+
+
+
+
+            <div class="row mt-3 text-center">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success text-center" (click)="createPolicy()">Save</button>
+
+                </div>
+
+                <div class="col-md-6">
+                    <button type="reset" class="btn btn-danger text-center">Reset</button>
+
+                </div>
+            </div>
+        </form>
+
+        <!--end form    -->
+    </div>
+</div>
