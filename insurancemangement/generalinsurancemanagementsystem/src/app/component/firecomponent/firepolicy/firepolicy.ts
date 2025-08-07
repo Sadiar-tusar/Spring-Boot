@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FirepolicyService } from '../../../service/firepolicy.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -10,7 +10,7 @@ import { FirePolicy } from '../../../model/firepolicy.model';
   templateUrl: './firepolicy.html',
   styleUrl: './firepolicy.css'
 })
-export class Firepolicy {
+export class Firepolicy implements OnInit{
 
 formValue!: FormGroup;
   // policy: PolicyModel = new PolicyModel();

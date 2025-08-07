@@ -9,7 +9,7 @@ import { environment } from '../environment/environment';
 })
 export class FirepolicyService {
   
-    private baseUrl = environment.apiBaseUrl + '/firepolicy/';
+    private baseUrl = environment.apiBaseUrl + '/firepolicy';
 
   constructor(private http: HttpClient) { }
 
@@ -38,7 +38,7 @@ export class FirepolicyService {
   }
 
   // Delete a policy by ID
-  deletePolicy(id: string): Observable<any> {
+  deletePolicy(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`)
       .pipe(
         catchError(this.handleError)
@@ -46,7 +46,7 @@ export class FirepolicyService {
   }
 
   // Update a policy by ID
-  updatePolicy(id: string, policy: FirePolicy): Observable<any> {
+  updatePolicy(id: number, policy: FirePolicy): Observable<any> {
     return this.http.put(`${this.baseUrl}/${id}`, policy)
       .pipe(
         catchError(this.handleError)
@@ -54,7 +54,7 @@ export class FirepolicyService {
   }
 
   // Get a policy by ID
-  getByPolicyId(id: string): Observable<any> {
+  getByPolicyId(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`)
       .pipe(
         catchError(this.handleError)

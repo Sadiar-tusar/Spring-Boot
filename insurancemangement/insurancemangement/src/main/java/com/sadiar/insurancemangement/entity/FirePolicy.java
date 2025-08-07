@@ -17,7 +17,7 @@ public class FirePolicy {
     private Date date=new Date();
 
     private String bankName;
-    private String policyHolder;
+    private String policyholder;
     private String address;
     private String stockInsured;
     private double sumInsured;
@@ -37,11 +37,11 @@ public class FirePolicy {
     public FirePolicy() {
     }
 
-    public FirePolicy(int id, Date date, String bankName, String policyHolder, String address, String stockInsured, double sumInsured, String interestInsured, String coverage, String location, String construction, String owner, String usedAs, Date periodFrom, Date periodTo) {
+    public FirePolicy(int id, Date date, String bankName, String policyholder, String address, String stockInsured, double sumInsured, String interestInsured, String coverage, String location, String construction, String owner, String usedAs, Date periodFrom, Date periodTo) {
         this.id = id;
         this.date = date;
         this.bankName = bankName;
-        this.policyHolder = policyHolder;
+        this.policyholder = policyholder;
         this.address = address;
         this.stockInsured = stockInsured;
         this.sumInsured = sumInsured;
@@ -79,12 +79,12 @@ public class FirePolicy {
         this.bankName = bankName;
     }
 
-    public String getPolicyHolder() {
-        return policyHolder;
+    public String getPolicyholder() {
+        return policyholder;
     }
 
-    public void setPolicyHolder(String policyHolder) {
-        this.policyHolder = policyHolder;
+    public void setPolicyholder(String policyholder) {
+        this.policyholder = policyholder;
     }
 
     public String getAddress() {
@@ -165,7 +165,7 @@ public class FirePolicy {
 
     public void setPeriodFrom(Date periodFrom) {
         this.periodFrom = periodFrom;
-        setPeriodToAutomatically();
+        this.setPeriodToAutomatically();
     }
 
     public Date getPeriodTo() {

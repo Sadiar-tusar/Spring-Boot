@@ -36,6 +36,8 @@ public class FirePolicyService {
         return firePolicyRepository.findById(id);
     }
 
+
+    //delete
     public void delete(Integer id) {
         firePolicyRepository.deleteById(id);
     }

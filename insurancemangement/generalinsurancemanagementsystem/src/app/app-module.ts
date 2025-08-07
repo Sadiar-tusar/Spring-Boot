@@ -6,11 +6,15 @@ import { App } from './app';
 import { Firepolicy } from './component/firecomponent/firepolicy/firepolicy';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Showfirepolicy } from './component/showfirepolicy/showfirepolicy';
+import { Updatefirepolicy } from './component/updatefirepolicy/updatefirepolicy';
 
 @NgModule({
   declarations: [
     App,
-    Firepolicy
+    Firepolicy,
+    Showfirepolicy,
+    Updatefirepolicy
   ],
   imports: [
     BrowserModule,
