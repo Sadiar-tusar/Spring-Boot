@@ -16,7 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class Updatefirepolicy implements OnInit{
 
    policy !: FirePolicy 
-  id!: number 
+  policyId!: number 
   formValue!: FormGroup; // Form group for binding form data
 
   constructor(
@@ -29,7 +29,7 @@ export class Updatefirepolicy implements OnInit{
   ngOnInit(): void {
      const currentDate = new Date().toISOString().substring(0, 10); // Format as YYYY-MM-DD
 
-     this.id = this.route.snapshot.params['id'];
+     this.policyId = this.route.snapshot.params['id'];
 
     // Initialize form with empty values
     this.formValue = this.formBuilder.group({
@@ -51,7 +51,7 @@ export class Updatefirepolicy implements OnInit{
     });
 
     // Fetch the policy data by ID
-    this.policyService.getByPolicyId(this.id)
+    this.policyService.getByPolicyId(this.policyId)
       .subscribe({
         next: res => {
           this.policy = res;
@@ -79,7 +79,7 @@ export class Updatefirepolicy implements OnInit{
 
    updatePolicy() {
     // Update policy with the values from the form
-    this.policyService.updatePolicy(this.id, this.formValue.value)
+    this.policyService.updatePolicy(this.policyId, this.formValue.value)
       .subscribe({
         next: res => {
           console.log(res);
@@ -90,6 +90,22 @@ export class Updatefirepolicy implements OnInit{
         }
       });
   }
+  //  updatePolicy() {
+  //   // Update policy with the values from the form
+  //   this.policy= this.formValue.value;
+  //   this.policy.id=this.policyId
+  //   this.policyService.updatePolicy(this.policyId, this.formValue.value)
+  //     .subscribe({
+  //       next: res => {
+  //         console.log(res);
+  //         this.formValue.reset();
+  //         this.router.navigate(['/viewfirepolicy']); // Navigate back to the policy list after successful update
+  //       },
+  //       error: error => {
+  //         console.log(error);
+  //       }
+  //     });
+  // }
 
   
 

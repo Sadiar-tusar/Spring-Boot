@@ -45,13 +45,13 @@ export class FirepolicyService {
       );
   }
 
-  // Update a policy by ID
-  updatePolicy(id: number, policy: FirePolicy): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, policy)
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
+  // // Update a policy by ID
+  // updatePolicy(id: number, policy: FirePolicy): Observable<any> {
+  //   return this.http.put(`${this.baseUrl}/${id}`, policy)
+  //     .pipe(
+  //       catchError(this.handleError)
+  //     );
+  // }
 
   // Get a policy by ID
   getByPolicyId(id: number): Observable<any> {
@@ -86,4 +86,12 @@ export class FirepolicyService {
           catchError(this.handleError)
         );
     }
+
+    // Update a policy by ID
+  updatePolicy(id: number, policy: FirePolicy): Observable<any> {
+    return this.http.put(this.baseUrl+id, policy)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 }
