@@ -77,28 +77,12 @@ export class Updatefirepolicy implements OnInit{
 
   }
 
-   updatePolicy() {
-    // Update policy with the values from the form
-    this.policyService.updatePolicy(this.policyId, this.formValue.value)
-      .subscribe({
-        next: res => {
-          console.log(res);
-          this.router.navigate(['/viewfirepolicy']); // Navigate back to the policy list after successful update
-        },
-        error: error => {
-          console.log(error);
-        }
-      });
-  }
   //  updatePolicy() {
   //   // Update policy with the values from the form
-  //   this.policy= this.formValue.value;
-  //   this.policy.id=this.policyId
   //   this.policyService.updatePolicy(this.policyId, this.formValue.value)
   //     .subscribe({
   //       next: res => {
   //         console.log(res);
-  //         this.formValue.reset();
   //         this.router.navigate(['/viewfirepolicy']); // Navigate back to the policy list after successful update
   //       },
   //       error: error => {
@@ -106,6 +90,22 @@ export class Updatefirepolicy implements OnInit{
   //       }
   //     });
   // }
+   updatePolicy() {
+    // Update policy with the values from the form
+    this.policy= this.formValue.value;
+    this.policy.id=this.policyId
+    this.policyService.updatePolicy(this.policyId, this.formValue.value)
+      .subscribe({
+        next: res => {
+          console.log(res);
+          this.formValue.reset();
+          this.router.navigate(['/viewfirepolicy']); // Navigate back to the policy list after successful update
+        },
+        error: error => {
+          console.log(error);
+        }
+      });
+  }
 
   
 
