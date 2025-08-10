@@ -1,0 +1,121 @@
+/* src/app/home/home.component.css */
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header {
+  background-color: #1976d2;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #ffeb3b;
+}
+
+.hero {
+  padding: 60px 20px;
+  text-align: center;
+  background: linear-gradient(to right, #ffffff, #f3e5f5);
+}
+
+.hero h1 {
+  font-size: 48px;
+  color: #444;
+}
+
+.hero p {
+  font-size: 20px;
+  margin-top: 10px;
+  color: #666;
+}
+
+.cta-button {
+  margin-top: 30px;
+  padding: 12px 30px;
+  font-size: 18px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #388e3c;
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #eeeeee;
+  margin-top: 50px;
+  color: #777;
+}
+
+
+
+
+/* Slide-in from Left */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Slide-in from Right */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Gentle Bounce */
+@keyframes softBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Combined Animation Classes */
+.animate-slide-left {
+  animation: slideInLeft 1s ease-out forwards, softBounce 2s ease-in-out infinite;
+}
+
+.animate-slide-right {
+  animation: slideInRight 1s ease-out forwards, softBounce 2s ease-in-out infinite;
+}
+
+

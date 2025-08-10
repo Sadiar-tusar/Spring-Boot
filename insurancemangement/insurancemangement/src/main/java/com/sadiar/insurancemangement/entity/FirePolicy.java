@@ -1,9 +1,11 @@
 package com.sadiar.insurancemangement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "policies")
@@ -33,6 +35,10 @@ public class FirePolicy {
 
     @Temporal(TemporalType.DATE)
     private Date periodTo;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "policy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<FireBill> fireBills;
 
     public FirePolicy() {
     }
