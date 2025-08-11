@@ -75,7 +75,7 @@ constructor(
     });
   }
 
-   deleteBill(id: string): void {
+   deleteBill(id: number): void {
     this.billService.deleteBill(id)
       .subscribe({
         next: () => {
@@ -90,7 +90,7 @@ constructor(
       });
   }
 
-  getBillByBillId(id: string): void{
+  getBillByBillId(id: number): void{
 this.billService.getByBillId(id).subscribe({
 
   next: () => {

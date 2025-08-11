@@ -37,7 +37,7 @@ public class FirePolicy {
     private Date periodTo;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "policy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "firePolicy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FireBill> fireBills;
 
     public FirePolicy() {

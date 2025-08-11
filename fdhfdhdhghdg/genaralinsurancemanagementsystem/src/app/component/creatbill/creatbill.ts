@@ -37,7 +37,6 @@ export class Creatbill implements OnInit{
       grossPremium: [{ value: '' }], // Disable to prevent manual editing
       policies: this.formBuilder.group({
         id: [undefined],
-        billNo: [undefined],
         date: [currentDate],
         bankName: [undefined],
         policyholder: [undefined],

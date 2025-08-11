@@ -1,7 +1,7 @@
 
 
 export class BillModel {
-    "id"!: string;
+    "id"!: number;
     "fire"!: number
     "rsd"!: number;
     "netPremium"!: number;
@@ -9,8 +9,7 @@ export class BillModel {
     "grossPremium"!: number;
 
     policies!: {
-        "id": string | undefined;
-        "billNo": number | undefined;
+        "id": number | undefined;
         "date": Date | undefined;
         "bankName": string | undefined;
         "policyholder": string | undefined;
