@@ -24,9 +24,14 @@ export class BilmodelService {
       );
   }
 
-  createBill(bills: BillModel): Observable<BillModel> {
-    return this.http.post<BillModel>(this.baseUrl, bills);
-  }
+  // createBill(bills: BillModel): Observable<BillModel> {
+  //   return this.http.post<BillModel>(this.baseUrl, bills);
+  // }
+
+
+createBill(bill: BillModel, policyId: number): Observable<BillModel> {
+  return this.http.post<BillModel>(`${this.baseUrl}?policyId=${policyId}`, bill);
+}
 
   deleteBill(id: number): Observable<any> {
     return this.http.delete(this.baseUrl+"/"+ id);

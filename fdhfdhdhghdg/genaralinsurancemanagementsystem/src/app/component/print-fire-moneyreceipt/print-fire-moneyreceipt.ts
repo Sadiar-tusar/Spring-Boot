@@ -41,7 +41,7 @@ export class PrintFireMoneyreceipt implements OnInit {
   }
 
   getSumInsured(): number {
-    return this.moneyreceipt?.bill?.policies?.sumInsured ?? 0;
+    return this.moneyreceipt?.bill?.firePolicy?.sumInsured ?? 0;
   }
 
   getFireRate(): number {

@@ -112,26 +112,28 @@ export class Creatbill implements OnInit{
   }
 
   createBill(): void {
-    const formValues = this.billForm.value;
+  const formValues = this.billForm.value;
+  
+  this.bill.fire = formValues.fire;
+  this.bill.rsd = formValues.rsd;
+  this.bill.netPremium = formValues.netPremium;
+  this.bill.tax = formValues.tax;
+  this.bill.grossPremium = formValues.grossPremium;
+  this.bill.policies = formValues.policies;
 
-    this.bill.fire = formValues.fire;
-    this.bill.rsd = formValues.rsd;
-    this.bill.netPremium = formValues.netPremium;
-    this.bill.tax = formValues.tax;
-    this.bill.grossPremium = formValues.grossPremium;
-    this.bill.policies = formValues.policies;
+  const policyId = formValues.policies.id;  // extract policyId here
 
-    this.billService.createBill(this.bill)
-      .subscribe({
-        next: res => {
-          this.loadPolicies();
-          this.billForm.reset();
-          this.router.navigate(['viewbill']);
-        },
-        error: error => {
-          console.error('Error creating bill:', error);
-        }
-      });
-  }
+  this.billService.createBill(this.bill, policyId)
+    .subscribe({
+      next: res => {
+        this.loadPolicies();
+        this.billForm.reset();
+        this.router.navigate(['viewbill']);
+      },
+      error: error => {
+        console.error('Error creating bill:', error);
+      }
+    });
+}
 
 }

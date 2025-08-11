@@ -127,19 +127,19 @@ this.billService.getByBillId(id).subscribe({
   }
 
   getFireAmount(bill: BillModel): number {
-    const sumInsured = bill.policies?.sumInsured || 0;
+    const sumInsured = bill.firePolicy?.sumInsured || 0;
     const fireRate = bill.fire || 0;
     return sumInsured * fireRate;
   }
 
   getRsdAmount(bill: BillModel): number {
-    const sumInsured = bill.policies?.sumInsured || 0;
+    const sumInsured = bill.firePolicy?.sumInsured || 0;
     const rsdRate = bill.rsd || 0;
     return sumInsured * rsdRate;
   }
 
   getNetPremium(bill: BillModel): number {
-    const sumInsured = bill.policies.sumInsured || 0;
+    const sumInsured = bill.firePolicy.sumInsured || 0;
     const fireRate = bill.fire || 0;
     const rsdRate = bill.rsd || 0;
 

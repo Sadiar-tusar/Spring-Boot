@@ -69,8 +69,8 @@ export class Creatreciept implements OnInit {
     });
 
     // Auto-fill selected bill on policyholder change
-    this.receiptForm.get('bill.policies.policyholder')?.valueChanges.subscribe(policyholder => {
-      this.selectedBill = this.bill.find(b => b.policies.policyholder === policyholder);
+    this.receiptForm.get('bill.firePolicy.policyholder')?.valueChanges.subscribe(policyholder => {
+      this.selectedBill = this.bill.find(b => b.firePolicy.policyholder === policyholder);
       if (this.selectedBill) {
         this.receiptForm.patchValue({
           bill: {
@@ -80,7 +80,7 @@ export class Creatreciept implements OnInit {
             netPremium: this.selectedBill.netPremium,
             tax: this.selectedBill.tax,
             grossPremium: this.selectedBill.grossPremium,
-            policies: this.selectedBill.policies
+            policies: this.selectedBill.firePolicy
           }
         });
       }

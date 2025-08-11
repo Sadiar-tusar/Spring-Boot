@@ -79,8 +79,8 @@
                 </label>
                 <select id="policyholder" formControlName="policyholder" class="form-control rounded-pill shadow-sm">
                   <option value="" disabled>Select your policy holder</option>
-                  <option *ngFor="let b of bill" [value]="b.policies.policyholder">
-                    {{ b.policies.policyholder }}
+                  <option *ngFor="let b of bill" [value]="b.firePolicy.policyholder">
+                    {{ b.firePolicy.policyholder }}
                   </option>
                 </select>
               </div>

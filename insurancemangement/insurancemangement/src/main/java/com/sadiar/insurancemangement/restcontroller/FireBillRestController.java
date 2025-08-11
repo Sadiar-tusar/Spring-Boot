@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/firebill")
@@ -18,23 +19,23 @@ public class FireBillRestController {
     private FireBillService fireBillService;
 
     // Get all bills
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<FireBill>> getAllBills() {
-        List<FireBill> bills = fireBillService.getAllBill();
+        List<FireBill> bills = fireBillService.getAllBills();
         return ResponseEntity.ok(bills);
     }
 
-    // Save a new bill
     @PostMapping("")
-    public void saveBill(@RequestBody FireBill b) {
-        fireBillService.saveFireBill(b);
+    public FireBill saveBill(@RequestBody FireBill b,
+                             @RequestParam int policyId) {
+        return fireBillService.createBill(b, policyId);
     }
 
     // Update an existing bill
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> updateBill(@PathVariable int id, @RequestBody FireBill b) {
         try {
-            fireBillService.updateFireBill(b, id);
+            fireBillService.updateBill(id, b);
             return ResponseEntity.ok("Bill updated successfully.");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -51,29 +52,28 @@ public class FireBillRestController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
     // Get bill by ID
     @GetMapping("/{id}")
-    public ResponseEntity<FireBill> getBillById(@PathVariable int id) {
+    public ResponseEntity<Optional<FireBill>> getBillById(@PathVariable int id) {
         try {
-            FireBill bill = fireBillService.getBillById(id);
+            Optional<FireBill> bill = fireBillService.getBillById(id);
             return ResponseEntity.ok(bill);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
-    // Search bills by policyholder name
-    @GetMapping("/searchpolicyholder")
-    public ResponseEntity<List<FireBill>> getBillsByPolicyholder(@RequestParam String policyholder) {
-        List<FireBill> bills = fireBillService.getBillsByPolicyholder(policyholder);
-        return ResponseEntity.ok(bills);
-    }
-
-    // Search bills by policy ID
-    @GetMapping("/searchpolicyid")
-    public ResponseEntity<List<FireBill>> findBillsByPolicyId(@RequestParam("policyid") int policyid) {
-        List<FireBill> bills = fireBillService.findBillByPolicyId(policyid);
-        return ResponseEntity.ok(bills);
-    }
+//    // Search bills by policyholder name
+//    @GetMapping("/searchpolicyholder")
+//    public ResponseEntity<List<FireBill>> getBillsByPolicyholder(@RequestParam String policyholder) {
+//        List<FireBill> bills = fireBillService.getBillsByPolicyholder(policyholder);
+//        return ResponseEntity.ok(bills);
+//    }
+//
+//    // Search bills by policy ID
+//    @GetMapping("/searchpolicyid")
+//    public ResponseEntity<List<FireBill>> findBillsByPolicyId(@RequestParam("policyid") int policyid) {
+//        List<FireBill> bills = fireBillService.findBillByPolicyId(policyid);
+//        return ResponseEntity.ok(bills);
+//    }
 }

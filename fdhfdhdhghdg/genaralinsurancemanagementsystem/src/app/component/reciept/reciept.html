@@ -59,11 +59,11 @@
         </thead>
         <tbody>
             <tr *ngFor="let mr of filteredMoneyReceipts">
-                <td>{{ mr.bill?.policies?.id }}</td>
+                <td>{{ mr.bill?.firePolicy?.id }}</td>
                 <td>{{ mr.issuingOffice }}</td>
-                <td>{{ mr.bill?.policies?.bankName }}</td>
-                <td>{{ mr.bill?.policies?.policyholder }}</td>
-                <td>{{ mr.bill?.policies?.address }}</td>
+                <td>{{ mr.bill?.firePolicy?.bankName }}</td>
+                <td>{{ mr.bill?.firePolicy?.policyholder }}</td>
+                <td>{{ mr.bill?.firePolicy?.address }}</td>
                 <td>{{ mr.bill?.netPremium | currency:'TK':'symbol'}}</td>
                 <td>{{ mr.bill?.grossPremium | currency:'TK':'symbol'}}</td>
 

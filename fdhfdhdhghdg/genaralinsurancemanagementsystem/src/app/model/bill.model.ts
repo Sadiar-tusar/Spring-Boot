@@ -8,7 +8,7 @@ export class BillModel {
     "tax"!: number;
     "grossPremium"!: number;
 
-    policies!: {
+    firePolicy!: {
         "id": number | undefined;
         "date": Date | undefined;
         "bankName": string | undefined;

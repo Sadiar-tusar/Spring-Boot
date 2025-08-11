@@ -43,7 +43,7 @@ public class FirePolicy {
     public FirePolicy() {
     }
 
-    public FirePolicy(int id, Date date, String bankName, String policyholder, String address, String stockInsured, double sumInsured, String interestInsured, String coverage, String location, String construction, String owner, String usedAs, Date periodFrom, Date periodTo) {
+    public FirePolicy(int id, Date date, String bankName, String policyholder, String address, String stockInsured, double sumInsured, String interestInsured, String coverage, String location, String construction, String owner, String usedAs, Date periodFrom, Date periodTo, List<FireBill> fireBills) {
         this.id = id;
         this.date = date;
         this.bankName = bankName;
@@ -59,6 +59,7 @@ public class FirePolicy {
         this.usedAs = usedAs;
         this.periodFrom = periodFrom;
         this.periodTo = periodTo;
+        this.fireBills = fireBills;
     }
 
     public int getId() {
@@ -180,6 +181,14 @@ public class FirePolicy {
 
     public void setPeriodTo(Date periodTo) {
         this.periodTo = periodTo;
+    }
+
+    public List<FireBill> getFireBills() {
+        return fireBills;
+    }
+
+    public void setFireBills(List<FireBill> fireBills) {
+        this.fireBills = fireBills;
     }
 
     // Automatically sets periodTo to one year after periodFrom

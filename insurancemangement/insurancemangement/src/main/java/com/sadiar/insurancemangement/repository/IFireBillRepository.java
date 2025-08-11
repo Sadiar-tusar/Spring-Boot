@@ -15,6 +15,8 @@ public interface IFireBillRepository extends JpaRepository<FireBill,Integer> {
     @Query("SELECT b FROM FireBill b  WHERE LOWER(b.firePolicy.policyholder) LIKE LOWER(CONCAT('%', :policyholder, '%'))")
     List<FireBill> findBillsByPolicyholder(@Param("policyholder") String policyholder);
 
+    List<FireBill> findByFirePolicyId(int policyId);
+
 
 
     // Custom query to find bills by policy ID

@@ -39,9 +39,9 @@ return this.http.delete(this.baseUrl+"/"+id);
     return receipts.filter(item =>
     (
       item.issuingOffice?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.bill?.policies.policyholder?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.bill?.policies.bankName?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.bill?.policies.id?.toString().includes(lowerCaseSearchTerm))
+      item.bill?.firePolicy.policyholder?.toLowerCase().includes(lowerCaseSearchTerm) ||
+      item.bill?.firePolicy.bankName?.toLowerCase().includes(lowerCaseSearchTerm) ||
+      item.bill?.firePolicy.id?.toString().includes(lowerCaseSearchTerm))
     );
   }
 }
