@@ -33,8 +33,16 @@ createBill(bill: BillModel, policyId: number): Observable<BillModel> {
   return this.http.post<BillModel>(`${this.baseUrl}?policyId=${policyId}`, bill);
 }
 
+  // deleteBill(id: number): Observable<any> {
+  //   return this.http.delete(this.baseUrl+"/"+ id);
+  // }
+
+   // Delete a bill by ID
   deleteBill(id: number): Observable<any> {
-    return this.http.delete(this.baseUrl+"/"+ id);
+    return this.http.delete(`${this.baseUrl}/${id}`)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   // updateBill(bill: BillModel): Observable<BillModel> {

@@ -119,7 +119,7 @@ export class Creatbill implements OnInit{
   this.bill.netPremium = formValues.netPremium;
   this.bill.tax = formValues.tax;
   this.bill.grossPremium = formValues.grossPremium;
-  this.bill.policies = formValues.policies;
+  this.bill.firePolicy = formValues.policies;
 
   const policyId = formValues.policies.id;  // extract policyId here
 

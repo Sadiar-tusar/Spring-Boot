@@ -19,6 +19,7 @@ export class Bill implements OnInit{
 
   policyes: PolicyModel[]=[];
   bills: BillModel[] = [];
+  filteredBills: BillModel[] = [];
   // cars: CarModel[]=[];
 
 constructor(
@@ -30,32 +31,16 @@ constructor(
 
   ) { }
   ngOnInit(): void {
-    this.loadAllData();
-    //  this.policyes = this.policiesService.viewAllPolicyForBill();
 
-    // // Subscribe to the observable to fetch bills
-    // this.billService.viewAllBill().subscribe({
-    //   next: (data: BillModel[]) => {
-    //     this.bills = data;
-    //   },
-    //   error: (error) => {
-    //     console.error('Error fetching bills:', error);
-    //   }
-    // });
-    // this.lo();
+    this.loadPolicies();
+    this.loadBills();
+    // this.cdr.reattach();
+    // this.loadAllData();
+    // this.refreshBills();
+    
   }
 
-  //  loadAllBill(): void{
-  //   this.billService.viewAllBill().subscribe({
-  //     next: (res) => {
-  //       this.bills = res;
-  //     },
-  //     error: (error) => {
-  //       console.log(error);
-  //     }
-  //   });
-    
-  // }
+  
 
   loadAllData():void{
     forkJoin({
@@ -79,9 +64,13 @@ constructor(
     this.billService.deleteBill(id)
       .subscribe({
         next: () => {
-          this.loadAllData();
+          // this.loadAllData();
+          this.loadBills();
+          this.loadPolicies();
           this.refreshBills();
           this.cdr.reattach();
+          // this.cdr.markForCheck();
+          
           // this.router.navigate(['/viewbill']);
         },
         error: (error) => {
@@ -159,4 +148,25 @@ this.billService.getByBillId(id).subscribe({
 
     return netPremium + taxAmount;
   }
+
+   private loadBills(): void {
+    this.billService.viewAllBill().subscribe({
+      next: (data: BillModel[]) => {
+        this.bills = data;
+        this.cdr.markForCheck();
+        this.filteredBills = data; // Initialize filteredBills
+      },
+      error: (error) => console.error('Error fetching bills:', error)
+    });
+  }
+
+   private loadPolicies(): void {
+    this.policiesService.viewAllPolicyForBill().subscribe({
+      next: (data) =>{this.policyes = data;
+        this.cdr.markForCheck(); } ,
+      error: (error) => console.error('Error fetching policies:', error)
+    });
+  }
+
+  
 }

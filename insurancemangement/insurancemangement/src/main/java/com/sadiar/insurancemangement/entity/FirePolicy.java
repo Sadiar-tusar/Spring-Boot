@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "policies")
+@Table(name = "firePolicy")
 public class FirePolicy {
 
     @Id

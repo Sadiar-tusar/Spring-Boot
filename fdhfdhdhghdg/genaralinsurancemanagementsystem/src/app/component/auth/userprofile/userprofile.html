@@ -13,9 +13,9 @@
       <!-- <p><strong>Name:</strong> {{ user.name }}</p>
       <p><strong>Email:</strong> {{ user.email }}</p>
       <p><strong>Role:</strong> {{ user.role }}</p> -->
-      <p><strong>Owner:</strong> {{ receipt?.bill?.policies?.owner }}</p>
-      <p><strong>Policy Holder:</strong> {{ receipt?.bill?.policies?.policyholder }}</p>
-      <p><strong>Bank Name:</strong> {{ receipt?.bill?.policies?.bankName }}</p>
+      <p><strong>Owner:</strong> {{ receipt?.bill?.firePolicy?.owner }}</p>
+      <p><strong>Policy Holder:</strong> {{ receipt?.bill?.firePolicy?.policyholder }}</p>
+      <p><strong>Bank Name:</strong> {{ receipt?.bill?.firePolicy?.bankName }}</p>
       <p><strong>Issuing Office:</strong> {{ receipt?.issuingOffice }}</p>
       <p><strong>Class of Insurance:</strong> {{ receipt?.classOfInsurance }}</p>
     </div>
@@ -23,9 +23,9 @@
       <p><strong>Issued Against:</strong> {{ receipt?.issuedAgainst }}</p>
       <p><strong>Net Premium:</strong> <span class="text-success">{{ receipt?.bill?.netPremium }}</span></p>
       <p><strong>Gross Premium:</strong> <span class="text-danger">{{ receipt?.bill?.grossPremium }}</span></p>
-      <p><strong>Sum Insured:</strong> {{ receipt?.bill?.policies?.sumInsured }}</p>
-      <p><strong>Period From:</strong> {{ receipt?.bill?.policies?.periodFrom }}</p>
-      <p><strong>Period To:</strong> {{ receipt?.bill?.policies?.periodTo }}</p>
+      <p><strong>Sum Insured:</strong> {{ receipt?.bill?.firePolicy?.sumInsured }}</p>
+      <p><strong>Period From:</strong> {{ receipt?.bill?.firePolicy?.periodFrom }}</p>
+      <p><strong>Period To:</strong> {{ receipt?.bill?.firePolicy?.periodTo }}</p>
     </div>
   </div>
 

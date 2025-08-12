@@ -43,7 +43,7 @@ public class FireBillRestController {
     }
 
     // Delete a bill by ID
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteBillById(@PathVariable int id) {
         try {
             fireBillService.deleteBill(id);

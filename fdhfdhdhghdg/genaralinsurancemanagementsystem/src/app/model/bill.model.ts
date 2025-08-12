@@ -22,8 +22,8 @@ export class BillModel {
         "construction": string | undefined;
         "owner": string | undefined;
         "usedAs": string | undefined;
-        "periodFrom": string | undefined;
-        "periodTo": string | undefined;
+        "periodFrom": Date | undefined;
+        "periodTo": Date | undefined;
     }
 
 }
