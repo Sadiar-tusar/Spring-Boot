@@ -1,6 +1,9 @@
 package com.sadiar.insurancemangement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "bills")
@@ -18,10 +21,14 @@ public class FireBill {
     @JoinColumn(name = "policyId", nullable = false)
     private FirePolicy firePolicy;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "bill", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<FireMoneyReceipt> fireMoneyReceipts;
+
     public FireBill() {
     }
 
-    public FireBill(int id, double fire, double rsd, double netPremium, double tax, double grossPremium, FirePolicy firePolicy) {
+    public FireBill(int id, double fire, double rsd, double netPremium, double tax, double grossPremium, FirePolicy firePolicy, List<FireMoneyReceipt> fireMoneyReceipts) {
         this.id = id;
         this.fire = fire;
         this.rsd = rsd;
@@ -29,6 +36,7 @@ public class FireBill {
         this.tax = tax;
         this.grossPremium = grossPremium;
         this.firePolicy = firePolicy;
+        this.fireMoneyReceipts = fireMoneyReceipts;
     }
 
     public int getId() {
@@ -85,5 +93,13 @@ public class FireBill {
 
     public void setFirePolicy(FirePolicy firePolicy) {
         this.firePolicy = firePolicy;
+    }
+
+    public List<FireMoneyReceipt> getFireMoneyReceipts() {
+        return fireMoneyReceipts;
+    }
+
+    public void setFireMoneyReceipts(List<FireMoneyReceipt> fireMoneyReceipts) {
+        this.fireMoneyReceipts = fireMoneyReceipts;
     }
 }

@@ -19,7 +19,7 @@ import { Creatpolicy } from './component/creatpolicy/creatpolicy';
 import { Updatepolicy } from './component/updatepolicy/updatepolicy';
 import { Bill } from './component/bill/bill';
 import { Creatbill } from './component/creatbill/creatbill';
-// import { Updatebill } from './component/updatebill/updatebill';
+import { Updatebill } from './component/updatebill/updatebill';
 import { Reciept } from './component/reciept/reciept';
 import { Creatreciept } from './component/creatreciept/creatreciept';
 import { Carpolicy } from './component/car/carpolicy/carpolicy';
@@ -57,7 +57,7 @@ import { Creatcarreciept } from './component/car/creatcarreciept/creatcarreciept
     Updatepolicy,
     Bill,
     Creatbill,
-    // Updatebill,
+    Updatebill,
     Reciept,
     Creatreciept,
     Carpolicy,
