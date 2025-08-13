@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ReceiptModel } from '../model/receipt.model';
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReceiptService {
 
-  baseUrl: string="http://localhost:3000/reciept";
+ private baseUrl = environment.apiBaseUrl+'/firemoneyreciept';
 
   constructor(private http: HttpClient) { }
 
@@ -16,19 +17,23 @@ export class ReceiptService {
     return this.http.get<ReceiptModel[]>(this.baseUrl);
   }
 
-  getReciptById(id:string):Observable<ReceiptModel>{
+  getReciptById(id:number):Observable<ReceiptModel>{
     return this.http.get<ReceiptModel>(this.baseUrl+"/"+id);
   }
 
-  creatRecipt(receipt:ReceiptModel): Observable<ReceiptModel>{
-    return this.http.post<ReceiptModel>(this.baseUrl, receipt);
+  // creatRecipt(receipt:ReceiptModel): Observable<ReceiptModel>{
+  //   return this.http.post<ReceiptModel>(this.baseUrl, receipt);
+  // }
+
+  createRecipt(receipt: ReceiptModel, billId: number): Observable<ReceiptModel> {
+    return this.http.post<ReceiptModel>(`${this.baseUrl}?billId=${billId}`, receipt);
   }
 
-  deleteRecipt(id:string):Observable<any>{
+  deleteRecipt(id:number):Observable<any>{
 return this.http.delete(this.baseUrl+"/"+id);
   }
 
-   updateMoneyReceipt(id: string, moneyreciept: ReceiptModel): Observable<any> {
+   updateMoneyReceipt(id: number, moneyreciept: ReceiptModel): Observable<any> {
     return this.http.put(this.baseUrl + "update/" + id, moneyreciept);
   }
 

@@ -22,7 +22,7 @@ public class FireBill {
     private FirePolicy firePolicy;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "bill", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "fireBill", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FireMoneyReceipt> fireMoneyReceipts;
 
     public FireBill() {

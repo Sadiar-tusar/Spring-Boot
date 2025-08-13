@@ -12,10 +12,10 @@ import { Router } from '@angular/router';
   selector: 'app-creatreciept',
   standalone: false,
   templateUrl: './creatreciept.html',
-  styleUrl: './creatreciept.css'
+  styleUrls: ['./creatreciept.css'] // ✅ fixed
 })
 export class Creatreciept implements OnInit {
-
+  id!: number;
   policies: PolicyModel[] = [];
   bill: BillModel[] = [];
   receipt: ReceiptModel = new ReceiptModel();
@@ -28,7 +28,7 @@ export class Creatreciept implements OnInit {
     private policyService: PolicymodelService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private cdr:ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -36,11 +36,13 @@ export class Creatreciept implements OnInit {
     this.loadPolicies();
 
     this.receiptForm = this.formBuilder.group({
+      id: [''],
       issuingOffice: [''],
       classOfInsurance: [''],
       date: [''],
       modeOfPayment: [''],
       issuedAgainst: [''],
+
       bill: this.formBuilder.group({
         id: [''],
         fire: [''],
@@ -50,7 +52,6 @@ export class Creatreciept implements OnInit {
         grossPremium: [''],
         policies: this.formBuilder.group({
           id: [''],
-          billNo: [''],
           date: [''],
           bankName: [''],
           policyholder: [''],
@@ -68,10 +69,12 @@ export class Creatreciept implements OnInit {
       })
     });
 
-    // Auto-fill selected bill on policyholder change
-    this.receiptForm.get('bill.firePolicy.policyholder')?.valueChanges.subscribe(policyholder => {
+    // ✅ Correct path for nested policyholder
+    this.receiptForm.get('bill.policies.policyholder')?.valueChanges.subscribe(policyholder => {
       this.selectedBill = this.bill.find(b => b.firePolicy.policyholder === policyholder);
       if (this.selectedBill) {
+        this.id = this.selectedBill.id;
+        console.log('Selected Bill:', this.id);
         this.receiptForm.patchValue({
           bill: {
             id: this.selectedBill.id,
@@ -114,36 +117,35 @@ export class Creatreciept implements OnInit {
   }
 
   createReceipt(): void {
-  if (this.receiptForm.valid) {
-    const formValues = this.receiptForm.value;
+    if (this.receiptForm.valid) {
+      const formValues = this.receiptForm.value;
 
-    // Assign all fields explicitly
-    this.receipt = {
-      id: formValues.id,
-      issuingOffice: formValues.issuingOffice,
-      classOfInsurance: formValues.classOfInsurance,
-      date: formValues.date,
-      modeOfPayment: formValues.modeOfPayment,
-      issuedAgainst: formValues.issuedAgainst,
-      bill: formValues.bill
-    };
+      this.receipt = {
+        id: formValues.id,
+        issuingOffice: formValues.issuingOffice,
+        classOfInsurance: formValues.classOfInsurance,
+        date: formValues.date,
+        modeOfPayment: formValues.modeOfPayment,
+        issuedAgainst: formValues.issuedAgainst,
+        bill: formValues.bill.id // ✅ fixed
+      };
 
-    this.receiptService.creatRecipt(this.receipt).subscribe({
-      next: (res) => {
-        this.loadBill();
-        this.loadPolicies();
-        this.receiptForm.reset();
-        this.cdr.reattach();
-        this.router.navigate(['/viewreciept']);
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
-  } else {
-    console.warn('Form is Invalid');
+      const billId = formValues.bill.id; // ✅ fixed
+
+      console.log("BillId:", billId);
+      this.receiptService.createRecipt(this.receipt, billId).subscribe({
+        next: (res) => {
+          this.loadBill();
+          this.loadPolicies();
+          this.receiptForm.reset();
+          this.router.navigate(['/viewreciept']);
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    } else {
+      console.warn('Form is Invalid');
+    }
   }
-}
-
-
 }

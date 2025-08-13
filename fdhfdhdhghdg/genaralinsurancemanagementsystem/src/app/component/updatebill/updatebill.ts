@@ -40,7 +40,6 @@ export class Updatebill implements OnInit {
       grossPremium: [{ value: '', disabled: true }], // Disable to prevent manual editing
       policies: this.formBuilder.group({
         id: [undefined],
-        billNo: [undefined],
         date: [undefined],
         bankName: [undefined],
         policyholder: [undefined],

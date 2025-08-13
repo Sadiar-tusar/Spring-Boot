@@ -44,11 +44,11 @@ constructor(
     });
   }
 
-  viewReceipt(id: string):void{
+  viewReceipt(id: number):void{
     this.router.navigate(['/printreciept', id]);
   }
 
-  deleteReceipt(id:string): void{
+  deleteReceipt(id:number): void{
     this.receiptService.deleteRecipt(id).subscribe({
       next:()=>{
         this.moneyreceipts=this.moneyreceipts.filter(receipt => receipt.id !==id);
@@ -61,11 +61,11 @@ constructor(
     });
   }
 
-  viewMoneyReceipt(id: string) {
+  viewMoneyReceipt(id: number) {
     this.router.navigate(['/printmoneyreciept', id]);
   }
 
-  printFireCoverNote(id: string) {
+  printFireCoverNote(id: number) {
     this.router.navigate(['/printfirecovernote', id]);
   }
 

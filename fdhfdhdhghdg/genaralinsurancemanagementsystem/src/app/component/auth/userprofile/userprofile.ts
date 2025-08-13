@@ -40,7 +40,7 @@ export class Userprofile implements OnInit{
         console.log(res);
         if(res){
           this.user=res;
-          this.getUserShowPolicyByBillNo(this.user.billNo);
+          // this.getUserShowPolicyByBillNo(this.user.id);
           this.cdr.markForCheck();
         }
       },
@@ -57,7 +57,7 @@ export class Userprofile implements OnInit{
     this.subscription.unsubscribe();
   }
 
-  getUserShowPolicyByBillNo(billNo:string):void{
+  getUserShowPolicyByBillNo(billNo:number):void{
     this.receiptService.getReciptById(billNo).subscribe({
       next:(data)=>{
       this.receipt=data;

@@ -18,7 +18,7 @@ public class FireMoneyReceipt {
     private String modeOfPayment;
     private String issuedAgainst;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "billId")
     private FireBill fireBill;
 
