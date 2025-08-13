@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { CarModel } from '../model/car.model';
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarService {
 
-  baseUrl: string="http://localhost:3000/cars";
+ private baseUrl = environment.apiBaseUrl+'/carpolicy';
 
   constructor(private http :HttpClient) { }
 
@@ -38,7 +39,7 @@ export class CarService {
   }
 
   // Delete a Car policy by ID
-  deleteCarPolicy(id: string): Observable<any> {
+  deleteCarPolicy(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`)
       .pipe(
         catchError(this.handleError)
@@ -46,7 +47,7 @@ export class CarService {
   }
 
   // Update a Car policy by ID
-  updateCarPolicy(id: string, car: CarModel): Observable<any> {
+  updateCarPolicy(id: number, car: CarModel): Observable<any> {
     return this.http.put(`${this.baseUrl}/${id}`, car)
       .pipe(
         catchError(this.handleError)
@@ -54,7 +55,7 @@ export class CarService {
   }
 
   // Get a policy by ID
-  getByCarPolicyId(id: string): Observable<any> {
+  getByCarPolicyId(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`)
       .pipe(
         catchError(this.handleError)

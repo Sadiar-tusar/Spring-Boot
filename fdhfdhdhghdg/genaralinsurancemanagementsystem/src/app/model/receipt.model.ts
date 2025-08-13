@@ -9,5 +9,5 @@ export class ReceiptModel {
     modeOfPayment?: string;
     issuedAgainst?: string;
 
-    bill?: BillModel;
+    fireBill?: BillModel;
 }

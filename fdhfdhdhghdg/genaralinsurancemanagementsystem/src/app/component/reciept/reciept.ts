@@ -44,6 +44,19 @@ constructor(
     });
   }
 
+  //   loadReceipts(): void {
+  //   this.receiptService.getAllReciept().subscribe({
+  //     next: response => {
+  //       this.moneyreceipts = response;
+  //       this.filteredMoneyReceipts = [...this.moneyreceipts]; // Initialize filtered receipts
+  //     },
+  //     error: error => {
+  //       console.error('Error fetching money receipts:', error);
+  //       alert('Failed to fetch money receipts. Please try again.');
+  //     }
+  //   });
+  // }
+
   viewReceipt(id: number):void{
     this.router.navigate(['/printreciept', id]);
   }
@@ -78,9 +91,9 @@ constructor(
   
     this.filteredMoneyReceipts = this.moneyreceipts.filter(item =>
       item.issuingOffice?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.bill?.firePolicy.policyholder?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.bill?.firePolicy.bankName?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.bill?.firePolicy.id?.toString().includes(lowerCaseSearchTerm)
+      item.fireBill?.firePolicy.policyholder?.toLowerCase().includes(lowerCaseSearchTerm) ||
+      item.fireBill?.firePolicy.bankName?.toLowerCase().includes(lowerCaseSearchTerm) ||
+      item.fireBill?.firePolicy.id?.toString().includes(lowerCaseSearchTerm)
     );
   }
 

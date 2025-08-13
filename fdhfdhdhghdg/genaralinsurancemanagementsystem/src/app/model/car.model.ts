@@ -1,6 +1,6 @@
 export class CarModel{
-    id!: string;
-  billNo!: number;
+    id!: number;
+  
   date!: Date;
   bankName!: string;
   policyholder!: string;

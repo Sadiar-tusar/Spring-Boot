@@ -7,14 +7,15 @@
         <!--    start form-->
         <form [formGroup]="formValue" method="post">
             <div class="row">
-                <div class="col-md-6">
-                    <label for="exampleInputEmail1" class="form-label">Bill No</label>
-                    <input type="number" class="form-control" formControlName="billNo" placeholder="Full Name">
-                </div>
+               
 
                 <div class="col-md-6">
                     <label for="exampleInputEmail1" class="form-label">Date</label>
                     <input type="date" class="form-control" formControlName="date" placeholder="example@gmail.com">
+                </div>
+                 <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Coverage</label>
+                    <input type="text" class="form-control" formControlName="coverage" placeholder="Full Name" readonly>
                 </div>
             </div>
 
@@ -58,19 +59,7 @@
                 </div>
 
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="exampleInputEmail1" class="form-label">Sum Insured</label>
-                    <input type="text" class="form-control" formControlName="sumInsured" placeholder="Full Name">
-                </div>
-
-
-                <div class="col-md-6">
-                    <label for="exampleInputEmail1" class="form-label">Coverage</label>
-                    <input type="text" class="form-control" formControlName="coverage" placeholder="Full Name">
-                </div>
-
-            </div>
+           
             <div class="row">
                 <div class="col-md-6">
                     <label for="exampleInputEmail1" class="form-label">Location</label>

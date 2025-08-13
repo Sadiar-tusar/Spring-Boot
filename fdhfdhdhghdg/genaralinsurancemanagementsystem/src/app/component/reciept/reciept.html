@@ -1,18 +1,8 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Display Bills</title>
-    <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<!-- Font Awesome CSS -->
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-<!-- </head> -->
 
-<!-- <body> -->
 <div class="container">
     <div class="row bg-gradient-primary">
         <div class="justify-content-center text-center">
@@ -33,10 +23,7 @@
                 placeholder="Search by policyholder, bank name, or bill no issu office">
         </div>
 
-        <!-- Button aligned to the right -->
-        <!-- <button type="button" class="btn btn-primary" (click)="navigateToAddReciept()">
-                <i class="fas fa-plus"></i> Create Money Receipt
-            </button> -->
+
 
         <button type="button" class="bg-primary rounded" routerLink="/createreceipt"><i class="fa-solid fa-plus"></i>
             Add Receipt</button>
@@ -46,7 +33,7 @@
     <table class="table table-striped mt-1">
         <thead>
             <tr>
-                <th><i class="fas fa-file-alt"></i>Fire Bill No</th>
+                <th><i class="fas fa-file-alt"></i>ID</th>
                 <th><i class="fas fa-user"></i>Issuing Offece </th>
                 <th><i class="fas fa-university"></i> Bank & Branch Name</th>
                 <th><i class="fas fa-user"></i> Policy Holder</th>
@@ -59,20 +46,22 @@
         </thead>
         <tbody>
             <tr *ngFor="let mr of filteredMoneyReceipts">
-                <td>{{ mr.bill?.firePolicy?.id }}</td>
+                <!-- <td colspan="9">
+                    <pre>{{ mr | json }}</pre>
+                </td> -->
+                <td>{{ mr.id }}</td>
                 <td>{{ mr.issuingOffice }}</td>
-                <td>{{ mr.bill?.firePolicy?.bankName }}</td>
-                <td>{{ mr.bill?.firePolicy?.policyholder }}</td>
-                <td>{{ mr.bill?.firePolicy?.address }}</td>
-                <td>{{ mr.bill?.netPremium | currency:'TK':'symbol'}}</td>
-                <td>{{ mr.bill?.grossPremium | currency:'TK':'symbol'}}</td>
+
+                <td>{{ mr.fireBill?.firePolicy?.bankName || '-' }}</td>
+                <td>{{ mr.fireBill?.firePolicy?.policyholder || '-' }}</td>
+                <td>{{ mr.fireBill?.firePolicy?.address || '-' }}</td>
+                <td>{{ mr.fireBill?.netPremium | currency:'TK' }}</td>
+                <td>{{ mr.fireBill?.grossPremium | currency:'TK' }}</td>
+
 
 
                 <td class="text-center">
 
-                    <!-- <button class="btn btn-outline-secondary" aria-label="Edit" >
-                            <i class="fas fa-edit"></i>
-                        </button> -->
 
                     <button class="btn btn-outline-danger ml-2" aria-label="Delete"
                         (click)="mr.id && deleteReceipt(mr.id)">
@@ -81,31 +70,25 @@
                 </td>
                 <td>
 
-                        <!-- <button class="btn btn-outline-primary" aria-label="Print View"
-                            (click)="mr.id && viewMoneyReceipt(mr.id)">
-                            <i class="fas fa-print"></i> Money Receipt 
-                        </button> -->
 
-                        <button class="btn btn-outline-primary" aria-label="Print View"
-                            (click)="mr.id && printFireCoverNote(mr.id)">
-                            <i class="fas fa-print"></i>Money Receipt 
-                        </button>
-                    </td>
+
+                    <button class="btn btn-outline-primary" aria-label="Print View"
+                        (click)="mr.id && printFireCoverNote(mr.id)">
+                        <i class="fas fa-print"></i>Money Receipt
+                    </button>
+                </td>
 
             </tr>
         </tbody>
     </table>
 
-    <!-- Conditional rendering for no data -->
+
     <div *ngIf="filteredMoneyReceipts.length === 0" class="alert alert-warning text-center">
         No Fire Money Receipts found.
     </div>
 </div>
 
-<!-- Bootstrap JS and dependencies -->
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<!-- </body>
-
-</html> -->

@@ -41,11 +41,11 @@ export class PrintFireMoneyreceipt implements OnInit {
   }
 
   getSumInsured(): number {
-    return this.moneyreceipt?.bill?.firePolicy?.sumInsured ?? 0;
+    return this.moneyreceipt?.fireBill?.firePolicy?.sumInsured ?? 0;
   }
 
   getFireRate(): number {
-    return this.moneyreceipt?.bill?.fire ?? 0;
+    return this.moneyreceipt?.fireBill?.fire ?? 0;
   }
 
   getTotalFire(): number {
@@ -53,7 +53,7 @@ export class PrintFireMoneyreceipt implements OnInit {
   }
 
   getRsdRate(): number {
-    return this.moneyreceipt?.bill?.rsd ?? 0;
+    return this.moneyreceipt?.fireBill?.rsd ?? 0;
   }
 
   getTotalRsd(): number {
@@ -61,7 +61,7 @@ export class PrintFireMoneyreceipt implements OnInit {
   }
 
   getTaxRate(): number {
-    return this.moneyreceipt?.bill?.tax ?? 0;
+    return this.moneyreceipt?.fireBill?.tax ?? 0;
   }
 
   getTotalPremium(): number {

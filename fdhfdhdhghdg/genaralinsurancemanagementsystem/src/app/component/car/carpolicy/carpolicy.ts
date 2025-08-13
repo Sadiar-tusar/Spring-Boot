@@ -30,7 +30,7 @@ export class Carpolicy implements OnInit{
     this.cdr.markForCheck();
   }
 
-   deleteCarPolicy(id: string) {
+   deleteCarPolicy(id: number) {
     this.carService.deleteCarPolicy(id)
       .subscribe({
         next: (res) => {
@@ -46,7 +46,7 @@ export class Carpolicy implements OnInit{
       });
   }
 
-   getCarPolicyById(id: string): void{
+   getCarPolicyById(id: number): void{
 this.carService.getByCarPolicyId(id).subscribe({
 
   next: () => {
