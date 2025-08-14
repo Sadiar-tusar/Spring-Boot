@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class Creatcarreciept implements OnInit {
 
+  id!:number
   policies: CarModel[] = [];
   carBill: CarBillModel[] = [];
   receipt: CarReceiptModel = new CarReceiptModel();
@@ -35,6 +36,7 @@ export class Creatcarreciept implements OnInit {
     this.loadCarPolicies();
 
     this.receiptForm = this.formBuilder.group({
+      id:[''],
       issuingOffice: [''],
       classOfInsurance: [''],
       date: [''],
@@ -72,9 +74,9 @@ export class Creatcarreciept implements OnInit {
       this.selectedBill = this.carBill.find(b => b.carPolicy.policyholder === policyholder);
       if (this.selectedBill) {
         this.receiptForm.patchValue({
-          bill: {
+          carBill: {
             id: this.selectedBill.id,
-            fire: this.selectedBill.carRate,
+            carRate: this.selectedBill.carRate,
             rsd: this.selectedBill.rsd,
             netPremium: this.selectedBill.netPremium,
             tax: this.selectedBill.tax,
@@ -127,7 +129,9 @@ export class Creatcarreciept implements OnInit {
         carBill: formValues.bill
       };
 
-      this.carReceiptService.creatCarRecipt(this.receipt).subscribe({
+      const carBillId = formValues.carBill.id; // ✅ fixed
+
+      this.carReceiptService.creatCarRecipt(this.receipt,carBillId).subscribe({
         next: (res) => {
           this.loadCarBill();
           this.loadCarPolicies();
@@ -143,6 +147,8 @@ export class Creatcarreciept implements OnInit {
       console.warn('Form is Invalid');
     }
   }
+
+  
 
 
 }

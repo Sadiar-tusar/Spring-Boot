@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CarReceiptModel } from '../model/carreceipt.model';
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarreceiptService {
 
-  baseUrl: string="http://localhost:3000/carreceipt"
+   private baseUrl = environment.apiBaseUrl+'/carmoneyreciept';
 
   constructor(private http: HttpClient) { }
 
@@ -20,9 +21,13 @@ export class CarreceiptService {
       return this.http.get<CarReceiptModel>(this.baseUrl+"/"+id);
     }
   
-    creatCarRecipt(carReceipt:CarReceiptModel): Observable<CarReceiptModel>{
-      return this.http.post<CarReceiptModel>(this.baseUrl, carReceipt);
-    }
+    // creatCarRecipt(carReceipt:CarReceiptModel): Observable<CarReceiptModel>{
+    //   return this.http.post<CarReceiptModel>(this.baseUrl, carReceipt);
+    // }
+
+    creatCarRecipt(carReceipt: CarReceiptModel, carBillId: number): Observable<CarReceiptModel> {
+        return this.http.post<CarReceiptModel>(`${this.baseUrl}?carBillId=${carBillId}`, carReceipt);
+      }
   
     deleteCarRecipt(id:number):Observable<any>{
   return this.http.delete(this.baseUrl+"/"+id);

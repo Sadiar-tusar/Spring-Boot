@@ -127,7 +127,7 @@ export class Creatreciept implements OnInit {
         date: formValues.date,
         modeOfPayment: formValues.modeOfPayment,
         issuedAgainst: formValues.issuedAgainst,
-        fireBill: formValues.bill.id // ✅ fixed
+        // fireBill: formValues.bill.id // ✅ fixed
       };
 
       const billId = formValues.bill.id; // ✅ fixed

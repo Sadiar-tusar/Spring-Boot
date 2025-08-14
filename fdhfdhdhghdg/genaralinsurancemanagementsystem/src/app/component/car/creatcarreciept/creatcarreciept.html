@@ -1,10 +1,10 @@
-<!-- <div class="container d-flex justify-content-center">
+<div class="container d-flex justify-content-center">
   <div class="col-md-12 mb-6 border border-2 rounded">
     <h3 class="text-center mb-4">
       <i class="fas fa-plus"></i> Money Receipt Create Form
-    </h3> -->
+    </h3>
 
-    <!-- <form [formGroup]="receiptForm" (ngSubmit)="createCarReceipt()">
+    <form [formGroup]="receiptForm" (ngSubmit)="createCarReceipt()">
       <div class="form-container">
 
         <div class="row">
@@ -58,13 +58,13 @@
             <input type="text" class="form-control rounded-pill shadow-sm" id="issuedAgainst"
               formControlName="issuedAgainst" placeholder="Enter issued against">
           </div>
-        </div> -->
+        </div>
 
         <!-- Bill Section -->
-        <!-- <div formGroupName="carBill"> -->
+        <div formGroupName="carBill">
 
           <!-- Policy Section -->
-          <!-- <div formGroupName="cars">
+          <div formGroupName="cars">
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="policyholder" class="form-label">
@@ -72,8 +72,8 @@
                 </label>
                 <select id="policyholder" formControlName="policyholder" class="form-control rounded-pill shadow-sm">
                   <option value="" disabled>Select your policy holder</option>
-                  <option *ngFor="let b of carBill" [value]="b.cars.policyholder">
-                    {{ b.cars.policyholder }}
+                  <option *ngFor="let b of carBill" [value]="b.carPolicy.policyholder">
+                    {{ b.carPolicy.policyholder }}
                   </option>
                 </select>
               </div>
@@ -115,6 +115,6 @@
         </div>
 
       </div>
-    </form> -->
-  <!-- </div>
-</div> -->
+    </form>
+  </div>
+</div>
