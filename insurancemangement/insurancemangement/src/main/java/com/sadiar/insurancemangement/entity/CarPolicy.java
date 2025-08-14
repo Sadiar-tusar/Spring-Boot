@@ -1,8 +1,10 @@
 package com.sadiar.insurancemangement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "cars")
@@ -31,10 +33,14 @@ public class CarPolicy {
     @Temporal(TemporalType.DATE)
     private Date periodTo;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "carPolicy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<CarBill> carBills;
+
     public CarPolicy() {
     }
 
-    public CarPolicy(int id, Date date, String bankName, String policyholder, String address, String stockInsured, double sumInsured, String interestInsured, String coverage, String location, String construction, String owner, String usedAs, Date periodFrom, Date periodTo) {
+    public CarPolicy(int id, Date date, String bankName, String policyholder, String address, String stockInsured, double sumInsured, String interestInsured, String coverage, String location, String construction, String owner, String usedAs, Date periodFrom, Date periodTo, List<CarBill> carBills) {
         this.id = id;
         this.date = date;
         this.bankName = bankName;
@@ -50,6 +56,7 @@ public class CarPolicy {
         this.usedAs = usedAs;
         this.periodFrom = periodFrom;
         this.periodTo = periodTo;
+        this.carBills = carBills;
     }
 
     public int getId() {
@@ -170,5 +177,13 @@ public class CarPolicy {
 
     public void setPeriodTo(Date periodTo) {
         this.periodTo = periodTo;
+    }
+
+    public List<CarBill> getCarBills() {
+        return carBills;
+    }
+
+    public void setCarBills(List<CarBill> carBills) {
+        this.carBills = carBills;
     }
 }

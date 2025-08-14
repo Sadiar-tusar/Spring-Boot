@@ -23,6 +23,7 @@ export class Carbill implements OnInit{
     bills: BillModel[] = [];
     cars: CarModel[]=[];
     carBill: CarBillModel[]=[];
+    filteredBills: CarBillModel[] = [];
 
     constructor(
        private policiesService: PolicymodelService,
@@ -36,6 +37,8 @@ export class Carbill implements OnInit{
 
     ngOnInit(): void {
     this.loadAllData();
+    // this.loadCarBills();
+    // this.loadCarPolicies();
   }
 
    loadAllData():void{
@@ -57,7 +60,7 @@ export class Carbill implements OnInit{
       });
     }
 
-    deleteCarBill(id: string): void {
+    deleteCarBill(id: number): void {
     this.carBillService.deleteCarBill(id)
       .subscribe({
         next: () => {
@@ -72,7 +75,7 @@ export class Carbill implements OnInit{
       });
   }
 
-  getCarBillByBillId(id: string): void{
+  getCarBillByBillId(id: number): void{
 this.carBillService.getByCarBillId(id).subscribe({
 
   next: () => {
@@ -98,19 +101,19 @@ this.carBillService.getByCarBillId(id).subscribe({
   }
 
   getCarRate(carBill: CarBillModel): number {
-    const sumInsured = carBill.cars?.sumInsured || 0;
+    const sumInsured = carBill.carPolicy?.sumInsured || 0;
     const carRate = carBill.carRate || 0;
     return sumInsured * carRate;
   }
 
   getRsdAmount(carBill: CarBillModel): number {
-    const sumInsured = carBill.cars?.sumInsured || 0;
+    const sumInsured = carBill.carPolicy?.sumInsured || 0;
     const rsdRate = carBill.rsd || 0;
     return sumInsured * rsdRate;
   }
 
   getNetPremium(carBill: CarBillModel): number {
-    const sumInsured = carBill.cars.sumInsured || 0;
+    const sumInsured = carBill.carPolicy.sumInsured || 0;
     const carRate = carBill.carRate || 0;
     const rsdRate = carBill.rsd || 0;
 
@@ -130,5 +133,25 @@ this.carBillService.getByCarBillId(id).subscribe({
 
     return netPremium + taxAmount;
   }
+
+  // private loadCarBills(): void {
+  //   this.carBillService.viewAllCarBill().subscribe({
+  //     next: (data: CarBillModel[]) => {
+  //       this.carBill = data;
+  //       this.cdr.markForCheck();
+  //       this.filteredBills = data; // Initialize filteredBills
+  //     },
+  //     error: (error) => console.error('Error fetching bills:', error)
+  //   });
+  // }
+
+  //  private loadCarPolicies(): void {
+  //   this.carService.viewAllCarPolicyForBill().subscribe({
+  //     next: (data) =>{this.cars = data;
+  //       this.cdr.markForCheck(); } ,
+  //     error: (error) => console.error('Error fetching policies:', error)
+  //   });
+  // }
+
 
 }

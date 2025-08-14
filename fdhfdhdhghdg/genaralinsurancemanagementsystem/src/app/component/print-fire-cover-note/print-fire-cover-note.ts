@@ -35,7 +35,7 @@ export class PrintFireCoverNote implements OnInit {
         console.log(error);
       }
     });
-    // this.isDataLoaded();
+    this.isDataLoaded();
   }
 
    getSumInsured(): number {

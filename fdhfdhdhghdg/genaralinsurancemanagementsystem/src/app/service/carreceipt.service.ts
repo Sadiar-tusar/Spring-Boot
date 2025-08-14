@@ -16,7 +16,7 @@ export class CarreceiptService {
       return this.http.get<CarReceiptModel[]>(this.baseUrl);
     }
   
-    getCarReciptById(id:string):Observable<CarReceiptModel>{
+    getCarReciptById(id:number):Observable<CarReceiptModel>{
       return this.http.get<CarReceiptModel>(this.baseUrl+"/"+id);
     }
   
@@ -24,11 +24,11 @@ export class CarreceiptService {
       return this.http.post<CarReceiptModel>(this.baseUrl, carReceipt);
     }
   
-    deleteCarRecipt(id:string):Observable<any>{
+    deleteCarRecipt(id:number):Observable<any>{
   return this.http.delete(this.baseUrl+"/"+id);
     }
   
-     updateMoneyReceipt(id: string, moneyreciept: CarReceiptModel): Observable<any> {
+     updateMoneyReceipt(id: number, moneyreciept: CarReceiptModel): Observable<any> {
       return this.http.put(this.baseUrl + "update/" + id, moneyreciept);
     }
   
@@ -39,9 +39,9 @@ export class CarreceiptService {
       return receipts.filter(item =>
       (
         item.issuingOffice?.toLowerCase().includes(lowerCaseSearchTerm) ||
-        item.carBill?.cars.policyholder?.toLowerCase().includes(lowerCaseSearchTerm) ||
-        item.carBill?.cars.bankName?.toLowerCase().includes(lowerCaseSearchTerm) ||
-        item.carBill?.cars.id?.toString().includes(lowerCaseSearchTerm))
+        item.carBill?.carPolicy.policyholder?.toLowerCase().includes(lowerCaseSearchTerm) ||
+        item.carBill?.carPolicy.bankName?.toLowerCase().includes(lowerCaseSearchTerm) ||
+        item.carBill?.carPolicy.id?.toString().includes(lowerCaseSearchTerm))
       );
     }
 }

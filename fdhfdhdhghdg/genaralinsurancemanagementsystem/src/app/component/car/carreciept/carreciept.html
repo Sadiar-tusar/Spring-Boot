@@ -59,11 +59,11 @@
         </thead>
         <tbody>
             <tr *ngFor="let mr of filteredMoneyReceipts">
-                <td>{{ mr.carBill?.cars?.id }}</td>
+                <td>{{ mr.carBill?.carPolicy?.id }}</td>
                 <td>{{ mr.issuingOffice }}</td>
-                <td>{{ mr.carBill?.cars?.bankName }}</td>
-                <td>{{ mr.carBill?.cars?.policyholder }}</td>
-                <td>{{ mr.carBill?.cars?.address }}</td>
+                <td>{{ mr.carBill?.carPolicy?.bankName }}</td>
+                <td>{{ mr.carBill?.carPolicy?.policyholder }}</td>
+                <td>{{ mr.carBill?.carPolicy?.address }}</td>
                 <td>{{ mr.carBill?.netPremium | currency:'TK':'symbol'}}</td>
                 <td>{{ mr.carBill?.grossPremium | currency:'TK':'symbol'}}</td>
 

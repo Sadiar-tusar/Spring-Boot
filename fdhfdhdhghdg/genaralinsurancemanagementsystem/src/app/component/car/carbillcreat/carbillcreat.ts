@@ -40,7 +40,6 @@ export class Carbillcreat implements OnInit{
       grossPremium: [{ value: '' }], // Disable to prevent manual editing
       cars: this.formBuilder.group({
         id: [undefined],
-        billNo: [undefined],
         date: [currentDate],
         bankName: [undefined],
         policyholder: [undefined],
@@ -123,14 +122,16 @@ export class Carbillcreat implements OnInit{
     this.carBill.netPremium = formValues.netPremium;
     this.carBill.tax = formValues.tax;
     this.carBill.grossPremium = formValues.grossPremium;
-    this.carBill.cars = formValues.cars;
+    this.carBill.carPolicy = formValues.cars;
 
-    this.carBillService.createCarBill(this.carBill)
+    const carPolicyId = formValues.cars.id;  // extract policyId here
+
+    this.carBillService.createCarBill(this.carBill,carPolicyId)
       .subscribe({
         next: res => {
           this.loadCarPolicies();
           this.billForm.reset();
-          this.router.navigate(['viewcarbill']);
+          this.router.navigate(['viewcarbil']);
         },
         error: error => {
           console.error('Error creating bill:', error);

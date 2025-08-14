@@ -49,7 +49,7 @@ export class Creatcarreciept implements OnInit {
         grossPremium: [''],
         cars: this.formBuilder.group({
           id: [''],
-          billNo: [''],
+          
           date: [''],
           bankName: [''],
           policyholder: [''],
@@ -69,7 +69,7 @@ export class Creatcarreciept implements OnInit {
 
     // Auto-fill selected bill on policyholder change
     this.receiptForm.get('carBill.cars.policyholder')?.valueChanges.subscribe(policyholder => {
-      this.selectedBill = this.carBill.find(b => b.cars.policyholder === policyholder);
+      this.selectedBill = this.carBill.find(b => b.carPolicy.policyholder === policyholder);
       if (this.selectedBill) {
         this.receiptForm.patchValue({
           bill: {
@@ -79,7 +79,7 @@ export class Creatcarreciept implements OnInit {
             netPremium: this.selectedBill.netPremium,
             tax: this.selectedBill.tax,
             grossPremium: this.selectedBill.grossPremium,
-            policies: this.selectedBill.cars
+            policies: this.selectedBill.carPolicy
           }
         });
       }

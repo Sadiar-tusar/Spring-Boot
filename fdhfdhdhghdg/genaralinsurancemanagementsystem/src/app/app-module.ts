@@ -32,6 +32,7 @@ import { PrintFireCoverNote } from './component/print-fire-cover-note/print-fire
 import { PrintFireMoneyreceipt } from './component/print-fire-moneyreceipt/print-fire-moneyreceipt';
 import { Carreciept } from './component/car/carreciept/carreciept';
 import { Creatcarreciept } from './component/car/creatcarreciept/creatcarreciept';
+import { Updatecarpolicy } from './component/car/updatecarpolicy/updatecarpolicy';
 
 
 
@@ -67,7 +68,8 @@ import { Creatcarreciept } from './component/car/creatcarreciept/creatcarreciept
     PrintFireCoverNote,
     PrintFireMoneyreceipt,
     Carreciept,
-    Creatcarreciept
+    Creatcarreciept,
+    Updatecarpolicy
    
    
     

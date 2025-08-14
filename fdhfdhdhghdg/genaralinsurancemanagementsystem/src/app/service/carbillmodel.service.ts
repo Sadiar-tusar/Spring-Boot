@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { CarBillModel } from '../model/carbil.model';
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarbillmodelService {
 
-baseUrl:string="http://localhost:3000/carbill";
+ private baseUrl = environment.apiBaseUrl+'/carbill';
 
   constructor(private http: HttpClient) { }
 
@@ -23,22 +24,26 @@ baseUrl:string="http://localhost:3000/carbill";
         );
     }
   
-    createCarBill(carBills: CarBillModel): Observable<CarBillModel> {
-      return this.http.post<CarBillModel>(this.baseUrl, carBills);
-    }
+    // createCarBill(carBills: CarBillModel): Observable<CarBillModel> {
+    //   return this.http.post<CarBillModel>(this.baseUrl, carBills);
+    // }
+
+    createCarBill(carBills: CarBillModel, carPolicyId: number): Observable<CarBillModel> {
+  return this.http.post<CarBillModel>(`${this.baseUrl}?carPolicyId=${carPolicyId}`, carBills);
+}
   
-    deleteCarBill(id: string): Observable<any> {
+    deleteCarBill(id: number): Observable<any> {
       return this.http.delete(this.baseUrl+"/"+ id);
     }
   
     // updateBill(bill: BillModel): Observable<BillModel> {
     //   return this.http.put<BillModel>(this.baseUrl + bill.id, bill);
     // }
-    updateCarBill(id: string, carBill:CarBillModel): Observable<any> {
+    updateCarBill(id: number, carBill:CarBillModel): Observable<any> {
       return this.http.put(this.baseUrl +"/"+id, carBill);
     }
   
-    getByCarBillId(id: string): Observable<CarBillModel> {
+    getByCarBillId(id: number): Observable<CarBillModel> {
       return this.http.get<CarBillModel>(this.baseUrl+"/"+ id);
     }
   

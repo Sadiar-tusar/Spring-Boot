@@ -43,11 +43,11 @@ export class Carreciept implements OnInit{
     });
   }
 
-  viewCarReceipt(id: string):void{
+  viewCarReceipt(id: number):void{
     this.router.navigate(['/printcarreciept', id]);
   }
 
-  deleteCarReceipt(id:string): void{
+  deleteCarReceipt(id:number): void{
     this.carReceiptService.deleteCarRecipt(id).subscribe({
       next:()=>{
         this.moneyreceipts=this.moneyreceipts.filter(receipt => receipt.id !==id);
@@ -60,11 +60,11 @@ export class Carreciept implements OnInit{
     });
   }
 
-  viewMoneyReceipt(id: string) {
+  viewMoneyReceipt(id: number) {
     this.router.navigate(['/printmoneyreciept', id]);
   }
 
-  printFireCoverNote(id: string) {
+  printFireCoverNote(id: number) {
     this.router.navigate(['/printcarcovernote', id]);
   }
 
@@ -77,9 +77,9 @@ export class Carreciept implements OnInit{
   
     this.filteredMoneyReceipts = this.moneyreceipts.filter(item =>
       item.issuingOffice?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.carBill?.cars.policyholder?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.carBill?.cars.bankName?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.carBill?.cars.id?.toString().includes(lowerCaseSearchTerm)
+      item.carBill?.carPolicy.policyholder?.toLowerCase().includes(lowerCaseSearchTerm) ||
+      item.carBill?.carPolicy.bankName?.toLowerCase().includes(lowerCaseSearchTerm) ||
+      item.carBill?.carPolicy.id?.toString().includes(lowerCaseSearchTerm)
     );
   }
 
