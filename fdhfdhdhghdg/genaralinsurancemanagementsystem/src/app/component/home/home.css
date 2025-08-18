@@ -118,4 +118,32 @@ nav a:hover {
   animation: slideInRight 1s ease-out forwards, softBounce 2s ease-in-out infinite;
 }
 
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.mat-icon-button:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: dance 0.5s ease-in-out;
+}
+
+
+
+/* .slide-text {
+  display: flow-root;
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.add-button:hover .slide-text {
+  transform: translateX(0);
+} */
+
+
+
+
+
 

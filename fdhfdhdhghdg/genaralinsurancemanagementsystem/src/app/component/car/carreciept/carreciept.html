@@ -46,7 +46,7 @@
     <table class="table table-striped mt-1">
         <thead>
             <tr>
-                <th><i class="fas fa-file-alt"></i>ID No</th>
+                <th><i class="fas fa-file-alt"></i>Car Bill ID</th>
                 <th><i class="fas fa-user"></i>Issuing Offece </th>
                 <th><i class="fas fa-university"></i> Bank & Branch Name</th>
                 <th><i class="fas fa-user"></i> Policy Holder</th>
@@ -59,6 +59,10 @@
         </thead>
         <tbody>
             <tr *ngFor="let mr of filteredMoneyReceipts">
+
+                <!-- <td colspan="9">
+                    <pre>{{ mr | json }}</pre>
+                </td> -->
                 <td>{{ mr.carBill?.carPolicy?.id }}</td>
                 <td>{{ mr.issuingOffice }}</td>
                 <td>{{ mr.carBill?.carPolicy?.bankName }}</td>
@@ -87,7 +91,7 @@
                         </button> -->
 
                         <button class="btn btn-outline-primary" aria-label="Print View"
-                            (click)="mr.id && printFireCoverNote(mr.id)">
+                            (click)="mr.id && printCarCoverNote(mr.id)">
                             <i class="fas fa-print"></i>Money Receipt 
                         </button>
                     </td>

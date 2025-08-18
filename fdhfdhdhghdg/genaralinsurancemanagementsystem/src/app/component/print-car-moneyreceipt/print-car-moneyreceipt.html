@@ -35,16 +35,16 @@
         <table class="table table-bordered col-mb-3">
             <thead>
                 <tr>
-                    <th colspan="6" class="text-center fire-cover-heading"><strong>Fire Cover Note</strong></th>
+                    <th colspan="6" class="text-center car-cover-heading"><strong>Car Cover Note</strong></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Fire Cover Note:</strong></td>
+                    <td><strong>Car Cover Note:</strong></td>
                     <td>{{ moneyreceipt.issuedAgainst }}</td>
 
-                    <td><strong>Fire ID No:</strong></td>
-                    <td>{{ moneyreceipt.fireBill?.firePolicy?.id }}</td>
+                    <td><strong>Car ID No:</strong></td>
+                    <td>{{ moneyreceipt.carBill?.carPolicy?.id }}</td>
 
                     <td><strong>Issue Date:</strong></td>
                     <td>{{ moneyreceipt.date | date }}</td>
@@ -61,18 +61,18 @@
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="2">{{ moneyreceipt.fireBill?.firePolicy?.bankName }}, {{
-                        moneyreceipt.fireBill?.firePolicy?.policyholder }},
-                        {{ moneyreceipt.fireBill?.firePolicy?.address }}</td>
+                    <td colspan="2">{{ moneyreceipt.carBill?.carPolicy?.bankName }}, {{
+                        moneyreceipt.carBill?.carPolicy?.policyholder }},
+                        {{ moneyreceipt.carBill?.carPolicy?.address }}</td>
                 </tr>
                 <tr>
                     <td colspan="2">
                         <p class="mb-1">
-                            Having this day proposed to effect an insurance against Fire and/or Lightning for a
+                            Having this day proposed to effect an insurance against Engine Damages of Car for a
                             period of 12 (Twelve) months from
-                            <strong>{{ moneyreceipt.fireBill?.firePolicy?.periodFrom | date }}</strong> to
-                            <strong>{{ moneyreceipt.fireBill?.firePolicy?.periodTo | date }}</strong>
-                            on the usual terms and conditions of the company's Fire Policy. Having paid the
+                            <strong>{{ moneyreceipt.carBill?.carPolicy?.periodFrom | date }}</strong> to
+                            <strong>{{ moneyreceipt.carBill?.carPolicy?.periodTo | date }}</strong>
+                            on the usual terms and conditions of the company's Car Policy. Having paid the
                             undernoted premium in cash/cheque/P.O/D.D./C.A,
                             the following Property is hereby insured to the extent of
                             <strong>({{ getSumInsuredInWords() }})</strong> Only in the manner specified below:
@@ -90,11 +90,11 @@
             <tbody>
                 <tr>
                     <td><strong>Stock Insured:</strong></td>
-                    <td>{{ moneyreceipt.fireBill?.firePolicy?.stockInsured }}</td>
+                    <td>{{ moneyreceipt.carBill?.carPolicy?.stockInsured }}</td>
                 </tr>
                 <tr>
                     <td><strong>Sum Insured:</strong></td>
-                    <td>{{ moneyreceipt.fireBill?.firePolicy?.sumInsured | currency: 'TK ': 'symbol': '1.0-0' }}
+                    <td>{{ moneyreceipt.carBill?.carPolicy?.sumInsured | currency: 'TK ': 'symbol': '1.0-0' }}
                         <strong>( {{getSumInsuredInWords() }} )</strong>
                     </td>
                 </tr>
@@ -108,27 +108,27 @@
             <tbody>
                 <tr>
                     <td><strong>Interest Insured:</strong></td>
-                    <td>{{ moneyreceipt.fireBill?.firePolicy?.interestInsured }}</td>
+                    <td>{{ moneyreceipt.carBill?.carPolicy?.interestInsured }}</td>
                 </tr>
                 <tr>
                     <td><strong>Coverage:</strong></td>
-                    <td>{{ moneyreceipt.fireBill?.firePolicy?.coverage }}</td>
+                    <td>{{ moneyreceipt.carBill?.carPolicy?.coverage }}</td>
                 </tr>
                 <tr>
                     <td><strong>Location:</strong></td>
-                    <td>{{ moneyreceipt.fireBill?.firePolicy?.address }}</td>
+                    <td>{{ moneyreceipt.carBill?.carPolicy?.address }}</td>
                 </tr>
                 <tr>
                     <td><strong>Construction:</strong></td>
-                    <td>{{ moneyreceipt.fireBill?.firePolicy?.construction }}</td>
+                    <td>{{ moneyreceipt.carBill?.carPolicy?.construction }}</td>
                 </tr>
                 <tr>
                     <td><strong>Owner:</strong></td>
-                    <td>{{ moneyreceipt.fireBill?.firePolicy?.owner }}</td>
+                    <td>{{ moneyreceipt.carBill?.carPolicy?.owner }}</td>
                 </tr>
                 <tr>
                     <td><strong>Used As:</strong></td>
-                    <td>{{ moneyreceipt.fireBill?.firePolicy?.usedAs }}</td>
+                    <td>{{ moneyreceipt.carBill?.carPolicy?.usedAs }}</td>
                 </tr>
             </tbody>
         </table>
@@ -142,27 +142,27 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Fire Rate</strong></td>
-                    <td>{{ (moneyreceipt!.fireBill!.fire ) / 100 | percent }} on TK.
-                        {{moneyreceipt.fireBill?.firePolicy?.sumInsured | number:'1.2-2' }} </td>
+                    <td><strong>Car Rate</strong></td>
+                    <td>{{ (moneyreceipt!.carBill!.carRate ) / 100 | percent }} on TK.
+                        {{moneyreceipt.carBill?.carPolicy?.sumInsured | number:'1.2-2' }} </td>
                     <td class="currency-symbol">TK</td>
                     <td>{{ getTotalFire() | number:'1.2-2' }}</td>
                 </tr>
                 <tr>
                     <td><strong>R&SD Rate</strong></td>
-                    <td>{{(moneyreceipt!.fireBill!.rsd ) / 100 | percent }} on TK.
-                        {{moneyreceipt.fireBill?.firePolicy?.sumInsured | number:'1.2-2' }} </td>
+                    <td>{{(moneyreceipt!.carBill!.rsd ) / 100 | percent }} on TK.
+                        {{moneyreceipt.carBill?.carPolicy?.sumInsured | number:'1.2-2' }} </td>
                     <td class="currency-symbol">TK</td>
                     <td>{{ getTotalRsd() | number:'1.2-2' }}</td>
                 </tr>
                 <tr>
-                    <td colspan="2"><strong>Net Premium (Fire + RSD)</strong></td>
+                    <td colspan="2"><strong>Net Premium (Car Rate + RSD)</strong></td>
                     <td class="currency-symbol">TK</td>
                     <td>{{ getTotalPremium() | number:'1.2-2' }}</td>
                 </tr>
                 <tr>
                     <td><strong>Tax on Net Premium</strong></td>
-                    <td>{{ (moneyreceipt!.fireBill!.tax ) / 100 | percent }} on TK. {{ getTotalPremium() |
+                    <td>{{ (moneyreceipt!.carBill!.tax ) / 100 | percent }} on TK. {{ getTotalPremium() |
                         number:'1.2-2' }} </td>
                     <td class="currency-symbol">TK</td>
                     <td>{{ getTotalTax() | number:'1.2-2' }}</td>
@@ -196,7 +196,7 @@
                     <p class="mb-1"><strong>Renewal No:</strong></p>
                     <p>
                         <strong>{{ moneyreceipt.issuedAgainst }}</strong> /
-                        <strong>{{ moneyreceipt.fireBill?.firePolicy?.id }} & </strong>
+                        <strong>{{ moneyreceipt.carBill?.carPolicy?.id }} & </strong>
                         <strong>{{ moneyreceipt.date | date }}</strong>
                     </p>
                     <p><strong>Checked by ________________</strong></p>

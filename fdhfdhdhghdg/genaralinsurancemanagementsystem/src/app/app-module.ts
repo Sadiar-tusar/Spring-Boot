@@ -33,6 +33,7 @@ import { PrintFireMoneyreceipt } from './component/print-fire-moneyreceipt/print
 import { Carreciept } from './component/car/carreciept/carreciept';
 import { Creatcarreciept } from './component/car/creatcarreciept/creatcarreciept';
 import { Updatecarpolicy } from './component/car/updatecarpolicy/updatecarpolicy';
+import { PrintCarMoneyreceipt } from './component/print-car-moneyreceipt/print-car-moneyreceipt';
 
 
 
@@ -69,7 +70,8 @@ import { Updatecarpolicy } from './component/car/updatecarpolicy/updatecarpolicy
     PrintFireMoneyreceipt,
     Carreciept,
     Creatcarreciept,
-    Updatecarpolicy
+    Updatecarpolicy,
+    PrintCarMoneyreceipt
    
    
     

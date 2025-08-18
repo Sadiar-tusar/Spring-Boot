@@ -81,7 +81,7 @@ export class Creatcarreciept implements OnInit {
             netPremium: this.selectedBill.netPremium,
             tax: this.selectedBill.tax,
             grossPremium: this.selectedBill.grossPremium,
-            policies: this.selectedBill.carPolicy
+            cars: this.selectedBill.carPolicy
           }
         });
       }

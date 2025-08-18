@@ -64,7 +64,7 @@ export class Carreciept implements OnInit{
     this.router.navigate(['/printmoneyreciept', id]);
   }
 
-  printFireCoverNote(id: number) {
+  printCarCoverNote(id: number) {
     this.router.navigate(['/printcarcovernote', id]);
   }
 
