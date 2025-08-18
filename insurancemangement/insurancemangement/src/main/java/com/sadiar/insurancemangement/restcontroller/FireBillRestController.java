@@ -32,25 +32,40 @@ public class FireBillRestController {
     }
 
     // Update an existing bill
+//    @PutMapping("/{id}")
+//    public ResponseEntity<String> updateBill(@PathVariable int id, @RequestBody FireBill b) {
+//        try {
+//            fireBillService.updateBill(id, b);
+//            return ResponseEntity.ok("Bill updated successfully.");
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        }
+//    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateBill(@PathVariable int id, @RequestBody FireBill b) {
+    public ResponseEntity<FireBill> updateBill(@PathVariable int id, @RequestBody FireBill updatedBill) {
         try {
-            fireBillService.updateBill(id, b);
-            return ResponseEntity.ok("Bill updated successfully.");
+            FireBill bill = fireBillService.updateBill(id, updatedBill);
+            return ResponseEntity.ok(bill);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 
-    // Delete a bill by ID
+//    // Delete a bill by ID
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<String> deleteBillById(@PathVariable int id) {
+//        try {
+//            fireBillService.deleteBill(id);
+//            return ResponseEntity.ok("Bill deleted successfully.");
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        }
+//    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteBillById(@PathVariable int id) {
-        try {
-            fireBillService.deleteBill(id);
-            return ResponseEntity.ok("Bill deleted successfully.");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public void deleteBillById(@PathVariable int id) {
+        fireBillService.deleteBill(id);
     }
     // Get bill by ID
     @GetMapping("/{id}")

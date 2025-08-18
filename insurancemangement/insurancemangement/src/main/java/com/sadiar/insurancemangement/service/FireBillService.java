@@ -22,6 +22,8 @@ public class FireBillService {
         this.firePolicyRepository = firePolicyRepository;
     }
 
+
+
     // Get all bills
     public List<FireBill> getAllBills() {
         return fireBillRepository.findAll();

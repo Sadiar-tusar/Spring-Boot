@@ -54,10 +54,10 @@ export class Updatebill implements OnInit {
     this.loadBill();
     this.loadBillDetails();
 
-    // // Recalculate premiums when fire, rsd, or tax values change
-    // this.billForm.get('fire')?.valueChanges.subscribe(() => this.calculatePremiums());
-    // this.billForm.get('rsd')?.valueChanges.subscribe(() => this.calculatePremiums());
-    // this.billForm.get('tax')?.valueChanges.subscribe(() => this.calculatePremiums());
+    // Recalculate premiums when fire, rsd, or tax values change
+    this.billForm.get('fire')?.valueChanges.subscribe(() => this.calculatePremiums());
+    this.billForm.get('rsd')?.valueChanges.subscribe(() => this.calculatePremiums());
+    this.billForm.get('tax')?.valueChanges.subscribe(() => this.calculatePremiums());
   }
 
   loadBill(): void {
@@ -108,59 +108,7 @@ export class Updatebill implements OnInit {
     }, { emitEvent: false });
   }
 
-//   updateBill(): void {
-//     const updateBill: BillModel = {
 
-//       ...this.billForm.getRawValue() // Get raw value to include disabled fields
-//     };
-
-//     // this.billId=this.bill.id
-
-//     this.billService.updateBill(this.billId, updateBill)
-//       .subscribe({
-//         next: res => {
-//           console.log('Bill updated successfully:', res);
-//           this.billForm.reset();
-//           this.router.navigate(['viewbill']);
-//         },
-//         error: error => {
-//           console.log('Error updating bill:', error);
-//         }
-//       });
-//   }
-
-//   loadBillBillId() {
-
-//     this.id = this.route.snapshot.params['id'];
-//     this.billService.getByBillId(this.id).subscribe({
-
-//       next: (res) => {
-//         this.bill = res;
-//         this.cdr.markForCheck();
-//       },
-//       error: (error) => {
-
-//       }
-//     })
-//   }
-
-
-
-//   loadPolicyById() {
-
-//     this.id = this.route.snapshot.params['id'];
-//     this.policiesService.getByPolicyId(this.id).subscribe({
-
-//       next: (res) => {
-//         this.policies = res;
-//         this.cdr.markForCheck();
-//       },
-//       error: (error) => {
-
-//       }
-//     })
-
-//   }
 
    updateBill(): void {
     if (this.billForm.valid) {
@@ -174,6 +122,7 @@ export class Updatebill implements OnInit {
           next: res => {
             console.log('Bill updated successfully:', res);
             this.billForm.reset();
+            this.cdr.markForCheck();
             this.router.navigate(['viewbill']);
           },
           error: error => {

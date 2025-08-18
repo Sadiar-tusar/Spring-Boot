@@ -21,6 +21,7 @@ export class Bill implements OnInit{
   bills: BillModel[] = [];
   filteredBills: BillModel[] = [];
   // cars: CarModel[]=[];
+  bill: BillModel[]=[];
 
 constructor(
     private policiesService: PolicymodelService,
@@ -60,23 +61,36 @@ constructor(
     });
   }
 
-   deleteBill(id: number): void {
-    this.billService.deleteBill(id)
-      .subscribe({
-        next: () => {
-          // this.loadAllData();
-          this.loadBills();
-          this.loadPolicies();
-          this.refreshBills();
-          this.cdr.reattach();
-          // this.cdr.markForCheck();
+  //  deleteBill(id: number): void {
+  //   this.billService.deleteBill(id)
+  //     .subscribe({
+  //       next: () => {
+  //         // this.loadAllData();
+  //         this.loadBills();
+  //         this.loadPolicies();
+  //         this.refreshBills();
+  //         this.cdr.reattach();
+  //         // this.cdr.markForCheck();
           
-          // this.router.navigate(['/viewbill']);
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      });
+  //         // this.router.navigate(['/viewbill']);
+  //       },
+  //       error: (error) => {
+  //         console.log(error);
+  //       }
+  //     });
+  // }
+
+  deleteBill(id:number): void{
+    this.billService.deleteBill(id).subscribe({
+      next:()=>{
+        this.bills=this.bills.filter(bill => bill.id !==id);
+        this.filteredBills= this.filteredBills.filter(bill =>bill.id !==id);
+        this.cdr.markForCheck();
+        this.loadBills();
+        this.router.navigate(['/viewbill']);
+        
+      }
+    });
   }
 
   getBillByBillId(id: number): void{

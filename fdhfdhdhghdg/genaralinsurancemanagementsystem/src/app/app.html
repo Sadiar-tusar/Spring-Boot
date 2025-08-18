@@ -28,7 +28,7 @@
     <hr class="sidebar-divider" />
 
     <!-- Heading -->
-    <div class="sidebar-heading">Core</div>
+    <!-- <div class="sidebar-heading">Core</div> -->
 
     <!-- Nav Item - Pages Collapse Menu -->
     <ng-container>
@@ -55,7 +55,7 @@
 
     <ng-container>
 
-      <div class="sidebar-heading">HR</div>
+      <!-- <div class="sidebar-heading">HR</div> -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
           aria-controls="collapseOne">
@@ -75,7 +75,7 @@
       </li>
     </ng-container>
 
-    <div class="sidebar-heading">Accountings</div>
+    <!-- <div class="sidebar-heading">Accountings</div> -->
 
     <ng-container>
       <li class="nav-item">
@@ -95,6 +95,30 @@
         </div>
       </li>
     </ng-container>
+
+    
+
+    <ng-container>
+      
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
+          aria-controls="collapseThree">
+          <i class="fas fa-fingerprint"></i>
+          <span>Creat Bill</span>
+        </a>
+
+        <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            
+            <a class="collapse-item" routerLink="createbill">Fire Bill</a>
+            <a class="collapse-item" routerLink="creatcarbil">Car Bill</a>
+            
+          </div>
+        </div>
+      </li>
+     
+    </ng-container>
+    
 
 
     <!-- Divider -->
@@ -165,8 +189,8 @@
               <select class="form-select form-select-sm me-2" formControlName="routing" (change)="visitRouter()"
                 id="billType" style="min-width: 200px;">
                 <option value="" disabled selected>Select Bill</option>
-                <option value="createbill"><b>Fire Bill</b></option>
-                <option value="creatcarbil"><b>Car Bill</b></option>
+                <option value="createbill"><strong>Fire Bill</strong></option>
+                <option value="creatcarbil"><strong>Car Bill</strong></option>
               </select>
               <!-- </ng-container> -->
             </form>

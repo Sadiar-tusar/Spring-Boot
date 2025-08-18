@@ -24,30 +24,28 @@ export class BilmodelService {
       );
   }
 
-  // createBill(bills: BillModel): Observable<BillModel> {
-  //   return this.http.post<BillModel>(this.baseUrl, bills);
-  // }
+  
 
 
 createBill(bill: BillModel, policyId: number): Observable<BillModel> {
   return this.http.post<BillModel>(`${this.baseUrl}?policyId=${policyId}`, bill);
 }
 
+  
+
+  //  // Delete a bill by ID
   // deleteBill(id: number): Observable<any> {
-  //   return this.http.delete(this.baseUrl+"/"+ id);
+  //   return this.http.delete(`${this.baseUrl}/${id}`)
+  //     .pipe(
+  //       catchError(this.handleError)
+  //     );
   // }
 
-   // Delete a bill by ID
-  deleteBill(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`)
-      .pipe(
-        catchError(this.handleError)
-      );
+  deleteBill(id:number):Observable<any>{
+return this.http.delete(this.baseUrl+"/"+id);
   }
 
-  // updateBill(bill: BillModel): Observable<BillModel> {
-  //   return this.http.put<BillModel>(this.baseUrl + bill.id, bill);
-  // }
+  
   updateBill(id: number, bill:BillModel): Observable<any> {
     return this.http.put(this.baseUrl +"/"+id, bill);
   }
