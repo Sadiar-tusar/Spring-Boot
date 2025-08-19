@@ -22,6 +22,8 @@ public class FireMoneyReceipt {
     @JoinColumn(name = "billId")
     private FireBill fireBill;
 
+
+
     public FireMoneyReceipt() {
     }
 
@@ -90,4 +92,5 @@ public class FireMoneyReceipt {
     public void setFireBill(FireBill fireBill) {
         this.fireBill = fireBill;
     }
+
 }

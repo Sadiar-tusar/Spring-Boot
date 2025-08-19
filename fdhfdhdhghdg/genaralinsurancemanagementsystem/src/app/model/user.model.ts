@@ -1,3 +1,5 @@
+import { ReceiptModel } from "./receipt.model";
+
 export class User {
 
     id!: number;
@@ -6,6 +8,6 @@ export class User {
     password!: string;
     role!: string;
     photo!: string;
-    billNo!:string;
+    receipt!:ReceiptModel
 
 }

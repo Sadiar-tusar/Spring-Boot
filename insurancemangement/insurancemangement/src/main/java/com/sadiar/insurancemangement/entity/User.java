@@ -2,6 +2,8 @@ package com.sadiar.insurancemangement.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -22,14 +24,19 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+
+
     @Column(nullable = false)
     private boolean active;
     private boolean isLock;
 
+
+
+
     public User() {
     }
 
-    public User(long id, String name, String email, String password, String phone, String photo, Role role) {
+    public User(long id, String name, String email, String password, String phone, String photo, Role role, boolean active, boolean isLock) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -37,6 +44,8 @@ public class User {
         this.phone = phone;
         this.photo = photo;
         this.role = role;
+        this.active = active;
+        this.isLock = isLock;
     }
 
     public long getId() {
