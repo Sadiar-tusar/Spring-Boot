@@ -34,24 +34,29 @@ public class CarBillRestController {
 
     // Update an existing bill
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateBill(@PathVariable int id, @RequestBody CarBill b) {
+    public ResponseEntity<CarBill> updateBill(@PathVariable int id, @RequestBody CarBill b) {
         try {
-            carBillService.updateBill(id, b);
-            return ResponseEntity.ok("Bill updated successfully.");
+            CarBill carBill = carBillService.updateBill(id, b);
+            return ResponseEntity.ok(carBill);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 
-    // Delete a bill by ID
+//    // Delete a bill by ID
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<String> deleteBillById(@PathVariable int id) {
+//        try {
+//            carBillService.deleteBill(id);
+//            return ResponseEntity.ok("Bill deleted successfully.");
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        }
+//    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteBillById(@PathVariable int id) {
-        try {
-            carBillService.deleteBill(id);
-            return ResponseEntity.ok("Bill deleted successfully.");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public void deleteBillById(@PathVariable int id) {
+        carBillService.deleteBill(id);
     }
     // Get bill by ID
     @GetMapping("/{id}")

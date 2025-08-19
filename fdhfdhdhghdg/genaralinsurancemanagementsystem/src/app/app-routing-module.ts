@@ -28,6 +28,7 @@ import { Carreciept } from './component/car/carreciept/carreciept';
 import { Creatcarreciept } from './component/car/creatcarreciept/creatcarreciept';
 import { Updatecarpolicy } from './component/car/updatecarpolicy/updatecarpolicy';
 import { PrintCarMoneyreceipt } from './component/print-car-moneyreceipt/print-car-moneyreceipt';
+import { Updatecarbill } from './component/car/updatecarbill/updatecarbill';
 
 
 const routes: Routes = [
@@ -62,6 +63,7 @@ const routes: Routes = [
    { path: "createcarreceipt", component: Creatcarreciept},
    { path: "updatecarpolicy/:id", component: Updatecarpolicy},
    { path: "printcarcovernote/:id", component: PrintCarMoneyreceipt},
+   { path: "updatecarbill/:id", component: Updatecarbill},
 
   
 

@@ -8,21 +8,22 @@
       <div class="sidebar-brand-text mx-3 text-warning"><i class="fa-solid fa-house"></i>
 
 
-        <h4><strong>Green General Insurance</strong></h4>
+        <img class="img-profile rounded-circle mt-5" height="130px" width="130px" src="/img/Copilot_20250715_133912.png" />
 
 
       </div>
     </a>
 
     <!-- Divider -->
-    <hr class="sidebar-divider my-0" />
-
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
-      <a class="nav-link" href="dashboard">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span class="">Dashboard</span></a>
-    </li>
+    <!-- <hr class="sidebar-divider my-0" />
+    <div>
+      
+      <li class="nav-item active">
+        <a class="nav-link" href="dashboard">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span class="">Dashboard</span></a>
+      </li>
+    </div> -->
 
     <!-- Divider -->
     <hr class="sidebar-divider" />
@@ -32,7 +33,7 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <ng-container>
-      <li class="nav-item">
+      <li class="nav-item mt-5">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
           aria-controls="collapseTwo">
           <i class="fa fa-building"></i>
@@ -96,29 +97,29 @@
       </li>
     </ng-container>
 
-    
+
 
     <ng-container>
-      
+
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
-          aria-controls="collapseThree">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true"
+          aria-controls="collapseFour">
           <i class="fas fa-fingerprint"></i>
           <span>Creat Bill</span>
         </a>
 
-        <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            
+
             <a class="collapse-item" routerLink="createbill">Fire Bill</a>
             <a class="collapse-item" routerLink="creatcarbil">Car Bill</a>
-            
+
           </div>
         </div>
       </li>
-     
+
     </ng-container>
-    
+
 
 
     <!-- Divider -->
@@ -383,7 +384,7 @@
 
       </nav>
       <!-- app.component.html -->
-<router-outlet></router-outlet>
+      <router-outlet></router-outlet>
 
 
       <!-- <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none"
