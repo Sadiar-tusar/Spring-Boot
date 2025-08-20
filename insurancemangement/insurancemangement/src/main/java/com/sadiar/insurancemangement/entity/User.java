@@ -31,6 +31,8 @@ public class User {
     private boolean isLock;
 
 
+    @OneToMany
+    private List<Token> tokens;
 
 
     public User() {
