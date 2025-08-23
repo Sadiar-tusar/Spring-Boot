@@ -1,15 +1,19 @@
 package com.sadiar.insurancemangement.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     private String name;
 
 
@@ -38,7 +42,7 @@ public class User {
     public User() {
     }
 
-    public User(long id, String name, String email, String password, String phone, String photo, Role role, boolean active, boolean isLock) {
+    public User(int id, String name, String email, String password, String phone, String photo, Role role, boolean active, boolean isLock, List<Token> tokens) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -48,13 +52,14 @@ public class User {
         this.role = role;
         this.active = active;
         this.isLock = isLock;
+        this.tokens = tokens;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -74,6 +79,7 @@ public class User {
         this.email = email;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -120,5 +126,44 @@ public class User {
 
     public void setLock(boolean lock) {
         isLock = lock;
+    }
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
+    }
+
+    // implements Methods ----------------------------------------------------
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return isLock;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
