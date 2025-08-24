@@ -2,6 +2,7 @@ package com.sadiar.insurancemangement.security;
 
 import com.sadiar.insurancemangement.jwt.JwtAuthenticationFilter;
 import com.sadiar.insurancemangement.jwt.JwtService;
+import com.sadiar.insurancemangement.service.AuthService;
 import com.sadiar.insurancemangement.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +30,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            JwtAuthenticationFilter jwtAuthenticationFilter,
-                                           UserService userService) throws Exception {
+                                           UserService userService, AuthService authService) throws Exception {
 
         return http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -37,6 +38,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/api/user/login",
                                 "/auth/login",
+                                "/api/admin/login",
+                                "/api/admin/add",
                                 "/api/jobseeker/",
                                 "/images/**",
                                 "/api/user/active/**",
@@ -51,7 +54,7 @@ public class SecurityConfig {
                                 "/api/district/**",
                                 "/api/policestation/",
                                 "/api/employer/",
-                                "/api/employer/**",
+                                "/api/admin/**",
                                 "/api/countries/**",
                                 "/api/division/**",
                                 "/api/policestation/**",

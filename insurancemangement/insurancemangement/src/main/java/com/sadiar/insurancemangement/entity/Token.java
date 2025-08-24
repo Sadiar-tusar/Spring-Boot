@@ -16,6 +16,10 @@ public class Token {
     @JoinColumn(name = "user_id")
     private  User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id")
+    private  Admin admin;
+
     public Token() {
     }
 
@@ -49,5 +53,13 @@ public class Token {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 }

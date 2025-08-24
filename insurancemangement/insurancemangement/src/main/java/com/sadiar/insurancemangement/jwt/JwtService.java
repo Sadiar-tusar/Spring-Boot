@@ -1,5 +1,6 @@
 package com.sadiar.insurancemangement.jwt;
 
+import com.sadiar.insurancemangement.entity.Admin;
 import com.sadiar.insurancemangement.entity.User;
 import com.sadiar.insurancemangement.repository.ITokenRepository;
 import io.jsonwebtoken.Claims;
@@ -46,6 +47,18 @@ public class JwtService {
                 .builder()
                 .setSubject(user.getEmail()) // Set Email as Subject
                 .claim("role", user.getRole()) // Add user Role to Payload
+                .setIssuedAt(new Date(System.currentTimeMillis())) // Set Token issue ime
+                .setExpiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000)) // Set Token Expire Time
+                .signWith(getSigningKey()) // Sign the Token with Secreat key
+                .compact();
+
+    }
+
+    public String generateTokenForAdmin(Admin admin) {
+        return Jwts
+                .builder()
+                .setSubject(admin.getEmail()) // Set Email as Subject
+                .claim("role", admin.getRole()) // Add user Role to Payload
                 .setIssuedAt(new Date(System.currentTimeMillis())) // Set Token issue ime
                 .setExpiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000)) // Set Token Expire Time
                 .signWith(getSigningKey()) // Sign the Token with Secreat key

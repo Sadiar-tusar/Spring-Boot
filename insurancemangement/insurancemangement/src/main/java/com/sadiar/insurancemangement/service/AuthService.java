@@ -1,10 +1,12 @@
 package com.sadiar.insurancemangement.service;
 
 import com.sadiar.insurancemangement.dto.AuthenticationResponse;
+import com.sadiar.insurancemangement.entity.Admin;
 import com.sadiar.insurancemangement.entity.Role;
 import com.sadiar.insurancemangement.entity.Token;
 import com.sadiar.insurancemangement.entity.User;
 import com.sadiar.insurancemangement.jwt.JwtService;
+import com.sadiar.insurancemangement.repository.IAdminRepository;
 import com.sadiar.insurancemangement.repository.ITokenRepository;
 import com.sadiar.insurancemangement.repository.IUserReporisitory;
 import jakarta.mail.MessagingException;
@@ -46,6 +48,9 @@ public class AuthService {
     @Autowired
     @Lazy
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private IAdminRepository adminRepository;
 
 
     @Value("src/main/resources/static/images")
@@ -125,6 +130,7 @@ public class AuthService {
 
 
     // for User folder
+
     public String saveImage(MultipartFile file, User user) {
 
         Path uploadPath = Paths.get(uploadDir + "/users");
@@ -149,7 +155,6 @@ public class AuthService {
         return fileName;
 
     }
-
     // for User folder
 //    public String saveImageForJobSeeker(MultipartFile file, JobSeeker jobSeeker) {
 //
@@ -203,6 +208,44 @@ public class AuthService {
         sendActivationEmail(savedUser);
     }
 
+    public void saveAdmin(Admin admin, MultipartFile imageFile) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String fileName = saveImageForAdmin(imageFile, admin);
+            admin.setPhoto(fileName);
+        }
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+        admin.setRole(Role.ADMIN);
+//        admin.setActive(true);
+        adminRepository.save(admin);
+//        sendActivationEmail(admin);
+    }
+
+    public String saveImageForAdmin(MultipartFile file, Admin admin) {
+
+        Path uploadPath = Paths.get(uploadDir + "/admin");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectory(uploadPath);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String fileName = admin.getName() + "_" + UUID.randomUUID().toString();
+
+
+        try {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(file.getInputStream(), filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return fileName;
+
+    }
+
+
 
 
     private void saveUserToken(String jwt, User user) {
@@ -215,9 +258,34 @@ public class AuthService {
 
     }
 
+    private void saveAdminToken(String jwt, Admin admin) {
+        Token token = new Token();
+        token.setToken(jwt);
+        token.setLogout(false);
+        token.setAdmin(admin);
+
+        tokenRepository.save(token);
+
+    }
+
     private void removeAllTokenByUser(User user) {
 
         List<Token> validTokens = tokenRepository.findAllTokenByUser(user.getId());
+
+        if (validTokens.isEmpty()) {
+            return;
+        }
+        validTokens.forEach(t -> {
+            t.setLogout(true);
+        });
+
+        tokenRepository.saveAll(validTokens);
+
+    }
+
+    private void removeAllTokenByAdmin(Admin admin) {
+
+        List<Token> validTokens = tokenRepository.findAllTokenByUser(admin.getId());
 
         if (validTokens.isEmpty()) {
             return;
@@ -258,6 +326,39 @@ public class AuthService {
 
         // Save New Token to DB (Optional if stateless)
         saveUserToken(jwt, user);
+
+        // Return Authentication Response
+        return new AuthenticationResponse(jwt, "User Login Successful");
+    }
+
+
+
+    public AuthenticationResponse authenticateForAdmin(Admin request) {
+        // Authenticate Username & Password
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword()
+                )
+        );
+
+        // Fetch User from DB
+        Admin admin = adminRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("Admin not found"));
+
+        // Check Activation Status
+        if (!admin.isActive()) {
+            throw new RuntimeException("Account is not activated. Please check your email for activation link.");
+        }
+
+        // Generate JWT Token
+        String jwt = jwtService.generateTokenForAdmin(admin);
+
+        // Remove Existing Tokens (Invalidate Old Sessions)
+        removeAllTokenByAdmin(admin);
+
+        // Save New Token to DB (Optional if stateless)
+        saveAdminToken(jwt, admin);
 
         // Return Authentication Response
         return new AuthenticationResponse(jwt, "User Login Successful");
