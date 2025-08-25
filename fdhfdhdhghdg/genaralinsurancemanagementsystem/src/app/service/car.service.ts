@@ -32,7 +32,7 @@ export class CarService {
 
   // Create a new policy
   createCarPolicy(car: CarModel): Observable<any> {
-    return this.http.post(this.baseUrl, car)
+    return this.http.post(this.baseUrl+"/add", car)
       .pipe(
         catchError(this.handleError)
       );

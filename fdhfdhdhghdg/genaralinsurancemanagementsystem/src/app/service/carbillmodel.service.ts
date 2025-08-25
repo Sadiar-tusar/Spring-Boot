@@ -29,7 +29,7 @@ export class CarbillmodelService {
     // }
 
     createCarBill(carBills: CarBillModel, carPolicyId: number): Observable<CarBillModel> {
-  return this.http.post<CarBillModel>(`${this.baseUrl}?carPolicyId=${carPolicyId}`, carBills);
+  return this.http.post<CarBillModel>(`${this.baseUrl}/add?carPolicyId=${carPolicyId}`, carBills);
 }
   
     deleteCarBill(id: number): Observable<any> {

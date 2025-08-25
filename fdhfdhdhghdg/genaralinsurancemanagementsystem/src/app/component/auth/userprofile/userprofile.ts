@@ -31,26 +31,42 @@ export class Userprofile implements OnInit{
     private cdr: ChangeDetectorRef
   ) { }
   ngOnInit(): void {
-    this.loadUserProfile();
+    // this.loadUserProfile();
+    this.getProfile();
   }
 
-  loadUserProfile(): void{
-    const sub= this.userSer.getUserProfile().subscribe({
-      next:(res)=>{
-        console.log(res);
-        if(res){
-          this.user=res;
-          // this.getUserShowPolicyByBillNo(this.user.id);
-          this.cdr.markForCheck();
-        }
+  // loadUserProfile(): void{
+  //   const sub= this.userSer.getUserProfile().subscribe({
+  //     next:(res)=>{
+  //       console.log(res);
+  //       if(res){
+  //         this.user=res;
+  //         // this.getUserShowPolicyByBillNo(this.user.id);
+  //         this.cdr.markForCheck();
+  //       }
+  //     },
+  //     error:(err)=>{
+  //       console.log('Error Loading User Profile', err);
+  //     }
+  //   });
+
+  //   this.subscription.add(sub);
+
+  // }
+
+  getProfile() {
+
+    this.authService.getProfile().subscribe({
+      next: (data) => {
+        this.user = data;
+        console.log(data);
+        this.cdr.markForCheck();
+
       },
-      error:(err)=>{
-        console.log('Error Loading User Profile', err);
+      error: (err) => {
+        console.error('Failed to load profile', err);
       }
     });
-
-    this.subscription.add(sub);
-
   }
 
   ngOnDestroy(): void{

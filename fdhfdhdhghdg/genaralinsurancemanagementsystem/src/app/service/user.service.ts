@@ -24,4 +24,6 @@ export class UserService {
    localStorage.setItem('userprofile', JSON.stringify(User));
     return this.http.put<User>(`${this.baseUrl}/${user.id}`,user);
   }
+
+  
 }

@@ -31,7 +31,7 @@ export class PolicymodelService {
 
   // Create a new policy
   createPolicy(policy: PolicyModel): Observable<any> {
-    return this.http.post(this.baseUrl, policy)
+    return this.http.post(this.baseUrl+"/add", policy)
       .pipe(
         catchError(this.handleError)
       );

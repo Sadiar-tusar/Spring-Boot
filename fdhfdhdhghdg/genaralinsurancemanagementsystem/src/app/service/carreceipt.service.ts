@@ -26,7 +26,7 @@ export class CarreceiptService {
     // }
 
     creatCarRecipt(carReceipt: CarReceiptModel, carBillId: number): Observable<CarReceiptModel> {
-        return this.http.post<CarReceiptModel>(`${this.baseUrl}?carBillId=${carBillId}`, carReceipt);
+        return this.http.post<CarReceiptModel>(`${this.baseUrl}/add?carBillId=${carBillId}`, carReceipt);
       }
   
     deleteCarRecipt(id:number):Observable<any>{

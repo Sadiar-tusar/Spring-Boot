@@ -30,7 +30,7 @@ public class FirePolicyRestController {
 //        return ResponseEntity.status(HttpStatus.CREATED).body("Policy saved successfully.");
 //    }
 
-    @PostMapping("")
+    @PostMapping("/add")
     public void save(@RequestBody FirePolicy ps) {
         firePolicyService.saveFirePolicy(ps);
     }

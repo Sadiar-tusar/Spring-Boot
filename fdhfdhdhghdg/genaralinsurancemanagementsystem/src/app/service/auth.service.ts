@@ -1,7 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, catchError, map, Observable } from 'rxjs';
 import { User } from '../model/user.model';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthResponse } from '../model/authResponse';
 import { environment } from '../environment/environment';
@@ -12,6 +12,9 @@ import { environment } from '../environment/environment';
 export class AuthService {
 
    private baseUrl = environment.apiBaseUrl+'/user';
+
+    private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    private userRoleSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser$: Observable<User | null>;
@@ -30,45 +33,65 @@ export class AuthService {
     return isPlatformBrowser(this.platformId);
   }
 
-  registration(user: User): Observable<AuthResponse> {
-    return this.http.post<User>(this.baseUrl, user).pipe(
-      map((newUser: User) => {
+  registration(user: any, photo: File): Observable<any> {
+     const formData = new FormData();
+     formData.append('user', JSON.stringify(user));
+    
+    formData.append('photo', photo);
 
-        // create token by username and password 
-        const token = btoa(`${newUser.email}${newUser.password}`);
-        return { token, user: newUser } as AuthResponse;
-      }),
-      catchError(error => {
-        console.error('Registration error:', error);
-        throw error;
-      })
-    );
+    return this.http.post(this.baseUrl, formData);
   } 
 
-  login(credentials: { email: string; password: string }): Observable<AuthResponse> {
-    let params = new HttpParams().append('email', credentials.email);
+  // login(credentials: { email: string; password: string }): Observable<AuthResponse> {
+  //   let params = new HttpParams().append('email', credentials.email);
 
-    return this.http.get<User[]>(this.baseUrl+'/login', { params }).pipe(
-      map(users => {
-        if (users.length > 0) {
-          const user = users[0];
-          if (user.password === credentials.password) {
-            const token = btoa(`${user.email}:${user.password}`);
-            this.storeToken(token);
-            this.setCurrentUser(user);
-            return { token, user } as AuthResponse;
-          } else {
-            throw new Error('Invalid password');
+  //   return this.http.post<User[]>(this.baseUrl+'/login', { params }).pipe(
+  //     map(users => {
+  //       if (users.length > 0) {
+  //         const user = users[0];
+  //         if (user.password === credentials.password) {
+  //           const token = btoa(`${user.email}:${user.password}`);
+  //           this.storeToken(token);
+  //           this.setCurrentUser(user);
+  //           return { token, user } as AuthResponse;
+  //         } else {
+  //           throw new Error('Invalid password');
+  //         }
+  //       } else {
+  //         throw new Error('User not found');
+  //       }
+  //     }),
+  //     catchError(error => {
+  //       console.error('Login error:', error);
+  //       throw error;
+  //     })
+  //   );
+  // }
+
+   login(email: string, password: string): Observable<AuthResponse> {
+
+    return this.http.post<AuthResponse>(this.baseUrl + '/login', { email, password }, { headers: this.headers }).pipe(
+
+      map(
+        (response: AuthResponse) => {
+          if (this.isBrowser() && response.token) {
+            localStorage.setItem('authToken', response.token);
+            const decodeToken = this.decodeToken(response.token);
+            console.log(decodeToken.role);
+            localStorage.setItem('userRole', decodeToken.role);
+            this.userRoleSubject.next(decodeToken.role);
           }
-        } else {
-          throw new Error('User not found');
+          return response;
+
         }
-      }),
-      catchError(error => {
-        console.error('Login error:', error);
-        throw error;
-      })
+
+      )
     );
+  }
+
+  decodeToken(token: string) {
+    const payload = token.split('.')[1];
+    return JSON.parse(atob(payload));
   }
 
   storeToken(token: string): void {
@@ -108,7 +131,7 @@ export class AuthService {
   // log out end
 
    getUserRole(): any {
-    return this.currentUserValue?.role;
+    return localStorage.getItem('userRole');
   }
   
   public get currentUserValue(): User | null {
@@ -142,13 +165,29 @@ export class AuthService {
 
   
   isAdmin(): boolean {
-    return this.getUserRole() === 'admin';
+    return this.getUserRole() === 'ADMIN';
   }
 
   isUser(): boolean {
     const role = this.getUserRole();
-    return role === 'user';
+    return role === 'USER';
   }
+
+  //for spring
+  getProfile(): Observable<User> {
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+        console.log(headers);
+      }
+    }
+
+    return this.http.get<User>(`${environment.apiBaseUrl}/user/profile`, { headers });
+  }
+
 
 
 

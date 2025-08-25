@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../service/auth.service';
 import { Router } from '@angular/router';
@@ -13,11 +13,14 @@ export class Login implements OnInit{
 
  loginForm!: FormGroup;
    errorMessage: string = '';
+   user:any;
 
   constructor(
     private authService: AuthService, 
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef
+    
   ) { }
   ngOnInit(): void {
     
@@ -34,9 +37,9 @@ export class Login implements OnInit{
     return;
   }
 
-  const userDetails = this.loginForm.value;
+  const {email, password} = this.loginForm.value;
 
-  this.authService.login(userDetails).subscribe({
+  this.authService.login(email, password).subscribe({
     next: (res) => {
       console.log('User logged in successfully:', res);
       
@@ -45,9 +48,9 @@ export class Login implements OnInit{
       const role = this.authService.getUserRole();
       console.log('User role:', role);
 
-      if (role === 'user') {
+      if (role === 'USER') {
         this.router.navigate(['/userProfile']);
-      } else if (role === 'admin') {
+      } else if (role === 'ADMIN') {
         this.router.navigate(['/home']);
       } else {
         this.errorMessage = 'Unknown user role.';
@@ -61,5 +64,20 @@ export class Login implements OnInit{
     }
   });
 }
+
+//  getProfile() {
+
+//     this.authService.getProfile().subscribe({
+//       next: (data) => {
+//         this.user = data;
+//         console.log(data);
+//         this.cdr.markForCheck();
+
+//       },
+//       error: (err) => {
+//         console.error('Failed to load profile', err);
+//       }
+//     });
+//   }
 
 }

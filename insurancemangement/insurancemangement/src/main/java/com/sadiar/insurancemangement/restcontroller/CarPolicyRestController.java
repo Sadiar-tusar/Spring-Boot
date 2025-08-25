@@ -30,7 +30,7 @@ public class CarPolicyRestController {
 //        return ResponseEntity.status(HttpStatus.CREATED).body("Policy saved successfully.");
 //    }
 
-    @PostMapping("")
+    @PostMapping("/add")
     public void save(@RequestBody CarPolicy cp) {
         carPolicyService.saveCarPolicy(cp);
     }

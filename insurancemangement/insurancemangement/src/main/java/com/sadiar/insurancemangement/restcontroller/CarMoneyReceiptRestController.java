@@ -31,7 +31,7 @@ public class CarMoneyReceiptRestController {
 //        moneyReceiptService.createFireMoneyReceipt(mr);
 //    }
 
-    @PostMapping("")
+    @PostMapping("/add")
     public CarMoneyReceipt saveBill(@RequestBody CarMoneyReceipt b,
                                      @RequestParam int carBillId) {
         return carMoneyReceiptService.createCarMoneyReceipt( b, carBillId);

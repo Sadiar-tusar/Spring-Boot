@@ -25,7 +25,7 @@ public class FireBillRestController {
         return ResponseEntity.ok(bills);
     }
 
-    @PostMapping("")
+    @PostMapping("/add")
     public FireBill saveBill(@RequestBody FireBill b,
                              @RequestParam int policyId) {
         return fireBillService.createBill(b, policyId);

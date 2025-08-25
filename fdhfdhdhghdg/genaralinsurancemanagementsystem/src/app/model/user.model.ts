@@ -1,4 +1,4 @@
-import { ReceiptModel } from "./receipt.model";
+
 
 export class User {
 

@@ -44,7 +44,21 @@ public class SecurityConfig {
                                         "/api/user/login",
                                         "/auth/login",
                                         "/images/**",
-                                "/api/user/active/**"
+                                "/api/user/active/**",
+                                "/api/firepolicy/**",
+                                "/api/firepolicy/add",
+                                "/api/firebill/add",
+                                "/api/firebill/**",
+                                "/api/firemoneyreciept/**",
+                                "/api/firemoneyreciept/add",
+                                "/api/carpolicy/**",
+                                "/api/carpolicy/add",
+                                "/api/carbill/**",
+                                "/api/carbill/add",
+                                "/api/carmoneyreciept/**",
+                                "/api/carmoneyreciept/add"
+
+
                                 ).permitAll()
 
                                 // Protected endpoints

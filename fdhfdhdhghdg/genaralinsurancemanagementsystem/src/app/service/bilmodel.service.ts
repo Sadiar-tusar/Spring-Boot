@@ -28,7 +28,7 @@ export class BilmodelService {
 
 
 createBill(bill: BillModel, policyId: number): Observable<BillModel> {
-  return this.http.post<BillModel>(`${this.baseUrl}?policyId=${policyId}`, bill);
+  return this.http.post<BillModel>(`${this.baseUrl}/add?policyId=${policyId}`, bill);
 }
 
   

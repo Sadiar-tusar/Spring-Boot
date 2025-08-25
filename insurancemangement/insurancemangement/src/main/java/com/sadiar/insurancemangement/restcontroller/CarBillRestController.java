@@ -26,7 +26,7 @@ public class CarBillRestController {
         return ResponseEntity.ok(bills);
     }
 
-    @PostMapping("")
+    @PostMapping("/add")
     public CarBill saveBill(@RequestBody CarBill b,
                              @RequestParam int carPolicyId) {
         return carBillService.createBill(b, carPolicyId);

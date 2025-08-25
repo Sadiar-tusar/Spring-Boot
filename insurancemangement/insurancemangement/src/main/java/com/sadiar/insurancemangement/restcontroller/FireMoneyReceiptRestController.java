@@ -31,7 +31,7 @@ public class FireMoneyReceiptRestController {
 //        moneyReceiptService.createFireMoneyReceipt(mr);
 //    }
 
-    @PostMapping("")
+    @PostMapping("/add")
     public FireMoneyReceipt saveBill(@RequestBody FireMoneyReceipt b,
                              @RequestParam int billId) {
         return moneyReceiptService.createFireMoneyReceipt( b, billId);

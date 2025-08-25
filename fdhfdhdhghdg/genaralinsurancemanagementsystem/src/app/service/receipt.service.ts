@@ -26,7 +26,7 @@ export class ReceiptService {
   // }
 
   createRecipt(receipt: ReceiptModel, billId: number): Observable<ReceiptModel> {
-    return this.http.post<ReceiptModel>(`${this.baseUrl}?billId=${billId}`, receipt);
+    return this.http.post<ReceiptModel>(`${this.baseUrl}/add?billId=${billId}`, receipt);
   }
 
   deleteRecipt(id:number):Observable<any>{
