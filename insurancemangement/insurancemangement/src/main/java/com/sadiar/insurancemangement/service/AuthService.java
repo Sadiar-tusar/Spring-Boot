@@ -215,9 +215,14 @@ public class AuthService {
         }
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         admin.setRole(Role.ADMIN);
-//        admin.setActive(true);
+        admin.setActive(true);
         adminRepository.save(admin);
 //        sendActivationEmail(admin);
+        Admin savedAdmin = adminRepository.save(admin);
+
+        // Now generate token and save Token associated with savedUser
+        String jwt = jwtService.generateTokenForAdmin(savedAdmin);
+        saveAdminToken(jwt, savedAdmin);
     }
 
     public String saveImageForAdmin(MultipartFile file, Admin admin) {

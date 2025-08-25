@@ -4,13 +4,14 @@ import { User } from '../model/user.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthResponse } from '../model/authResponse';
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private baseUrl: string = "http://localhost:3000/user";
+   private baseUrl = environment.apiBaseUrl+'/user';
 
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser$: Observable<User | null>;
@@ -47,7 +48,7 @@ export class AuthService {
   login(credentials: { email: string; password: string }): Observable<AuthResponse> {
     let params = new HttpParams().append('email', credentials.email);
 
-    return this.http.get<User[]>(`${this.baseUrl}`, { params }).pipe(
+    return this.http.get<User[]>(this.baseUrl+'/login', { params }).pipe(
       map(users => {
         if (users.length > 0) {
           const user = users[0];

@@ -35,7 +35,7 @@ public class User implements UserDetails {
     private boolean isLock;
 
 
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Token> tokens;
 
 
@@ -154,8 +154,9 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return isLock;
+        return !isLock;
     }
+
 
     @Override
     public boolean isCredentialsNonExpired() {
@@ -164,6 +165,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return active;
     }
+
 }

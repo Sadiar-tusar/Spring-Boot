@@ -8,6 +8,6 @@ export class User {
     password!: string;
     role!: string;
     photo!: string;
-    receipt!:ReceiptModel
+   
 
 }

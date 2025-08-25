@@ -30,39 +30,30 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            JwtAuthenticationFilter jwtAuthenticationFilter,
-                                           UserService userService, AuthService authService) throws Exception {
+                                           UserService userService) throws Exception {
 
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/api/user/login",
-                                "/auth/login",
-                                "/api/admin/login",
-                                "/api/admin/add",
-                                "/api/jobseeker/",
-                                "/images/**",
-                                "/api/user/active/**",
-                                "/api/policestation/**",
-                                "/api/education/**",
-                                "/api/skill/**",
-                                "/api/countries/",
-                                "/api/countries/**",
-                                "/api/division/",
-                                "/api/division/**",
-                                "/api/district/",
-                                "/api/district/**",
-                                "/api/policestation/",
-                                "/api/employer/",
-                                "/api/admin/**",
-                                "/api/countries/**",
-                                "/api/division/**",
-                                "/api/policestation/**",
-                                "/api/addresses/**",
-                                "/api/employer/profile"
-                        ).permitAll()
-                        .requestMatchers("/api/user/all", "/api/jobseeker/profile", "/api/education/all", "/api/experience/all", "/api/experience/add", "/api/education/add", "/api/skill/add", "/api/skill/all").hasRole("JOBSEEKER")
-                        .requestMatchers("api/employer/profile").hasRole("EMPLOYER")
+                        .requestMatchers(
+                                        "/api/user",        // 🔓 সব user endpoint open
+                                        "/api/admin/register", // registration
+                                        "/api/user/register",
+                                        "/api/admin/login",
+                                        "/api/user/login",
+                                        "/auth/login",
+                                        "/images/**",
+                                "/api/user/active/**"
+                                ).permitAll()
+
+                                // Protected endpoints
+                                .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+                                .requestMatchers("/api/jobseeker/**",
+                                        "/api/education/**",
+                                        "/api/experience/**",
+                                        "/api/skill/**").hasAuthority("JOBSEEKER")
+                                .requestMatchers("/api/employer/**").hasAuthority("EMPLOYER")
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)
