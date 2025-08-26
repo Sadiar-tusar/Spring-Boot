@@ -25,6 +25,7 @@ export class Registration {
       name: [''],
       email: [''],
       password: [''],
+      phone: [''],
       photo: [''],
 
 

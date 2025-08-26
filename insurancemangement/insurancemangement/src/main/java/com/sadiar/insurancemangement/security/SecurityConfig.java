@@ -56,18 +56,18 @@ public class SecurityConfig {
                                 "/api/carbill/**",
                                 "/api/carbill/add",
                                 "/api/carmoneyreciept/**",
-                                "/api/carmoneyreciept/add"
-
-
+                                "/api/carmoneyreciept/add",
+                                "/api/user/profile"
                                 ).permitAll()
 
-                                // Protected endpoints
-                                .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
-                                .requestMatchers("/api/jobseeker/**",
-                                        "/api/education/**",
-                                        "/api/experience/**",
-                                        "/api/skill/**").hasAuthority("JOBSEEKER")
-                                .requestMatchers("/api/employer/**").hasAuthority("EMPLOYER")
+                        // Protected endpoints
+                        .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/user/**").hasAuthority("USER")
+                        .requestMatchers(
+                                "/api/education/**",
+                                "/api/experience/**",
+                                "/api/skill/**").hasAuthority("JOBSEEKER")
+                        .requestMatchers("/api/employer/**").hasAuthority("EMPLOYER")
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)

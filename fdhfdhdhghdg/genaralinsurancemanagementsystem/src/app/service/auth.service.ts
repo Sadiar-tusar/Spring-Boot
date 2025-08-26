@@ -159,6 +159,7 @@ export class AuthService {
       const userProfile = localStorage.getItem('currentUser');
       console.log('User Profile is: ', userProfile);
       return userProfile ? JSON.parse(userProfile) : null;
+      
     }
     return null;
   }
@@ -175,18 +176,19 @@ export class AuthService {
 
   //for spring
   getProfile(): Observable<User> {
-    let headers = new HttpHeaders();
+  let headers = new HttpHeaders();
 
-    if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        headers = headers.set('Authorization', 'Bearer ' + token);
-        console.log(headers);
-      }
+  if (isPlatformBrowser(this.platformId)) {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+      console.log('Authorization header set:', headers.get('Authorization'));
     }
-
-    return this.http.get<User>(`${environment.apiBaseUrl}/user/profile`, { headers });
   }
+
+  return this.http.get<User>(`${environment.apiBaseUrl}/user/profile`, { headers });
+}
+
 
 
 

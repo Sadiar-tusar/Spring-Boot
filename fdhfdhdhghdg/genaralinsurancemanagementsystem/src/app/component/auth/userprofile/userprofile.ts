@@ -35,30 +35,32 @@ export class Userprofile implements OnInit{
     this.getProfile();
   }
 
-  // loadUserProfile(): void{
-  //   const sub= this.userSer.getUserProfile().subscribe({
-  //     next:(res)=>{
-  //       console.log(res);
-  //       if(res){
-  //         this.user=res;
-  //         // this.getUserShowPolicyByBillNo(this.user.id);
-  //         this.cdr.markForCheck();
-  //       }
-  //     },
-  //     error:(err)=>{
-  //       console.log('Error Loading User Profile', err);
-  //     }
-  //   });
+  loadUserProfile(): void{
+    const sub= this.userSer.getUserProfile().subscribe({
+      next:(res)=>{
+        console.log(res);
+        if(res){
+          this.user=res;
+          this.getUserShowPolicyByBillNo(this.user.id);
+          this.cdr.markForCheck();
+        }
+      },
+      error:(err)=>{
+        console.log('Error Loading User Profile', err);
+      }
+    });
 
-  //   this.subscription.add(sub);
+    this.subscription.add(sub);
 
-  // }
+  }
 
   getProfile() {
 
     this.authService.getProfile().subscribe({
       next: (data) => {
+        
         this.user = data;
+        // this.getUserShowPolicyByBillNo(this.user.id);
         console.log(data);
         this.cdr.markForCheck();
 
@@ -73,8 +75,8 @@ export class Userprofile implements OnInit{
     this.subscription.unsubscribe();
   }
 
-  getUserShowPolicyByBillNo(billNo:number):void{
-    this.receiptService.getReciptById(billNo).subscribe({
+  getUserShowPolicyByBillNo(id:number):void{
+    this.receiptService.getReciptById(id).subscribe({
       next:(data)=>{
       this.receipt=data;
       this.cdr.markForCheck();

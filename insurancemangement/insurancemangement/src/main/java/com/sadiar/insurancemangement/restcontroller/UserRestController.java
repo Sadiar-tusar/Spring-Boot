@@ -5,23 +5,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sadiar.insurancemangement.dto.AuthenticationResponse;
 import com.sadiar.insurancemangement.entity.User;
 import com.sadiar.insurancemangement.repository.ITokenRepository;
+import com.sadiar.insurancemangement.repository.IUserReporisitory;
 import com.sadiar.insurancemangement.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserRestController {
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private IUserReporisitory userReporisitoryo;
 
     @Autowired
     ITokenRepository tokenRepository;
@@ -58,6 +64,23 @@ public class UserRestController {
         return ResponseEntity.ok(users);
 
     }
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> getProfile(Authentication authentication) {
+        if (authentication == null || authentication.getName() == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
+        }
+
+        String email = authentication.getName();
+        Optional<User> user = userReporisitoryo.findByEmail(email);
+
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
+
 
 
     @PostMapping("login")

@@ -53,7 +53,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(authToken);
                     }
                 } catch (Exception e) {
-                    // User not found, skip authentication
                     System.out.println("JWT Filter: User not found for username " + username);
                 }
             }
@@ -69,7 +68,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.equals("/api/admin/login")
                 || path.startsWith("/images/")
                 || path.startsWith("/api/user/active/")
-                || path.startsWith("/auth/login")
-                || path.startsWith("/api/user"); // <-- skip JWT for all /api/user/**
+                || path.startsWith("/auth/login");
+        // Removed: path.startsWith("/api/user") to allow filtering on /api/user/profile etc.
     }
 }
