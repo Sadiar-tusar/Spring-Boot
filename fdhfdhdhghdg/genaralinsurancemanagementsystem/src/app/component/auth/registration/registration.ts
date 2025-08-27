@@ -14,63 +14,59 @@ export class Registration {
 
   regForm!: FormGroup;
   photoFile!: File;
-   message: string = '';
+  isAdminSelected: boolean = false;
+  
 
-  constructor( private authService: AuthService,
-    private router: Router,
-    private formBuilder: FormBuilder
-  ) {
-    
-     this.regForm = this.formBuilder.group({
+  constructor(private fb: FormBuilder, private authService: AuthService) {
+    this.regForm = this.fb.group({
       name: [''],
       email: [''],
       password: [''],
       phone: [''],
-      photo: [''],
-
-
-    })
-
+      role: ['USER'], // default
+      adminCode: ['']
+    });
   }
 
-   onPhotoSelected(event: any): void {
+  onRoleChange(event: any) {
+    this.isAdminSelected = event.target.value === 'ADMIN';
+    if (!this.isAdminSelected) {
+      this.regForm.get('adminCode')?.setValue('');
+    }
+  }
+
+  onPhotoSelected(event: any) {
     if (event.target.files.length > 0) {
       this.photoFile = event.target.files[0];
-      console.log('Selected file:', this.photoFile);
     }
   }
 
-   onSubmit(): void {
-      
-     if (!this.photoFile) {
-      this.message = 'Please upload a photo.';
-      return;
-    }
-    if (this.regForm.invalid || this.regForm.invalid) {
-      this.message = 'Please fill out all required fields.';
+  onSubmit() {
+    if (!this.photoFile) {
+      alert('Please upload a photo.');
       return;
     }
 
+    const formValue = this.regForm.value;
     const user = {
-      name: this.regForm.value.name,
-      email: this.regForm.value.email,
-      phone: this.regForm.value.phone,
-      password: this.regForm.value.password,
-      role: 'USER' // adjust if necessary
+      name: formValue.name,
+      email: formValue.email,
+      password: formValue.password,
+      phone: formValue.phone
     };
 
-    
-
-    this.authService.registration(user, this.photoFile).subscribe({
-      next: res => {
-        this.message = res.Message || 'Registration successful!';
-        this.regForm.reset();
-        this.photoFile = undefined!;
-      },
-      error: err => {
-        this.message = 'Registration failed: ' + (err.error?.Message || err.message);
-      }
-    });
+    if (formValue.role === 'ADMIN') {
+      const adminCode = formValue.adminCode;
+      this.authService.registerAdmin(user, this.photoFile, adminCode).subscribe({
+        next: res => alert(res),
+        error: err => alert('Admin registration failed: ' + err.error?.message)
+      });
+    } else {
+      this.authService.registerUser(user, this.photoFile).subscribe({
+        next: res => alert(res),
+        error: err => alert('User registration failed: ' + err.error?.message)
+      });
+    }
   }
 
 }

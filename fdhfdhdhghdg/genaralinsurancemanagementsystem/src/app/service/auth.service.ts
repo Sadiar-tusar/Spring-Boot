@@ -189,6 +189,22 @@ export class AuthService {
   return this.http.get<User>(`${environment.apiBaseUrl}/user/profile`, { headers });
 }
 
+registerUser(user: any, photo: File) {
+  const formData = new FormData();
+  formData.append('user', JSON.stringify(user));
+  formData.append('photo', photo);
+  return this.http.post(this.baseUrl + '/register/user', formData);
+}
+
+registerAdmin(user: any, photo: File, adminCode: string) {
+  const formData = new FormData();
+  formData.append('user', JSON.stringify(user));
+  formData.append('photo', photo);
+  formData.append('adminCode', adminCode);
+  return this.http.post(this.baseUrl + '/register/admin', formData);
+}
+
+
 
 
 

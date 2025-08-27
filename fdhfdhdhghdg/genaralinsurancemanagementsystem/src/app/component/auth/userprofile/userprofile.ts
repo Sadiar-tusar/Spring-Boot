@@ -17,7 +17,7 @@ import { ReceiptService } from '../../../service/receipt.service';
 })
 export class Userprofile implements OnInit{
 
-   user: User | null = null;
+   user: any | null = null;
    bill: BillModel | null=null;
    receipt: ReceiptModel | null=null;
   private subscription: Subscription = new Subscription();
@@ -60,7 +60,7 @@ export class Userprofile implements OnInit{
       next: (data) => {
         
         this.user = data;
-        // this.getUserShowPolicyByBillNo(this.user.id);
+        this.getUserShowPolicyByBillNo(this.user.id);
         console.log(data);
         this.cdr.markForCheck();
 

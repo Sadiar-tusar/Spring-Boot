@@ -184,29 +184,64 @@ public class AuthService {
 //    }
 
 
-    public void registerUser(User user, MultipartFile imageFile) {
+//    public void registerUser(User user, MultipartFile imageFile) {
+//        if (imageFile != null && !imageFile.isEmpty()) {
+//            // Save image for User
+//            String filename = saveImage(imageFile, user);
+//            user.setPhoto(filename);
+//        }
+//
+//        // Encode password before saving User
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.setRole(Role.USER);
+//        user.setActive(false);
+//
+//        // Save User FIRST and get persisted instance
+//        User savedUser = userRepo.save(user);
+//
+//
+//        // Now generate token and save Token associated with savedUser
+//        String jwt = jwtService.generateToken(savedUser);
+//        saveUserToken(jwt, savedUser);
+//
+//        // Send Activation Email
+//        sendActivationEmail(savedUser);
+//    }
+
+
+    public void registerUser(User user, MultipartFile imageFile, boolean isAdmin) {
+        // ছবি থাকলে সেভ করা
         if (imageFile != null && !imageFile.isEmpty()) {
-            // Save image for User
             String filename = saveImage(imageFile, user);
             user.setPhoto(filename);
         }
 
-        // Encode password before saving User
+        // পাসওয়ার্ড এনকোড
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.USER);
-        user.setActive(false);
 
-        // Save User FIRST and get persisted instance
+        // Role সেট করা
+        if (isAdmin) {
+            user.setRole(Role.ADMIN);
+            user.setActive(true); // Admin সরাসরি active হবে
+        } else {
+            user.setRole(Role.USER);
+            user.setActive(false); // User কে activate করতে হবে
+        }
+
+        user.setLock(false);
+
         User savedUser = userRepo.save(user);
 
-
-        // Now generate token and save Token associated with savedUser
+        // JWT টোকেন জেনারেট
         String jwt = jwtService.generateToken(savedUser);
         saveUserToken(jwt, savedUser);
 
-        // Send Activation Email
-        sendActivationEmail(savedUser);
+        // শুধু User রেজিস্ট্রেশনে email activation যাবে
+        if (!isAdmin) {
+            sendActivationEmail(savedUser);
+        }
     }
+
 
     public void saveAdmin(Admin admin, MultipartFile imageFile) {
         if (imageFile != null && !imageFile.isEmpty()) {
@@ -390,61 +425,5 @@ public class AuthService {
 
 
 
-    // for User folder
-//    public String saveImageForEmployeer(MultipartFile file, Employer employer) {
-//
-//        Path uploadPath = Paths.get(uploadDir + "/employer");
-//        if (!Files.exists(uploadPath)) {
-//            try {
-//                Files.createDirectory(uploadPath);
-//
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//
-//        String employerName = employer.getCompanyName();
-//        String fileName = employerName.trim().replaceAll("\\s+", "_");
-//
-//        String savedFileName = fileName + "_" + UUID.randomUUID().toString();
-//
-//        try {
-//            Path filePath = uploadPath.resolve(savedFileName);
-//            Files.copy(file.getInputStream(), filePath);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return savedFileName;
-//
-//    }
 
-
-//    public void registerEmployer(User user, MultipartFile imageFile, Employer employerData) {
-//        if (imageFile != null && !imageFile.isEmpty()) {
-//            // Save image for both User and JobSeeker
-//            String filename = saveImage(imageFile, user);
-//            String employerPhoto = saveImageForEmployeer(imageFile, employerData);
-//            employerData.setLogo(employerPhoto);
-//            user.setPhoto(filename);
-//        }
-//
-//        // Encode password before saving User
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        user.setRole(Role.EMPLOYER);
-//        user.setActive(false);
-//
-//        // Save User FIRST and get persisted instance
-//        User savedUser = userRepo.save(user);
-//
-//        // Now, associate saved User with JobSeeker and save JobSeeker
-//        employerData.setUser(savedUser);
-//        employerRepository.save(employerData);
-//
-//        // Now generate token and save Token associated with savedUser
-//        String jwt = jwtService.generateToken(savedUser);
-//        saveUserToken(jwt, savedUser);
-//
-//        // Send Activation Email
-//        sendActivationEmail(savedUser);
-//    }
 }

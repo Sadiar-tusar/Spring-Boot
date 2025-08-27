@@ -1,5 +1,6 @@
 package com.sadiar.insurancemangement.repository;
 
+import com.sadiar.insurancemangement.dto.UserDTO;
 import com.sadiar.insurancemangement.entity.FirePolicy;
 import com.sadiar.insurancemangement.entity.User;
 import org.springframework.boot.autoconfigure.jackson.JacksonProperties;
@@ -12,4 +13,5 @@ import java.util.Optional;
 public interface IUserReporisitory extends JpaRepository<User,Integer> {
 
     Optional<User> findByEmail(String email);
+
 }

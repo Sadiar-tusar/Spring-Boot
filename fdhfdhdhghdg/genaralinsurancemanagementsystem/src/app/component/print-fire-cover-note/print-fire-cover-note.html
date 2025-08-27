@@ -172,6 +172,12 @@
                     <td class="currency-symbol"><strong>TK</strong></td>
                     <td><strong>{{ getTotalPremiumWithTax() | number:'1.2-2' }}</strong></td>
                 </tr>
+                <tr>
+                    <td colspan="2"><strong>Monthly Payable Amount</strong></td>
+                    <td class="currency-symbol"><strong>TK</strong></td>
+                    <td><strong>{{ getTotalPremiumWithTax()/12 | number:'1.2-2' }}</strong></td>
+                </tr>
+                
             </tbody>
         </table>
 

@@ -1,3 +1,4 @@
+import { ReceiptModel } from "./receipt.model";
 
 
 export class User {
@@ -9,6 +10,7 @@ export class User {
     role!: string;
     phone!:string
     photo!: string;
+    receipts!: ReceiptModel;
    
 
 }

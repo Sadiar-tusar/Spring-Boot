@@ -38,8 +38,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(
                                         "/api/user",        // 🔓 সব user endpoint open
-                                        "/api/admin/register", // registration
-                                        "/api/user/register",
+                                        "/api/user/register/user", // registration
+                                        "/api/user/register/admin",
                                         "/api/admin/login",
                                         "/api/user/login",
                                         "/auth/login",
@@ -61,8 +61,8 @@ public class SecurityConfig {
                                 ).permitAll()
 
                         // Protected endpoints
-                        .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers("/api/user/**").hasAuthority("USER")
+                        .requestMatchers("/api/user/register/admin").hasAuthority("ADMIN")
+                        .requestMatchers("/api/user/register/user").hasAuthority("USER")
                         .requestMatchers(
                                 "/api/education/**",
                                 "/api/experience/**",

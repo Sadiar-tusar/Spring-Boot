@@ -3,6 +3,7 @@ package com.sadiar.insurancemangement.restcontroller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sadiar.insurancemangement.dto.AuthenticationResponse;
+import com.sadiar.insurancemangement.dto.UserDTO;
 import com.sadiar.insurancemangement.entity.User;
 import com.sadiar.insurancemangement.repository.ITokenRepository;
 import com.sadiar.insurancemangement.repository.IUserReporisitory;
@@ -31,31 +32,45 @@ public class UserRestController {
 
     @Autowired
     ITokenRepository tokenRepository;
+    @Autowired
+    private ObjectMapper objectMapper;
 
 
-    @PostMapping("")
-    public ResponseEntity<Map<String, String>> saveUser(
-            @RequestPart(value = "user") String userJson,
-            @RequestParam(value = "photo") MultipartFile file
+    @PostMapping("/register/user")
+    public ResponseEntity<Map<String, String>> registerUser(
+            @RequestPart("user") String userJson,
+            @RequestParam(value = "photo", required = false) MultipartFile file
     ) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
+
         User user = objectMapper.readValue(userJson, User.class);
+        authService.registerUser(user, file, false);
 
-        try {
-            authService.registerUser(user, file);
-            Map<String, String> response = new HashMap<>();
-            response.put("Message", "User Added Successfully ");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "User registered successfully. Please check your email for activation.");
+        return ResponseEntity.ok(response);
+    }
 
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
+    @PostMapping("/register/admin")
+    public ResponseEntity<Map<String, String>> registerAdmin(
+            @RequestPart("user") String userJson,
+            @RequestParam(value = "photo", required = false) MultipartFile file,
+            @RequestParam("adminCode") String adminCode
+    ) throws JsonProcessingException {
 
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("Message", "User Add Faild " + e);
-            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        if (!"SECRET123".equals(adminCode)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(Map.of("error", "Invalid Admin Code"));
         }
 
+        User user = objectMapper.readValue(userJson, User.class);
+        authService.registerUser(user, file, true);
 
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Admin registered successfully.");
+        return ResponseEntity.ok(response);
     }
+
 
 
     @GetMapping("all")

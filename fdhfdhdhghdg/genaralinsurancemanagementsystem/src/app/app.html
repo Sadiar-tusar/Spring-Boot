@@ -32,7 +32,7 @@
     <!-- <div class="sidebar-heading">Core</div> -->
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <ng-container>
+    <!-- <ng-container *ngIf="userRole === 'ADMIN'"> -->
       <li class="nav-item mt-5">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
           aria-controls="collapseTwo">
@@ -49,12 +49,12 @@
           </div>
         </div>
       </li>
-    </ng-container>
+    <!-- </ng-container> -->
 
 
 
 
-    <ng-container>
+    <!-- <ng-container *ngIf="userRole=== 'ADMIN'"> -->
 
       <!-- <div class="sidebar-heading">HR</div> -->
       <li class="nav-item">
@@ -74,11 +74,11 @@
           </div>
         </div>
       </li>
-    </ng-container>
+    <!-- </ng-container> -->
 
     <!-- <div class="sidebar-heading">Accountings</div> -->
 
-    <ng-container>
+    <!-- <ng-container *ngIf="userRole === 'ADMIN'"> -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
           aria-controls="collapseThree">
@@ -95,11 +95,11 @@
           </div>
         </div>
       </li>
-    </ng-container>
+    <!-- </ng-container> -->
 
 
 
-    <ng-container>
+    <!-- <ng-container *ngIf="userRole === 'ADMIN'"> -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true"
@@ -118,7 +118,7 @@
         </div>
       </li>
 
-    </ng-container>
+    <!-- </ng-container> -->
 
 
 
@@ -162,7 +162,7 @@
           <!-- Nav Item - Login -->
 
 
-          <ng-container>
+          <!-- <ng-container  *ngIf="userRole !== 'ADMIN' && userRole !== 'USER'"> -->
             <li class="nav-item">
               <a class="nav-link text-light" href="login">
                 <i class="fas fa-sign-in-alt"></i>
@@ -178,14 +178,14 @@
               </a>
             </li>
 
-          </ng-container>
+          <!-- </ng-container> -->
 
 
 
           <!-- creat bill nav-->
           <ng-container>
             <form class="d-flex align-items-center" [formGroup]="routingForm">
-              <!-- <ng-container *ngIf="userRole === 'admin'"> -->
+              <!-- <ng-container *ngIf="userRole === 'ADMIN'"> -->
               <label for="billType" class="text-white me-2 mb-0"><b>Create Bill</b></label>
               <select class="form-select form-select-sm me-2" formControlName="routing" (change)="visitRouter()"
                 id="billType" style="min-width: 200px;">
@@ -355,7 +355,7 @@
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" routerLink="userProfile">
                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                 Profile
               </a>
@@ -376,11 +376,11 @@
           </li>
         </ul>
         <!-- right side a logout button -->
-        <!-- <ng-container>
+        <!-- <ng-container *ngIf="userRole==='ADMIN' || userRole === 'USER'"> -->
           <button class="logout-btn btn btn-outline-success" type="submit" routerLink="logout">
             Logout
           </button>
-        </ng-container> -->
+        <!-- </ng-container> -->
 
       </nav>
       <!-- app.component.html -->

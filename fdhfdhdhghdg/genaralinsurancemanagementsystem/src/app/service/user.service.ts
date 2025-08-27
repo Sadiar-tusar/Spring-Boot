@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable, of } from 'rxjs';
 import { User } from '../model/user.model';
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private baseUrl: string="http://localhost:3000/user";
+  private baseUrl = environment.apiBaseUrl+'/user';
 
   constructor(
     private http: HttpClient,
@@ -19,6 +20,10 @@ export class UserService {
   getUserProfile(): Observable<User | null>{
     return of (this.authService.getUserProfileFromStorage());
   }
+
+  // getUserProfileById(id:number): Observable<User | null>{
+  //   return of (this.authService.getUserProfileFromStorage());
+  // }
 
   updateUserProfile(user:User): Observable<User | null>{
    localStorage.setItem('userprofile', JSON.stringify(User));
