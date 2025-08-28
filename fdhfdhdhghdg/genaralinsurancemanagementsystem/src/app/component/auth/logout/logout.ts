@@ -24,7 +24,8 @@ export class Logout implements OnInit {
   logout(){
     this.authService.logout();
     this.authService.removeUserDetails();
-    this.router.navigate(['/home']);
+    
+     window.location.href = '/home';
   }
 
 

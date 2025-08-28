@@ -11,11 +11,11 @@ import { environment } from '../environment/environment';
 })
 export class AuthService {
 
-   private baseUrl = environment.apiBaseUrl+'/user';
+  private baseUrl = environment.apiBaseUrl + '/user';
 
-    private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-   private userRoleSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-userRole$ = this.userRoleSubject.asObservable();  // <-- এটা লাগবে
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  private userRoleSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  userRole$ = this.userRoleSubject.asObservable();  // <-- এটা লাগবে
 
 
   private currentUserSubject: BehaviorSubject<User | null>;
@@ -24,25 +24,25 @@ userRole$ = this.userRoleSubject.asObservable();  // <-- এটা লাগব�
   constructor(
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) { 
+  ) {
 
-     const storedUser = this.isBrowser() ? JSON.parse(localStorage.getItem('currentUser') || 'null') : null;
+    const storedUser = this.isBrowser() ? JSON.parse(localStorage.getItem('currentUser') || 'null') : null;
     this.currentUserSubject = new BehaviorSubject<User | null>(storedUser);
     this.currentUser$ = this.currentUserSubject.asObservable();
   }
 
-   private isBrowser(): boolean {
+  private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
   }
 
   registration(user: any, photo: File): Observable<any> {
-     const formData = new FormData();
-     formData.append('user', JSON.stringify(user));
-    
+    const formData = new FormData();
+    formData.append('user', JSON.stringify(user));
+
     formData.append('photo', photo);
 
     return this.http.post(this.baseUrl, formData);
-  } 
+  }
 
   // login(credentials: { email: string; password: string }): Observable<AuthResponse> {
   //   let params = new HttpParams().append('email', credentials.email);
@@ -70,7 +70,7 @@ userRole$ = this.userRoleSubject.asObservable();  // <-- এটা লাগব�
   //   );
   // }
 
-   login(email: string, password: string): Observable<AuthResponse> {
+  login(email: string, password: string): Observable<AuthResponse> {
 
     return this.http.post<AuthResponse>(this.baseUrl + '/login', { email, password }, { headers: this.headers }).pipe(
 
@@ -102,7 +102,7 @@ userRole$ = this.userRoleSubject.asObservable();  // <-- এটা লাগব�
     }
   }
 
-   private setCurrentUser(user: User): void {
+  private setCurrentUser(user: User): void {
     if (this.isBrowser()) {
       localStorage.setItem('currentUser', JSON.stringify(user));
     }
@@ -110,17 +110,17 @@ userRole$ = this.userRoleSubject.asObservable();  // <-- এটা লাগব�
   }
 
   logout(): void {
-  this.clearCurrentUser();
+    this.clearCurrentUser();
 
-  if (this.isBrowser()) {
-    localStorage.removeItem('token');
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userRole');
+    if (this.isBrowser()) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('userRole');
+    }
+
+
+    // this.userRoleSubject.next(null);
   }
-
-  // userRole observable কে update করো
-  this.userRoleSubject.next(null);
-}
 
 
   private clearCurrentUser(): void {
@@ -138,10 +138,10 @@ userRole$ = this.userRoleSubject.asObservable();  // <-- এটা লাগব�
 
   // log out end
 
-   getUserRole(): any {
+  getUserRole(): any {
     return localStorage.getItem('userRole');
   }
-  
+
   public get currentUserValue(): User | null {
     return this.currentUserSubject.value;
   }
@@ -156,7 +156,7 @@ userRole$ = this.userRoleSubject.asObservable();  // <-- এটা লাগব�
   }
 
 
-   storeUserProfile(user: User): void {
+  storeUserProfile(user: User): void {
     if (this.isBrowser()) {
       localStorage.setItem('currentUser', JSON.stringify(user));
     }
@@ -167,12 +167,12 @@ userRole$ = this.userRoleSubject.asObservable();  // <-- এটা লাগব�
       const userProfile = localStorage.getItem('currentUser');
       console.log('User Profile is: ', userProfile);
       return userProfile ? JSON.parse(userProfile) : null;
-      
+
     }
     return null;
   }
 
-  
+
   isAdmin(): boolean {
     return this.getUserRole() === 'ADMIN';
   }
@@ -184,33 +184,33 @@ userRole$ = this.userRoleSubject.asObservable();  // <-- এটা লাগব�
 
   //for spring
   getProfile(): Observable<User> {
-  let headers = new HttpHeaders();
+    let headers = new HttpHeaders();
 
-  if (isPlatformBrowser(this.platformId)) {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      headers = headers.set('Authorization', `Bearer ${token}`);
-      console.log('Authorization header set:', headers.get('Authorization'));
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+        console.log('Authorization header set:', headers.get('Authorization'));
+      }
     }
+
+    return this.http.get<User>(`${environment.apiBaseUrl}/user/profile`, { headers });
   }
 
-  return this.http.get<User>(`${environment.apiBaseUrl}/user/profile`, { headers });
-}
+  registerUser(user: any, photo: File) {
+    const formData = new FormData();
+    formData.append('user', JSON.stringify(user));
+    formData.append('photo', photo);
+    return this.http.post(this.baseUrl + '/register/user', formData);
+  }
 
-registerUser(user: any, photo: File) {
-  const formData = new FormData();
-  formData.append('user', JSON.stringify(user));
-  formData.append('photo', photo);
-  return this.http.post(this.baseUrl + '/register/user', formData);
-}
-
-registerAdmin(user: any, photo: File, adminCode: string) {
-  const formData = new FormData();
-  formData.append('user', JSON.stringify(user));
-  formData.append('photo', photo);
-  formData.append('adminCode', adminCode);
-  return this.http.post(this.baseUrl + '/register/admin', formData);
-}
+  registerAdmin(user: any, photo: File, adminCode: string) {
+    const formData = new FormData();
+    formData.append('user', JSON.stringify(user));
+    formData.append('photo', photo);
+    formData.append('adminCode', adminCode);
+    return this.http.post(this.baseUrl + '/register/admin', formData);
+  }
 
 
 
