@@ -14,7 +14,9 @@ export class AuthService {
    private baseUrl = environment.apiBaseUrl+'/user';
 
     private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    private userRoleSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+   private userRoleSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+userRole$ = this.userRoleSubject.asObservable();  // <-- এটা লাগবে
+
 
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser$: Observable<User | null>;
@@ -107,13 +109,19 @@ export class AuthService {
     this.currentUserSubject.next(user);
   }
 
-  // start logout
   logout(): void {
-    this.clearCurrentUser();
-    if (this.isBrowser()) {
-      localStorage.removeItem('token');
-    }
+  this.clearCurrentUser();
+
+  if (this.isBrowser()) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userRole');
   }
+
+  // userRole observable কে update করো
+  this.userRoleSubject.next(null);
+}
+
 
   private clearCurrentUser(): void {
     if (this.isBrowser()) {

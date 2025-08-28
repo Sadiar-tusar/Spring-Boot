@@ -28,6 +28,7 @@ export class Login implements OnInit{
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+    this.cdr.markForCheck();
 
   }
 
@@ -55,6 +56,7 @@ export class Login implements OnInit{
       } else {
         this.errorMessage = 'Unknown user role.';
       }
+      this.cdr.markForCheck();
 
       this.loginForm.reset();
     },

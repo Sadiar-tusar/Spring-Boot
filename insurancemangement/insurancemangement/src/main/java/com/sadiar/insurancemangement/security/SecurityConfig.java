@@ -37,11 +37,11 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(
-                                        "/api/user",        // 🔓 সব user endpoint open
-                                        "/api/user/register/user", // registration
+                                        "/api/user",
+                                        "/api/user/register/user",
                                         "/api/user/register/admin",
-                                        "/api/admin/login",
-                                        "/api/user/login",
+                                "/api/admin/login",
+                                "/api/user/login",
                                         "/auth/login",
                                         "/images/**",
                                 "/api/user/active/**",
@@ -64,10 +64,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/user/register/admin").hasAuthority("ADMIN")
                         .requestMatchers("/api/user/register/user").hasAuthority("USER")
                         .requestMatchers(
-                                "/api/education/**",
-                                "/api/experience/**",
-                                "/api/skill/**").hasAuthority("JOBSEEKER")
-                        .requestMatchers("/api/employer/**").hasAuthority("EMPLOYER")
+                                "/api/admin/login"
+                                ).hasAuthority("ADMIN")
+                        .requestMatchers("/api/user/login").hasAuthority("USER")
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)
@@ -89,9 +88,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder encoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
