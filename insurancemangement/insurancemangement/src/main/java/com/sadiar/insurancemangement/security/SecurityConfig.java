@@ -40,8 +40,8 @@ public class SecurityConfig {
                                         "/api/user",
                                         "/api/user/register/user",
                                         "/api/user/register/admin",
-                                "/api/admin/login",
-                                "/api/user/login",
+                                        "/api/admin/login",
+                                        "/api/user/login",
                                         "/auth/login",
                                         "/images/**",
                                 "/api/user/active/**",
@@ -57,7 +57,11 @@ public class SecurityConfig {
                                 "/api/carbill/add",
                                 "/api/carmoneyreciept/**",
                                 "/api/carmoneyreciept/add",
-                                "/api/user/profile"
+                                "/api/user/profile",
+                                "/api/payment/deposit/**",
+                                "/api/payment/balance/**",
+                                "/api/payment/pay/**",
+                                "/api/payment/company-balance"
                                 ).permitAll()
 
                         // Protected endpoints

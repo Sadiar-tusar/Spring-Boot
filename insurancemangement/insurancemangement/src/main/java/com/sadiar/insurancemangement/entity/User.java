@@ -38,6 +38,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Token> tokens;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Account account;
+
+
 
     public User() {
     }
@@ -134,6 +138,14 @@ public class User implements UserDetails {
 
     public void setTokens(List<Token> tokens) {
         this.tokens = tokens;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     // implements Methods ----------------------------------------------------

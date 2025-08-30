@@ -3,10 +3,9 @@ package com.sadiar.insurancemangement.restcontroller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sadiar.insurancemangement.dto.AuthenticationResponse;
-import com.sadiar.insurancemangement.dto.UserDTO;
 import com.sadiar.insurancemangement.entity.User;
 import com.sadiar.insurancemangement.repository.ITokenRepository;
-import com.sadiar.insurancemangement.repository.IUserReporisitory;
+import com.sadiar.insurancemangement.repository.IUserRepository;
 import com.sadiar.insurancemangement.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class UserRestController {
     private AuthService authService;
 
     @Autowired
-    private IUserReporisitory userReporisitoryo;
+    private IUserRepository userReporisitoryo;
 
     @Autowired
     ITokenRepository tokenRepository;

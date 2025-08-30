@@ -8,7 +8,7 @@ import com.sadiar.insurancemangement.entity.User;
 import com.sadiar.insurancemangement.jwt.JwtService;
 import com.sadiar.insurancemangement.repository.IAdminRepository;
 import com.sadiar.insurancemangement.repository.ITokenRepository;
-import com.sadiar.insurancemangement.repository.IUserReporisitory;
+import com.sadiar.insurancemangement.repository.IUserRepository;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +33,7 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private IUserReporisitory userRepo;
+    private IUserRepository userRepo;
     @Autowired
     private ITokenRepository tokenRepository;
 

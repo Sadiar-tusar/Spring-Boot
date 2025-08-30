@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { User } from '../../../model/user.model';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../service/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../service/user.service';
 import { BilmodelService } from '../../../service/bilmodel.service';
 import { BillModel } from '../../../model/bill.model';
@@ -17,6 +17,7 @@ import { ReceiptService } from '../../../service/receipt.service';
 })
 export class Userprofile implements OnInit{
 
+   moneyreceipt!: ReceiptModel;
    user: any | null = null;
    bill: BillModel | null=null;
    receipt: ReceiptModel | null=null;
@@ -28,9 +29,24 @@ export class Userprofile implements OnInit{
     private userSer: UserService,
     private billService: BilmodelService,
     private receiptService: ReceiptService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+     private moneyreceiptService: ReceiptService,
+    
+    private route: ActivatedRoute,
+    
   ) { }
   ngOnInit(): void {
+     const id = this.route.snapshot.params['id'];
+    this.moneyreceiptService.getReciptById(id).subscribe({
+      next: (response) => {
+        this.moneyreceipt = response;
+        this.cdr.markForCheck();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+    this.isDataLoaded();
     // this.loadUserProfile();
     this.getProfile();
   }
@@ -83,6 +99,62 @@ export class Userprofile implements OnInit{
       }
 
     });
+  }
+
+  getSumInsured(): number {
+    return this.moneyreceipt?.fireBill?.firePolicy?.sumInsured ?? 0;
+  }
+
+  getFireRate(): number {
+    return (this.moneyreceipt?.fireBill?.fire ?? 0) / 100;
+  }
+
+  getTotalFire(): number {
+    const sumInsured = this.getSumInsured();
+    const fireRate = this.getFireRate();
+    return Math.round(sumInsured * fireRate);
+  }
+
+  getRsdRate(): number {
+    return (this.moneyreceipt?.fireBill?.rsd ?? 0) / 100;
+  }
+
+  getTotalRsd(): number {
+    const sumInsured = this.getSumInsured();
+    const rsdRate = this.getRsdRate();
+    return Math.round(sumInsured * rsdRate);
+  }
+
+  getTaxRate(): number {
+    return (this.moneyreceipt?.fireBill?.tax ?? 0) / 100;
+  }
+
+    getTotalPremium(): number {
+    const sumInsured = this.getSumInsured();
+    const fireRate = this.getFireRate();
+    const rsdRate = this.getRsdRate();
+    return Math.round(sumInsured * (fireRate + rsdRate));
+  }
+
+  getTotalTax(): number {
+    const totalPremium = this.getTotalPremium();
+    const taxRate = this.getTaxRate();
+    return Math.round(totalPremium * taxRate);
+  }
+
+   getTotalPremiumWithTax(): number {
+    const totalPremium = this.getTotalPremium();
+    const totalTax = this.getTotalTax();
+    return Math.round(totalPremium + totalTax);
+  }
+    getTotalPremiumWithTaxForMonthly(): number {
+    const totalPremium = this.getTotalPremium();
+    const totalTax = this.getTotalTax();
+    return Math.round((totalPremium + totalTax) / 12);
+  }
+
+   isDataLoaded(): boolean {
+    return !!this.moneyreceipt;
   }
 
 }

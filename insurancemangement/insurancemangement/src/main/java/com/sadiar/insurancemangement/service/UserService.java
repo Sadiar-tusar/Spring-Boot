@@ -1,7 +1,7 @@
 package com.sadiar.insurancemangement.service;
 
 import com.sadiar.insurancemangement.entity.User;
-import com.sadiar.insurancemangement.repository.IUserReporisitory;
+import com.sadiar.insurancemangement.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +17,7 @@ import java.util.List;
 public class UserService implements UserDetailsService {
 
     @Autowired
-    private IUserReporisitory  userReporisitory;
+    private IUserRepository userReporisitory;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

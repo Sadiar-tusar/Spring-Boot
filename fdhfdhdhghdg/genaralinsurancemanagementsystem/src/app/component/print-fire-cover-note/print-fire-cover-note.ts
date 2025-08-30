@@ -84,6 +84,15 @@ export class PrintFireCoverNote implements OnInit {
     const totalTax = this.getTotalTax();
     return Math.round(totalPremium + totalTax);
   }
+    getTotalPremiumWithTaxForMonthly(): number {
+    const totalPremium = this.getTotalPremium();
+    const totalTax = this.getTotalTax();
+    return Math.round((totalPremium + totalTax) / 12);
+  }
+
+  
+    
+   
 
   convertToWords(num: number): string {
     const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];

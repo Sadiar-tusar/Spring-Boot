@@ -1,0 +1,20 @@
+<div class="payment-container">
+  
+  <h2>Account Management</h2>
+
+  <p>User Balance: {{ userBalance | currency }}</p>
+  <!-- <p>Company Balance: {{ companyBalance | currency }}</p> -->
+
+  <div class="form-group">
+    <label>Amount:</label>
+    <input type="number" [(ngModel)]="amount" class="form-control" />
+  </div>
+
+  <button (click)="deposit()" class="btn btn-success">Deposit</button>
+  <button (click)="pay()" class="btn btn-primary">Pay to Company Volt</button>
+
+  <p *ngIf="message">{{ message }}</p>
+ 
+</div>
+
+
