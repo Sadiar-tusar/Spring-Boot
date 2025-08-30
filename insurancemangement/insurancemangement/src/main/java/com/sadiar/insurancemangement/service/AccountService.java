@@ -82,8 +82,8 @@ public class AccountService {
     }
 
     // Fetch company account
-    public Account getCompanyAccount() {
-        User company = userRepository.findByEmail(COMPANY_EMAIL)
+    public Account getCompanyAccount(long id) {
+        CompanyVoltAccount company = voltRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Company user not found"));
 
         return accountRepository.findByUserId(company.getId())
@@ -91,8 +91,8 @@ public class AccountService {
     }
 
     // Get company balance
-    public Double getCompanyBalance() {
-        return getCompanyAccount().getAmount();
+    public Double getCompanyBalance(long id) {
+        return getCompanyAccount(id).getAmount();
     }
 
     // User pays to Volt Account

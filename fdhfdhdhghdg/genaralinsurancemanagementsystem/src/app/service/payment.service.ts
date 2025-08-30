@@ -31,8 +31,12 @@ pay(id: number, amount: number): Observable<string> {
     return this.http.get<any>(`${this.baseUrl}/balance/${id}`);
   }
 
+  // // Get company balance
+  // getCompanyBalance(id: number): Observable<any> {
+  //   return this.http.get<any>(`${this.baseUrl}/company-balance/${id}`);
+  // }
   // Get company balance
-  getCompanyBalance(): Observable<number> {
-    return this.http.get<number>(`${this.baseUrl}/company-balance`);
+  getCompanyBalance(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/company-balance`);
   }
 }

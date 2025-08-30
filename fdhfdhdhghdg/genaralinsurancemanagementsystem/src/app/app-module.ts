@@ -36,6 +36,7 @@ import { Updatecarpolicy } from './component/car/updatecarpolicy/updatecarpolicy
 import { PrintCarMoneyreceipt } from './component/print-car-moneyreceipt/print-car-moneyreceipt';
 import { Updatecarbill } from './component/car/updatecarbill/updatecarbill';
 import { Payment } from './component/payment/payment';
+import { Accountforadmin } from './component/accountforadmin/accountforadmin';
 
 
 
@@ -75,7 +76,8 @@ import { Payment } from './component/payment/payment';
     Updatecarpolicy,
     PrintCarMoneyreceipt,
     Updatecarbill,
-    Payment
+    Payment,
+    Accountforadmin
    
    
     

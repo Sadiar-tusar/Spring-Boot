@@ -13,6 +13,7 @@ public class Account {
     private Long id;
 
     private Double amount;
+    private String name;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date paymentDate = new Date();
@@ -36,9 +37,10 @@ public class Account {
     public Account() {
     }
 
-    public Account(Long id, Double amount, Date paymentDate, String paymentMode, User user, FirePolicy firePolicy, CarPolicy carPolicy) {
+    public Account(Long id, Double amount,String name, Date paymentDate, String paymentMode, User user, FirePolicy firePolicy, CarPolicy carPolicy) {
         this.id = id;
         this.amount = amount;
+        this.name = name;
         this.paymentDate = paymentDate;
         this.paymentMode = paymentMode;
         this.user = user;
@@ -60,6 +62,14 @@ public class Account {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getPaymentDate() {

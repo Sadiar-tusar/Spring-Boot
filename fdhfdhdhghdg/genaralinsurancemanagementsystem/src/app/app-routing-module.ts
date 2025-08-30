@@ -30,6 +30,7 @@ import { Updatecarpolicy } from './component/car/updatecarpolicy/updatecarpolicy
 import { PrintCarMoneyreceipt } from './component/print-car-moneyreceipt/print-car-moneyreceipt';
 import { Updatecarbill } from './component/car/updatecarbill/updatecarbill';
 import { Payment } from './component/payment/payment';
+import { Accountforadmin } from './component/accountforadmin/accountforadmin';
 
 
 const routes: Routes = [
@@ -66,6 +67,7 @@ const routes: Routes = [
    { path: "printcarcovernote/:id", component: PrintCarMoneyreceipt},
    { path: "updatecarbill/:id", component: Updatecarbill},
    { path: "userpayment", component: Payment},
+   { path: "paymenttovolt", component: Accountforadmin},
 
   
 

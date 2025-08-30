@@ -121,6 +121,27 @@
       </li>
 
     </ng-container>
+     <ng-container *ngIf="userRole === 'ADMIN'">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true"
+          aria-controls="collapseFive">
+          <i class="fas fa-fingerprint"></i>
+          <span>Account Section</span>
+        </a>
+
+        <div id="collapseFive" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+
+            <a class="collapse-item" routerLink="paymenttovolt">Payment</a>
+            <a class="collapse-item" routerLink="/">Show Balance of Volt</a>
+            
+
+          </div>
+        </div>
+      </li>
+
+    </ng-container>
 
 
 

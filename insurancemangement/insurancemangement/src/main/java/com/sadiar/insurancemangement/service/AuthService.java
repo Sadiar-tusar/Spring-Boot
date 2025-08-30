@@ -1,11 +1,9 @@
 package com.sadiar.insurancemangement.service;
 
 import com.sadiar.insurancemangement.dto.AuthenticationResponse;
-import com.sadiar.insurancemangement.entity.Admin;
-import com.sadiar.insurancemangement.entity.Role;
-import com.sadiar.insurancemangement.entity.Token;
-import com.sadiar.insurancemangement.entity.User;
+import com.sadiar.insurancemangement.entity.*;
 import com.sadiar.insurancemangement.jwt.JwtService;
+import com.sadiar.insurancemangement.repository.IAccountRepository;
 import com.sadiar.insurancemangement.repository.IAdminRepository;
 import com.sadiar.insurancemangement.repository.ITokenRepository;
 import com.sadiar.insurancemangement.repository.IUserRepository;
@@ -51,6 +49,10 @@ public class AuthService {
 
     @Autowired
     private IAdminRepository adminRepository;
+
+    @Autowired
+    private IAccountRepository accountRepository;
+
 
 
     @Value("src/main/resources/static/images")
@@ -232,6 +234,19 @@ public class AuthService {
 
         User savedUser = userRepo.save(user);
 
+        // ✅ 🔄 Auto-create account for user
+
+        if(!isAdmin) {
+            Account account = new Account();
+            account.setAmount(0.0);
+            account.setName("User Account"); // Fixed name
+            account.setUser(savedUser);
+            accountRepository.save(account);
+
+            // ✅ Optional: Set account back to user
+            savedUser.setAccount(account);
+            userRepo.save(savedUser);
+        }
         // JWT টোকেন জেনারেট
         String jwt = jwtService.generateToken(savedUser);
         saveUserToken(jwt, savedUser);

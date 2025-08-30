@@ -3,6 +3,7 @@ package com.sadiar.insurancemangement.restcontroller;
 import com.sadiar.insurancemangement.entity.Account;
 import com.sadiar.insurancemangement.entity.FireMoneyReceipt;
 import com.sadiar.insurancemangement.service.AccountService;
+import com.sadiar.insurancemangement.service.CompanyVoltService;
 import com.sadiar.insurancemangement.service.PaymentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,12 @@ public class PaymentRestController {
 
     private final AccountService accountService;
     private final PaymentService paymentService;
+    private final CompanyVoltService companyVoltService;
 
-    public PaymentRestController(AccountService accountService, PaymentService paymentService) {
+    public PaymentRestController(AccountService accountService, PaymentService paymentService,CompanyVoltService companyVoltService) {
         this.accountService = accountService;
         this.paymentService = paymentService;
+        this.companyVoltService = companyVoltService;
     }
 
     // Deposit money into user account
@@ -62,11 +65,10 @@ public class PaymentRestController {
         }
     }
 
-    // Get company account balance
     @GetMapping("/company-balance")
     public ResponseEntity<Double> getCompanyBalance() {
         try {
-            Double balance = accountService.getCompanyBalance();
+            Double balance = companyVoltService.getBalance();
             return ResponseEntity.ok(balance);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

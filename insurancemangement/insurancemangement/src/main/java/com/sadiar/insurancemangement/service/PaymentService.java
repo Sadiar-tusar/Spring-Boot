@@ -24,7 +24,7 @@ public class PaymentService {
     public void payPremium(int id, Double amount) {
 
         Account userAccount = accountService.getUserAccount(id);
-        Account companyAccount = accountService.getCompanyAccount();
+        Account companyAccount = accountService.getCompanyAccount(id);
 
         if (userAccount.getAmount() < amount) {
             throw new RuntimeException("Insufficient balance!");
@@ -36,7 +36,7 @@ public class PaymentService {
 
         // Save updated accounts
         accountService.depositMoney(id, 0.0); // saves user account
-        accountService.getCompanyAccount(); // saves company account via repository
+        accountService.getCompanyAccount(id); // saves company account via repository
         // Alternatively, create saveAccount(Account account) method in AccountService for clarity
 
         // Save payment record
@@ -47,4 +47,6 @@ public class PaymentService {
         payment.setPaymentMode("ACCOUNT_TRANSFER"); // or UPI/CARD
         paymentRepository.save(payment);
     }
+
+
 }
