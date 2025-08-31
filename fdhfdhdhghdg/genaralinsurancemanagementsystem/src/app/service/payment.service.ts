@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environment/environment';
+import { CompanyVoltAccount } from '../model/companyvolt.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +39,9 @@ pay(id: number, amount: number): Observable<string> {
   // Get company balance
   getCompanyBalance(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/company-balance`);
+  }
+
+     getAllCompanyDetails(): Observable<CompanyVoltAccount[]> {
+    return this.http.get<CompanyVoltAccount[]>(`${this.baseUrl}/showcompanydetails`);
   }
 }

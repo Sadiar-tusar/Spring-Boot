@@ -1,10 +1,13 @@
 package com.sadiar.insurancemangement.service;
 
 import com.sadiar.insurancemangement.entity.CompanyVoltAccount;
+import com.sadiar.insurancemangement.entity.FirePolicy;
 import com.sadiar.insurancemangement.repository.ICompanyVoltRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CompanyVoltService {
@@ -38,5 +41,10 @@ public class CompanyVoltService {
     // Get balance
     public Double getBalance() {
         return getVoltAccount().getBalance();
+
+    }
+
+    public List<CompanyVoltAccount> getAllCompanyDetails(){
+        return voltRepository.findAll();
     }
 }

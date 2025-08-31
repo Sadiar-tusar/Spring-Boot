@@ -1,7 +1,9 @@
 package com.sadiar.insurancemangement.restcontroller;
 
 import com.sadiar.insurancemangement.entity.Account;
+import com.sadiar.insurancemangement.entity.CompanyVoltAccount;
 import com.sadiar.insurancemangement.entity.FireMoneyReceipt;
+import com.sadiar.insurancemangement.entity.FirePolicy;
 import com.sadiar.insurancemangement.service.AccountService;
 import com.sadiar.insurancemangement.service.CompanyVoltService;
 import com.sadiar.insurancemangement.service.PaymentService;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -73,5 +76,11 @@ public class PaymentRestController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @GetMapping("/showcompanydetails")
+    public List<CompanyVoltAccount> getAll() {
+
+        return companyVoltService.getAllCompanyDetails();
     }
 }
