@@ -239,7 +239,7 @@ public class AuthService {
         if(!isAdmin) {
             Account account = new Account();
             account.setAmount(0.0);
-            account.setName("User Account"); // Fixed name
+            account.setName(user.getEmail()); // Fixed name
             account.setUser(savedUser);
             accountRepository.save(account);
 

@@ -11,7 +11,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class Payment {
 
-  id: number = 1; // Example user id
+  id: number = 0; // Example user id
   amount: number = 0;
   userBalance: number = 0;
   companyBalance: number = 0;

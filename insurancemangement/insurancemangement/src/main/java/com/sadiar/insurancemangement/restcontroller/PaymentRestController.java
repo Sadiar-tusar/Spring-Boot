@@ -29,18 +29,27 @@ public class PaymentRestController {
     }
 
     // Deposit money into user account
+//    @PostMapping("/deposit/{id}")
+//    public ResponseEntity<String> deposit(@PathVariable int id, @RequestParam Double amount) {
+//        try {
+//            accountService.depositMoney(id, amount);
+//            return ResponseEntity.ok("Deposit successful. Amount: " + amount);
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                    .body("Deposit failed: " + e.getMessage());
+//        }
+//    }
+
     @PostMapping("/deposit/{id}")
-    public ResponseEntity<String> deposit(@PathVariable int id, @RequestParam Double amount) {
-        try {
-            accountService.depositMoney(id, amount);
-            return ResponseEntity.ok("Deposit successful. Amount: " + amount);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Deposit failed: " + e.getMessage());
-        }
+    public ResponseEntity<String> deposit(
+            @PathVariable Long id,
+            @RequestParam Double amount) {
+
+        accountService.depositMoney(id, amount);
+        return ResponseEntity.ok("Deposit successful");
     }
 
-//    // User pays to Company Volt Account
+    //    // User pays to Company Volt Account
     @PostMapping("/pay/{id}")
     public ResponseEntity<String> payPremium(@PathVariable int id, @RequestParam Double amount) {
         try {

@@ -19,34 +19,64 @@ public class PaymentService {
         this.paymentRepository = paymentRepository;
     }
 
+//    // Pay premium from user → company
+//    @Transactional
+//    public void payPremium(int id, Double amount) {
+//
+//        Account userAccount = accountService.getUserAccount(id);
+//        Account companyAccount = accountService.getCompanyAccount(id);
+//
+//        if (userAccount.getAmount() < amount) {
+//            throw new RuntimeException("Insufficient balance!");
+//        }
+//
+//        // Transfer money
+//        userAccount.setAmount(userAccount.getAmount() - amount);
+//        companyAccount.setAmount(companyAccount.getAmount() + amount);
+//
+//        // Save updated accounts
+//        accountService.depositMoney(na, 0.0); // saves user account
+//        accountService.getCompanyAccount(id); // saves company account via repository
+//        // Alternatively, create saveAccount(Account account) method in AccountService for clarity
+//
+//        // Save payment record
+//        Payment payment = new Payment();
+//        payment.setUser(userAccount.getUser());
+//        payment.setAmount(amount);
+//        payment.setPaymentDate(new Date());
+//        payment.setPaymentMode("ACCOUNT_TRANSFER"); // or UPI/CARD
+//        paymentRepository.save(payment);
+//    }
+
+
     // Pay premium from user → company
-    @Transactional
-    public void payPremium(int id, Double amount) {
-
-        Account userAccount = accountService.getUserAccount(id);
-        Account companyAccount = accountService.getCompanyAccount(id);
-
-        if (userAccount.getAmount() < amount) {
-            throw new RuntimeException("Insufficient balance!");
-        }
-
-        // Transfer money
-        userAccount.setAmount(userAccount.getAmount() - amount);
-        companyAccount.setAmount(companyAccount.getAmount() + amount);
-
-        // Save updated accounts
-        accountService.depositMoney(id, 0.0); // saves user account
-        accountService.getCompanyAccount(id); // saves company account via repository
-        // Alternatively, create saveAccount(Account account) method in AccountService for clarity
-
-        // Save payment record
-        Payment payment = new Payment();
-        payment.setUser(userAccount.getUser());
-        payment.setAmount(amount);
-        payment.setPaymentDate(new Date());
-        payment.setPaymentMode("ACCOUNT_TRANSFER"); // or UPI/CARD
-        paymentRepository.save(payment);
-    }
+//    @Transactional
+//    public void payPremium(long id, Double amount) {
+//
+//        Account userAccount = accountService.getUserAccount(id);
+//        Account companyAccount = accountService.getCompanyAccount(id);
+//
+//        if (userAccount.getAmount() < amount) {
+//            throw new RuntimeException("Insufficient balance!");
+//        }
+//
+//        // Transfer money
+//        userAccount.setAmount(userAccount.getAmount() - amount);
+//        companyAccount.setAmount(companyAccount.getAmount() + amount);
+//
+//        // Save updated accounts
+//        accountService.depositMoney(id, 0.0); // saves user account
+//        accountService.getCompanyAccount(id); // saves company account via repository
+//        // Alternatively, create saveAccount(Account account) method in AccountService for clarity
+//
+//        // Save payment record
+//        Payment payment = new Payment();
+//        payment.setUser(userAccount.getUser());
+//        payment.setAmount(amount);
+//        payment.setPaymentDate(new Date());
+//        payment.setPaymentMode("ACCOUNT_TRANSFER"); // or UPI/CARD
+//        paymentRepository.save(payment);
+//    }
 
 
 }

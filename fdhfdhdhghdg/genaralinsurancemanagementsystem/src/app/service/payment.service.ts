@@ -8,6 +8,7 @@ import { CompanyVoltAccount } from '../model/companyvolt.model';
   providedIn: 'root'
 })
 export class PaymentService {
+
    private baseUrl = environment.apiBaseUrl+'/payment';
   constructor(private http: HttpClient) { }
 

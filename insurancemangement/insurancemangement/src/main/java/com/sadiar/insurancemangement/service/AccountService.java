@@ -57,22 +57,50 @@ public class AccountService {
         return account.getAmount();
     }
 
-    // Deposit money into user account
-    public void depositMoney(int id, Double amount) {
-        Account account = accountRepository.findByUserId(id)
-                .orElseGet(() -> {
-                    User user = userRepository.findById(id)
-                            .orElseThrow(() -> new RuntimeException("User not found"));
-                    Account newAccount = new Account();
-                    newAccount.setUser(user);
-                    newAccount.setAmount(0.0); // start with 0
-                    return accountRepository.save(newAccount);
-                });
+//    // Deposit money into user account
+//    public void depositMoney(long id, Double amount) {
+//        Account account = accountRepository.findByUserId(id)
+//                .orElseGet(() -> {
+//
+////                    Account newAccount = new Account();
+//
+//                    account.setAmount(0.0); // start with 0
+//                    return accountRepository.save(account);
+//                });
+//
+//        // Deposit amount add
+//        account.setAmount(account.getAmount() + amount);
+//        accountRepository.save(account);
+//    }
 
-        // Deposit amount add
-        account.setAmount(account.getAmount() + amount);
-        accountRepository.save(account);
-    }
+//    // Deposit money into user account
+//    public void depositMoney(long id, Double amount) {
+//        Account account = accountRepository.findByUserId(id)
+//                .orElseGet(() -> {
+//                    Account account1 = accountRepository.findById(id)
+//                            .orElseThrow(() -> new RuntimeException("User not found"));
+//                    Account newAccount = new Account();
+//                    newAccount.setId(account1);
+//                    newAccount.setAmount(0.0); // start with 0
+//                    return accountRepository.save(newAccount);
+//                });
+//
+//        // Deposit amount add
+//        account.setAmount(account.getAmount() + amount);
+//        accountRepository.save(account);
+//    }
+
+// Deposit money into an account using the Account's primary key (ID)
+public void depositMoney(Long id, Double amount) {
+    Account account = accountRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Account not found with ID: " + id));
+
+    // Add the deposit amount to the existing balance
+    account.setAmount(account.getAmount() + amount);
+
+    // Save the updated account
+    accountRepository.save(account);
+}
 
 
     // Fetch user account by userId

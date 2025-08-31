@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { PaymentService } from '../../service/payment.service';
 import { Router } from '@angular/router';
+import { Account } from '../../model/account.model';
 
 @Component({
   selector: 'app-accountforadmin',
@@ -13,13 +14,14 @@ import { Router } from '@angular/router';
   styleUrl: './accountforadmin.css'
 })
 export class Accountforadmin {
-
+accountId!:number
  id: number = 1; // Example user id
   amount: number = 0;
   userBalance: number = 0;
   companyBalance: number = 0;
   message: string = '';
   paymentForm!: FormGroup;
+  // voltId:Number=1;
 
   constructor(private paymentService: PaymentService,
     private router: Router,
@@ -58,7 +60,13 @@ export class Accountforadmin {
   }
 
    deposit(): void {
-    this.paymentService.deposit(this.id, this.amount)
+
+    if (!this.accountId || !this.amount) {
+    this.message = 'Please enter both Account ID and Amount';
+    return;
+  }
+    
+    this.paymentService.deposit(this.accountId, this.amount)
       .subscribe({
         next: balance => {
           this.message = (balance as any).message || 'Deposite successful';
