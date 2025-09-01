@@ -1,5 +1,6 @@
 package com.sadiar.insurancemangement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -19,14 +20,17 @@ public class Payment {
     private String paymentMode; // UPI, CARD, CASH
 
     @ManyToOne
+
     @JoinColumn(name = "user_id")
     private User user; // যিনি payment করছেন
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "fire_policy_id")
     private FirePolicy firePolicy;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "car_policy_id")
     private CarPolicy carPolicy;
 

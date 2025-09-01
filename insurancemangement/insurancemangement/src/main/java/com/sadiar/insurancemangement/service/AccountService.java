@@ -123,36 +123,69 @@ public void depositMoney(Long id, Double amount) {
         return getCompanyAccount(id).getAmount();
     }
 
-    // User pays to Volt Account
-    public void payToVolt(long id, Double amount) {
-        // User account
-        Account userAccount = accountRepository.findByUserId(id)
-                .orElseThrow(() -> new RuntimeException("User account not found"));
+//    // User pays to Volt Account
+//    public void payToVolt(long id, Double amount) {
+//        // User account
+//        Account userAccount = accountRepository.findByUserId(id)
+//                .orElseThrow(() -> new RuntimeException("User account not found"));
+//
+//        // Volt account
+//        CompanyVoltAccount voltAccount = voltRepository.findAll().stream().findFirst()
+//                .orElseThrow(() -> new RuntimeException("Volt account not found"));
+//
+//        if (userAccount.getAmount() < amount) {
+//            throw new RuntimeException("Insufficient balance in user account");
+//        }
+//
+//        // Deduct from user
+//        userAccount.setAmount(userAccount.getAmount() - amount);
+//        accountRepository.save(userAccount);
+//
+//        // Add to Volt account
+//        voltAccount.setBalance(voltAccount.getBalance() + amount);
+//        voltRepository.save(voltAccount);
+//
+//        // Save payment record
+//        Payment payment = new Payment();
+//        payment.setUser(userAccount.getUser());
+//        payment.setAmount(amount);
+//        payment.setPaymentDate(new Date());
+//        payment.setPaymentMode("ACCOUNT_TRANSFER");
+//        paymentRepository.save(payment);
+//    }
 
-        // Volt account
-        CompanyVoltAccount voltAccount = voltRepository.findAll().stream().findFirst()
-                .orElseThrow(() -> new RuntimeException("Volt account not found"));
+    // Transfer money from one user account to another (or Volt)
+    public void payToVolt(long senderId, long receiverId, Double amount) {
+        // Sender account
+        Account senderAccount = accountRepository.findByUserId(senderId)
+                .orElseThrow(() -> new RuntimeException("Sender account not found"));
 
-        if (userAccount.getAmount() < amount) {
-            throw new RuntimeException("Insufficient balance in user account");
+        // Receiver account
+        CompanyVoltAccount receiverAccount = voltRepository.findById(receiverId)
+                .orElseThrow(() -> new RuntimeException("Receiver account not found"));
+
+        // Balance check
+        if (senderAccount.getAmount() < amount) {
+            throw new RuntimeException("Insufficient balance in sender account");
         }
 
-        // Deduct from user
-        userAccount.setAmount(userAccount.getAmount() - amount);
-        accountRepository.save(userAccount);
+        // Deduct from sender
+        senderAccount.setAmount(senderAccount.getAmount() - amount);
+        accountRepository.save(senderAccount);
 
-        // Add to Volt account
-        voltAccount.setBalance(voltAccount.getBalance() + amount);
-        voltRepository.save(voltAccount);
+        // Add to receiver
+        receiverAccount.setBalance(receiverAccount.getBalance() + amount);
+        voltRepository.save(receiverAccount);
 
         // Save payment record
         Payment payment = new Payment();
-        payment.setUser(userAccount.getUser());
+        payment.setUser(senderAccount.getUser());
         payment.setAmount(amount);
         payment.setPaymentDate(new Date());
         payment.setPaymentMode("ACCOUNT_TRANSFER");
         paymentRepository.save(payment);
     }
+
 
 
 

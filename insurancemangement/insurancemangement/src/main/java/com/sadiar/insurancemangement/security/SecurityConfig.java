@@ -60,9 +60,11 @@ public class SecurityConfig {
                                 "/api/user/profile",
                                 "/api/payment/deposit/**",
                                 "/api/payment/balance/**",
-                                "/api/payment/pay/**",
+                                "/api/payment/pay",
                                 "/api/payment/company-balance/**",
-                                "/api/payment/showcompanydetails"
+                                "/api/payment/showcompanydetails",
+                                "/api/payment/allpaymentdetails",
+                                "/api/user/all"
                                 ).permitAll()
 
                         // Protected endpoints

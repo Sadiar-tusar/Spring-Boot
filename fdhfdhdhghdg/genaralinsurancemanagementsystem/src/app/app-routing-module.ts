@@ -32,6 +32,8 @@ import { Updatecarbill } from './component/car/updatecarbill/updatecarbill';
 import { Payment } from './component/payment/payment';
 import { Accountforadmin } from './component/accountforadmin/accountforadmin';
 import { Showcompanyvolt } from './component/showcompanyvolt/showcompanyvolt';
+import { Adddepositeadmintouser } from './component/adddepositeadmintouser/adddepositeadmintouser';
+import { Showpaymentdetails } from './component/showpaymentdetails/showpaymentdetails';
 
 
 const routes: Routes = [
@@ -69,7 +71,9 @@ const routes: Routes = [
    { path: "updatecarbill/:id", component: Updatecarbill},
    { path: "userpayment", component: Payment},
    { path: "paymenttovolt", component: Accountforadmin},
-   { path: "showcompanyvolt", component: Showcompanyvolt}
+   { path: "showcompanyvolt", component: Showcompanyvolt},
+   { path: "depositetouser", component: Adddepositeadmintouser},
+   { path: "showpaymentdetails", component: Showpaymentdetails},
 
   
 

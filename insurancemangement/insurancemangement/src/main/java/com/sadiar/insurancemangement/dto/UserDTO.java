@@ -7,6 +7,9 @@ public class UserDTO {
     private String phone;
     private String photo;
 
+    public UserDTO() {
+    }
+
     public UserDTO(int id, String name, String email, String phone, String photo) {
         this.id = id;
         this.name = name;

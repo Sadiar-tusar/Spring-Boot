@@ -1,10 +1,10 @@
 package com.sadiar.insurancemangement.restcontroller;
 
-import com.sadiar.insurancemangement.entity.Account;
-import com.sadiar.insurancemangement.entity.CompanyVoltAccount;
-import com.sadiar.insurancemangement.entity.FireMoneyReceipt;
-import com.sadiar.insurancemangement.entity.FirePolicy;
+import com.sadiar.insurancemangement.dto.PaymentDTO;
+import com.sadiar.insurancemangement.dto.UserDTO;
+import com.sadiar.insurancemangement.entity.*;
 import com.sadiar.insurancemangement.service.AccountService;
+import com.sadiar.insurancemangement.service.AuthService;
 import com.sadiar.insurancemangement.service.CompanyVoltService;
 import com.sadiar.insurancemangement.service.PaymentService;
 import org.springframework.http.HttpStatus;
@@ -21,11 +21,13 @@ public class PaymentRestController {
     private final AccountService accountService;
     private final PaymentService paymentService;
     private final CompanyVoltService companyVoltService;
+    private final AuthService  authService;
 
-    public PaymentRestController(AccountService accountService, PaymentService paymentService,CompanyVoltService companyVoltService) {
+    public PaymentRestController(AccountService accountService, PaymentService paymentService,CompanyVoltService companyVoltService, AuthService  authService) {
         this.accountService = accountService;
         this.paymentService = paymentService;
         this.companyVoltService = companyVoltService;
+        this.authService = authService;
     }
 
     // Deposit money into user account
@@ -50,15 +52,29 @@ public class PaymentRestController {
     }
 
     //    // User pays to Company Volt Account
-    @PostMapping("/pay/{id}")
-    public ResponseEntity<String> payPremium(@PathVariable int id, @RequestParam Double amount) {
+//    @PostMapping("/pay/{id}")
+//    public ResponseEntity<String> payPremium(@PathVariable int id, @RequestParam Double amount) {
+//        try {
+//             accountService.payToVolt(id, amount);
+//            return ResponseEntity.ok("message");
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.badRequest().body("Payment failed: " + e.getMessage());
+//        }
+//    }
+
+    @PostMapping("/pay")
+    public ResponseEntity<String> payPremium(
+            @RequestParam long senderId,
+            @RequestParam long receiverId,
+            @RequestParam Double amount) {
         try {
-             accountService.payToVolt(id, amount);
-            return ResponseEntity.ok("message");
+            accountService.payToVolt(senderId, receiverId, amount);
+            return ResponseEntity.ok("Payment successful");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body("Payment failed: " + e.getMessage());
         }
     }
+
 
 //    @PostMapping("/pay/{id}")
 //    public Account payPremium(@RequestBody FireMoneyReceipt b,
@@ -91,5 +107,21 @@ public class PaymentRestController {
     public List<CompanyVoltAccount> getAll() {
 
         return companyVoltService.getAllCompanyDetails();
+    }
+
+//    @GetMapping("/allpaymentdetails")
+//    public List<Payment> getAllPayment() {
+//
+//        return paymentService.getAllPaymentDetails();
+//    }
+
+    @GetMapping("/allpaymentdetails")
+    public List<PaymentDTO> getAllPayment() {
+        return paymentService.getAllPaymentDetails();
+    }
+
+    @GetMapping("")
+    public List<UserDTO> getAllUserDetails() {
+        return authService.getAllUserDetails();
     }
 }

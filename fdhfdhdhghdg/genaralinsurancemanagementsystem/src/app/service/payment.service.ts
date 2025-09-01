@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environment/environment';
 import { CompanyVoltAccount } from '../model/companyvolt.model';
+import { Payment } from '../model/payment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,20 @@ pay(id: number, amount: number): Observable<string> {
   });
 }
 
+// Transfer money between accounts (user-to-user OR user-to-volt)
+payAmount(senderId: number, receiverId: number, amount: number): Observable<string> {
+  const params = new HttpParams()
+    .set('senderId', senderId.toString())
+    .set('receiverId', receiverId.toString())
+    .set('amount', amount.toString());
+
+  return this.http.post(`${this.baseUrl}/pay`, null, { 
+    params,
+    responseType: 'text' // so we get string response from backend
+  });
+}
+
+
 
   // Get user account balance
   getUserBalance(id: number): Observable<any> {
@@ -45,4 +60,8 @@ pay(id: number, amount: number): Observable<string> {
      getAllCompanyDetails(): Observable<CompanyVoltAccount[]> {
     return this.http.get<CompanyVoltAccount[]>(`${this.baseUrl}/showcompanydetails`);
   }
+
+   getAllPaymentDetails(): Observable<Payment[]> {
+    return this.http.get<Payment[]>(`${this.baseUrl}/allpaymentdetails`);
+}
 }

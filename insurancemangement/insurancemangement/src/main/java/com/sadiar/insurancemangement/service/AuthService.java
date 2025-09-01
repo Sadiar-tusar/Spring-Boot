@@ -1,6 +1,8 @@
 package com.sadiar.insurancemangement.service;
 
 import com.sadiar.insurancemangement.dto.AuthenticationResponse;
+import com.sadiar.insurancemangement.dto.PaymentDTO;
+import com.sadiar.insurancemangement.dto.UserDTO;
 import com.sadiar.insurancemangement.entity.*;
 import com.sadiar.insurancemangement.jwt.JwtService;
 import com.sadiar.insurancemangement.repository.IAccountRepository;
@@ -227,7 +229,7 @@ public class AuthService {
             user.setActive(true); // Admin সরাসরি active হবে
         } else {
             user.setRole(Role.USER);
-            user.setActive(false); // User কে activate করতে হবে
+            user.setActive(true); // User কে activate করতে হবে
         }
 
         user.setLock(false);
@@ -436,6 +438,20 @@ public class AuthService {
             return  "Invalid Activation Token!";
         }
 
+    }
+
+    public List<UserDTO> getAllUserDetails() {
+        return userRepo.findAll().stream().map(atten -> {
+        UserDTO dto = new UserDTO();
+            dto.setId(atten.getId());
+            dto.setEmail(atten.getEmail());
+            dto.setName(atten.getName());
+            dto.setPhone(atten.getPhone());
+
+
+
+            return dto;
+        }).toList();
     }
 
 

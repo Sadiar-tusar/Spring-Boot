@@ -38,6 +38,8 @@ import { Updatecarbill } from './component/car/updatecarbill/updatecarbill';
 import { Payment } from './component/payment/payment';
 import { Accountforadmin } from './component/accountforadmin/accountforadmin';
 import { Showcompanyvolt } from './component/showcompanyvolt/showcompanyvolt';
+import { Adddepositeadmintouser } from './component/adddepositeadmintouser/adddepositeadmintouser';
+import { Showpaymentdetails } from './component/showpaymentdetails/showpaymentdetails';
 
 
 
@@ -79,7 +81,9 @@ import { Showcompanyvolt } from './component/showcompanyvolt/showcompanyvolt';
     Updatecarbill,
     Payment,
     Accountforadmin,
-    Showcompanyvolt
+    Showcompanyvolt,
+    Adddepositeadmintouser,
+    Showpaymentdetails
    
    
     

@@ -3,6 +3,7 @@ package com.sadiar.insurancemangement.restcontroller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sadiar.insurancemangement.dto.AuthenticationResponse;
+import com.sadiar.insurancemangement.dto.UserDTO;
 import com.sadiar.insurancemangement.entity.User;
 import com.sadiar.insurancemangement.repository.ITokenRepository;
 import com.sadiar.insurancemangement.repository.IUserRepository;
@@ -72,13 +73,17 @@ public class UserRestController {
 
 
 
-    @GetMapping("all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = authService.findAll();
-        return ResponseEntity.ok(users);
+//    @GetMapping("all")
+//    public ResponseEntity<List<User>> getAllUsers() {
+//        List<User> users = authService.findAll();
+//        return ResponseEntity.ok(users);
+//
+//    }
 
+    @GetMapping("/all")
+    public List<UserDTO> getAllUserDetails() {
+        return authService.getAllUserDetails();
     }
-
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(Authentication authentication) {
         if (authentication == null || authentication.getName() == null) {

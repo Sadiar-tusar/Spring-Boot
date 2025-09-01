@@ -1,59 +1,54 @@
 <div class="payment-container card-style">
-  <h2>Account Management</h2>
+  <h2 class="text-center mb-4">💳 Smart Account Transfer</h2>
 
-  <div class="form-group">
-    <label for="accountId">Account ID (Primary Key):</label>
-    <input type="number" [(ngModel)]="accountId" class="form-control" id="accountId" placeholder="Enter Account ID" />
-  </div>
-
-  <!-- Balance display -->
-  <p class="balance">User Balance: {{ userBalance | currency }}</p>
-  <!-- <p>Company Balance: {{ companyBalance | currency }}</p> -->
-
-  <!-- Amount input -->
-  <div class="form-group">
-    <label for="amount">Amount:</label>
-    <input type="number" [(ngModel)]="amount" class="form-control input-animated" id="amount"
-      placeholder="Enter amount" />
-  </div>
-
-  <!-- Action buttons -->
-  <div class="button-group">
-    <button (click)="deposit()" class="btn custom-btn success">Deposit</button>
-    <!-- <button (click)="addPay()" class="btn custom-btn primary">Pay to Company Volt</button> -->
-  </div>
-
-  <!-- Message -->
-  <p class="message" *ngIf="message">{{ message }}</p>
-</div>
-<div>
-  <div class="payment-container card-style">
-    <h2>Account Management</h2>
-
+  <!-- Form -->
+  <form [formGroup]="paymentForm" (ngSubmit)="addPay()">
+    
+    <!-- Sender -->
     <div class="form-group">
-      <label for="accountId">Volt Account ID (Primary Key):</label>
-      <input type="number" [(ngModel)]="accountId" class="form-control" id="accountId"
-        placeholder="Enter Volt Account ID" />
+      <label for="senderId">Sender Account ID:</label>
+      <input
+        type="number"
+        id="senderId"
+        formControlName="senderId"
+        class="form-control input-animated"
+        placeholder="Enter sender account ID"
+      />
     </div>
 
-    <!-- Balance display -->
-    <p class="balance">User Balance: {{ userBalance | currency }}</p>
-    <!-- <p>Company Balance: {{ companyBalance | currency }}</p> -->
+    <!-- Receiver -->
+    <div class="form-group">
+      <label for="receiverId">Receiver Account ID:</label>
+      <input
+        type="number"
+        id="receiverId"
+        formControlName="receiverId"
+        class="form-control input-animated"
+        placeholder="Enter receiver account ID"
+      />
+    </div>
 
-    <!-- Amount input -->
+    <!-- Amount -->
     <div class="form-group">
       <label for="amount">Amount:</label>
-      <input type="number" [(ngModel)]="amount" class="form-control input-animated" id="amount"
-        placeholder="Enter amount" />
+      <input
+        type="number"
+        id="amount"
+        formControlName="amount"
+        class="form-control input-animated"
+        placeholder="Enter amount"
+      />
     </div>
 
-    <!-- Action buttons -->
+    <!-- Buttons -->
     <div class="button-group">
-      <!-- <button (click)="deposit()" class="btn custom-btn success">Deposit</button> -->
-      <button (click)="addPay()" class="btn custom-btn primary">Pay to Company Volt</button>
+      <button type="submit" class="btn custom-btn primary">🚀 Transfer</button>
     </div>
+  </form>
 
-    <!-- Message -->
-    <p class="message" *ngIf="message">{{ message }}</p>
+  <!-- Result -->
+  <div class="mt-3 text-center">
+    <p *ngIf="message" class="message">{{ message }}</p>
+    <p class="balance"><strong>🏦 Company Volt Balance:</strong> {{ companyBalance }}</p>
   </div>
 </div>

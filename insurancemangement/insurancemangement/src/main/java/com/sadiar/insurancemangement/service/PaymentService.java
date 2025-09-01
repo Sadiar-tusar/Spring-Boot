@@ -1,12 +1,17 @@
 package com.sadiar.insurancemangement.service;
 
+import com.sadiar.insurancemangement.dto.PaymentDTO;
+import com.sadiar.insurancemangement.dto.UserDTO;
 import com.sadiar.insurancemangement.entity.Account;
+import com.sadiar.insurancemangement.entity.CompanyVoltAccount;
 import com.sadiar.insurancemangement.entity.Payment;
+import com.sadiar.insurancemangement.entity.User;
 import com.sadiar.insurancemangement.repository.IPaymentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PaymentService {
@@ -78,5 +83,34 @@ public class PaymentService {
 //        paymentRepository.save(payment);
 //    }
 
+
+//    public List<Payment> getAllPaymentDetails(){
+//        return paymentRepository.findAll();
+//    }
+
+    public List<PaymentDTO> getAllPaymentDetails() {
+        return paymentRepository.findAll().stream().map(atten -> {
+            PaymentDTO dto = new PaymentDTO();
+            dto.setId(atten.getId());
+            dto.setAmount(atten.getAmount());
+            dto.setPaymentDate(atten.getPaymentDate());
+            dto.setPaymentMode(atten.getPaymentMode());
+
+
+            User user = atten.getUser();
+            if (user != null) {
+                UserDTO userDTO = new UserDTO();
+                userDTO.setId(user.getId());
+                userDTO.setName(user.getName());
+                userDTO.setEmail(user.getEmail());
+                userDTO.setPhone(user.getPhone());
+
+                dto.setUser(userDTO);
+
+
+            }
+            return dto;
+        }).toList();
+    }
 
 }

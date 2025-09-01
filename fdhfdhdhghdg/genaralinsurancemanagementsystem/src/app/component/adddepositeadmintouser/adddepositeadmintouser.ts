@@ -1,20 +1,17 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { environment } from '../../environment/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { PaymentService } from '../../service/payment.service';
 import { Router } from '@angular/router';
-import { Account } from '../../model/account.model';
 
 @Component({
-  selector: 'app-accountforadmin',
+  selector: 'app-adddepositeadmintouser',
   standalone: false,
-  templateUrl: './accountforadmin.html',
-  styleUrl: './accountforadmin.css'
+  templateUrl: './adddepositeadmintouser.html',
+  styleUrl: './adddepositeadmintouser.css'
 })
-export class Accountforadmin {
-accountId!:number
+export class Adddepositeadmintouser {
+
+  accountId!:number
  id: number = 1; // Example user id
   amount: number = 0;
   userBalance: number = 0;
@@ -30,11 +27,7 @@ accountId!:number
   ) { }
 
   ngOnInit(): void {
-     this.paymentForm = this.formBuilder.group({
-      senderId: ['', Validators.required],
-      receiverId: ['', Validators.required],
-      amount: ['', [Validators.required, Validators.min(1)]]
-    });
+    
     this.loadBalances();
   }
 
@@ -79,10 +72,11 @@ accountId!:number
           this.loadBalances();
           this.cdr.markForCheck();
           this.cdr.reattach();
-          this.paymentForm.reset();
-           window.location.reload();
-          // form reset
+          // reset form fields
+      this.accountId = 0;
       this.amount = 0;
+
+      this.cdr.detectChanges(); // update view
         },
         error: error => {
           console.error('Error :', error);
@@ -147,29 +141,26 @@ accountId!:number
   //     });
   // }
 
-  addPay(): void {
-    if (this.paymentForm.invalid) {
-      this.message = 'Please fill all fields correctly';
-      return;
-    }
+  // addPay(): void {
+  //   if (this.paymentForm.invalid) {
+  //     this.message = 'Please fill all fields correctly';
+  //     return;
+  //   }
 
-    const { senderId, receiverId, amount } = this.paymentForm.value;
+  //   const { senderId, receiverId, amount } = this.paymentForm.value;
 
-    this.paymentService.payAmount(senderId, receiverId, amount)
-      .subscribe({
-        next: res => {
-          this.message = res || 'Transfer successful';
-          this.loadBalances();
-          this.paymentForm.reset();
-          this.cdr.detectChanges();
-        },
-        error: err => {
-          this.message = err.error || 'Transfer failed';
-          console.error('Error :', err);
-        }
-      });
-  }
-
-
-
+  //   this.paymentService.payAmount(senderId, receiverId, amount)
+  //     .subscribe({
+  //       next: res => {
+  //         this.message = res || 'Transfer successful';
+  //         this.loadBalances();
+  //         this.paymentForm.reset();
+  //         this.cdr.detectChanges();
+  //       },
+  //       error: err => {
+  //         this.message = err.error || 'Transfer failed';
+  //         console.error('Error :', err);
+  //       }
+  //     });
+  // }
 }
