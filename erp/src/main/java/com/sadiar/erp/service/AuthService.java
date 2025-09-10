@@ -160,34 +160,62 @@ public class AuthService {
     }
 
 
-    public void registerEmployee(User user, MultipartFile imageFile, Employee employee) {
-        if (imageFile != null && !imageFile.isEmpty()) {
-            // Save image for both User and employee
-            String filename = saveImage(imageFile, user);
-            String employeePhoto = saveImageForEmployee(imageFile, employee);
-            employee.setPhoto(employeePhoto);
-            user.setPhoto(filename);
-        }
-
-        // Encode password before saving User
-        user.setPassword(user.getPassword());
-        user.setRole(Role.EMPLOYEE);
-//        user.setActive(false);
-
-        // Save User FIRST and get persisted instance
-        User savedUser = userRepo.save(user);
-
-        // Now, associate saved User with JobSeeker and save JobSeeker
-        employee.setUser(savedUser);
-        employeeService.createEmployee(employee);
-
-//        // Now generate token and save Token associated with savedUser
-//        String jwt = jwtService.generateToken(savedUser);
-//        saveUserToken(jwt, savedUser);
+//    public void registerEmployee(User user, MultipartFile imageFile, Employee employee) {
+//        if (imageFile != null && !imageFile.isEmpty()) {
+//            // Save image for both User and employee
+//            String filename = saveImage(imageFile, user);
+//            String employeePhoto = saveImageForEmployee(imageFile, employee);
+//            employee.setPhoto(employeePhoto);
+//            user.setPhoto(filename);
+//        }
 //
-//        // Send Activation Email
-//        sendActivationEmail(savedUser);
+//        // Encode password before saving User
+//        user.setPassword(user.getPassword());
+//        user.setRole(Role.EMPLOYEE);
+////        user.setActive(false);
+//
+//        // Save User FIRST and get persisted instance
+//        User savedUser = userRepo.save(user);
+//
+//        // Now, associate saved User with JobSeeker and save JobSeeker
+//        employee.setUser(savedUser);
+//        employeeService.createEmployee(employee);
+//
+////        // Now generate token and save Token associated with savedUser
+////        String jwt = jwtService.generateToken(savedUser);
+////        saveUserToken(jwt, savedUser);
+////
+////        // Send Activation Email
+////        sendActivationEmail(savedUser);
+//    }
+
+//Employ plus user Save
+public void registerEmployee(User user, MultipartFile imageFile, Employee employeeData) {
+    if (imageFile != null && !imageFile.isEmpty()) {
+        String filename = saveImage(imageFile, user);
+        String employeePhoto = saveImageForEmployee(imageFile, employeeData);
+        employeeData.setPhoto(employeePhoto);
+        user.setPhoto(filename);
     }
+    user.setPassword(user.getPassword());
+    user.setRole(Role.EMPLOYEE);
+//    user.setActive(true);
+    User savedUser = userRepo.save(user);
+
+    employeeData.setUser(savedUser);
+
+//    if (employeeData.getDateOfJoining() != null) {
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTime(employeeData.getDateOfJoining());
+//        cal.add(Calendar.YEAR,30); //joining date theke 30 year.
+//        employeeData.setRetirementDate(cal.getTime());
+//    }
+    employeeService.createEmployee(employeeData);
+
+//    sendEmployeeWelcomeEmail(employeeData);
+
+}
+
 
 
 }
