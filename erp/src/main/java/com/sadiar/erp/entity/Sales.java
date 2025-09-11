@@ -19,19 +19,29 @@ public class Sales {
     private Date salesDate;
     private Double totalAmount;
 
+    @Enumerated(EnumType.STRING)
+    private SalesStatus status = SalesStatus.PENDING; // default PENDING
+
     @OneToMany(mappedBy = "sales", cascade = CascadeType.ALL)
     private List<SalesItem> items = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
 
     public Sales() {
     }
 
-    public Sales(Long id, String salesCode, String customerName, Date salesDate, Double totalAmount, List<SalesItem> items) {
+    public Sales(Long id, String salesCode, String customerName, Date salesDate, Double totalAmount, SalesStatus status, List<SalesItem> items, Customer customer) {
         this.id = id;
         this.salesCode = salesCode;
         this.customerName = customerName;
         this.salesDate = salesDate;
         this.totalAmount = totalAmount;
+        this.status = status;
         this.items = items;
+        this.customer = customer;
     }
 
     public Long getId() {
@@ -74,11 +84,27 @@ public class Sales {
         this.totalAmount = totalAmount;
     }
 
+    public SalesStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(SalesStatus status) {
+        this.status = status;
+    }
+
     public List<SalesItem> getItems() {
         return items;
     }
 
     public void setItems(List<SalesItem> items) {
         this.items = items;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

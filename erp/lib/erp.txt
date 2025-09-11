@@ -1,0 +1,894 @@
+🏭 ERP System – Enterprise Resource Planning
+🎯 Core Idea
+
+একটা সিস্টেম যেখানে একটা কোম্পানির Human Resource, Sales, Inventory, Finance, Purchase, Payroll সবকিছু এক জায়গা থেকে manage করা যাবে।
+
+🔹 Major Modules & Features
+1. HR & Employee Management
+
+Employee Registration, Department, Role Assignments
+
+Attendance Tracking (Check-in/Check-out)
+
+Leave Requests & Approvals
+
+Payroll Integration
+
+2. Inventory Management
+
+Product Categories & Items
+
+Stock In/Out Tracking
+
+Warehouse Management
+
+Low Stock Alerts
+
+3. Sales Management
+
+Customer Management (CRM basics)
+
+Quotation → Sales Order → Invoice Flow
+
+Order Tracking (Pending, Shipped, Delivered)
+
+Sales Reports
+
+4. Purchase Management
+
+Vendor Management
+
+Purchase Requests, Purchase Orders
+
+Goods Received Notes (GRN)
+
+Payment Tracking
+
+5. Accounting & Finance
+
+Ledger & Journal Entries
+
+Invoices (Sales/Purchase)
+
+Expense Management
+
+Balance Sheet, Profit/Loss Statements
+
+6. Admin & Role-Based Access
+
+Super Admin → Manage all modules
+
+HR → Employee + Payroll
+
+Inventory Manager → Stock & Products
+
+Sales Manager → Customers, Orders
+
+Finance → Accounting + Reports
+
+🔹 Database Design (MySQL/PostgreSQL)
+
+Tables (Sample):
+
+users (id, name, email, password, role, department_id)
+
+departments (id, name)
+
+employees (id, user_id, designation, salary, hire_date)
+
+attendance (id, employee_id, date, check_in, check_out)
+
+products (id, name, category, stock_qty, unit_price)
+
+vendors (id, name, email, phone, address)
+
+customers (id, name, email, phone, address)
+
+sales_orders (id, customer_id, order_date, status)
+
+sales_order_items (id, order_id, product_id, qty, price)
+
+purchase_orders (id, vendor_id, order_date, status)
+
+purchase_order_items (id, order_id, product_id, qty, price)
+
+invoices (id, type, reference_id, amount, due_date, status)
+
+transactions (id, invoice_id, payment_date, payment_method, amount)
+
+🔹 Backend (Spring Boot)
+
+Package Structure:
+
+com.erp
+ ├── config (Security, JWT, CORS)
+ ├── controller (HRController, InventoryController, SalesController, PurchaseController, FinanceController, AuthController)
+ ├── dto (EmployeeDTO, ProductDTO, OrderDTO, InvoiceDTO, etc.)
+ ├── entity (User, Employee, Product, Vendor, Customer, SalesOrder, PurchaseOrder, Invoice, Transaction, etc.)
+ ├── repository (JpaRepositories)
+ ├── service (HRService, InventoryService, SalesService, PurchaseService, FinanceService)
+ ├── exception (GlobalExceptionHandler, CustomExceptions)
+ └── ErpApplication.java
+
+
+API Examples:
+
+Auth → /api/auth/login, /api/auth/register
+
+HR → /api/employees, /api/attendance, /api/payroll
+
+Inventory → /api/products, /api/stock, /api/warehouse
+
+Sales → /api/sales/orders, /api/customers, /api/invoices/sales
+
+Purchase → /api/purchase/orders, /api/vendors, /api/invoices/purchase
+
+Finance → /api/transactions, /api/reports/balance-sheet, /api/reports/profit-loss
+
+🔹 Frontend (Angular)
+
+Folder Structure:
+
+src/app
+ ├── core
+ │   ├── services (auth.service, hr.service, sales.service, inventory.service, finance.service)
+ │   ├── guards (auth.guard, admin.guard, role.guard)
+ │   ├── interceptors (auth.interceptor)
+ │   └── models (employee.model, product.model, order.model, invoice.model, etc.)
+ │
+ ├── shared
+ │   ├── components (navbar, sidebar, footer, table, modal, card)
+ │   └── pipes (filter, date-format)
+ │
+ ├── features
+ │   ├── auth (login, register, profile)
+ │   ├── hr (employee-list, attendance, payroll)
+ │   ├── inventory (product-list, stock-management, warehouse)
+ │   ├── sales (customers, sales-orders, invoices)
+ │   ├── purchase (vendors, purchase-orders, invoices)
+ │   ├── finance (transactions, reports, balance-sheet)
+ │   └── admin (dashboard, user-management, role-management)
+ │
+ ├── app-routing.module.ts
+ └── app.component.ts/html/css
+
+
+UI Components:
+
+Dashboard (KPIs: total sales, revenue, stock status)
+
+DataTables (sortable, filterable for employees, products, orders)
+
+Charts (monthly sales, expenses vs revenue)
+
+PDF Export (invoices, reports)
+
+🔹 Advanced Production Features
+
+Security: Spring Security + JWT + Role-based Access
+
+Reports: PDF/Excel export (JasperReports/Apache POI)
+
+Scheduler Jobs: Auto payroll calculation, low-stock alerts
+
+Caching: Redis for frequently accessed reports
+
+Deployment: Dockerized microservices, Nginx + Angular, AWS/Azure hosting
+
+
+
+
+
+1️⃣ Users
+UserRepository
+package com.erp.repository;
+
+import com.erp.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
+}
+
+UserService
+package com.erp.service;
+
+import com.erp.entity.User;
+import com.erp.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+    private final UserRepository userRepo;
+
+    public List<User> getAllUsers() {
+        return userRepo.findAll();
+    }
+
+    public Optional<User> getUserById(Long id) {
+        return userRepo.findById(id);
+    }
+
+    public User createUser(User user) {
+        return userRepo.save(user);
+    }
+
+    public User updateUser(Long id, User user) {
+        return userRepo.findById(id).map(existing -> {
+            existing.setName(user.getName());
+            existing.setEmail(user.getEmail());
+            existing.setPassword(user.getPassword());
+            existing.setDepartment(user.getDepartment());
+            existing.setRoles(user.getRoles());
+            return userRepo.save(existing);
+        }).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public void deleteUser(Long id) {
+        userRepo.deleteById(id);
+    }
+}
+
+UserController
+package com.erp.controller;
+
+import com.erp.entity.User;
+import com.erp.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/users")
+@RequiredArgsConstructor
+public class UserController {
+
+    private final UserService userService;
+
+    @GetMapping
+    public List<User> getAll() {
+        return userService.getAllUsers();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getById(@PathVariable Long id) {
+        return userService.getUserById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public User create(@RequestBody User user) {
+        return userService.createUser(user);
+    }
+
+    @PutMapping("/{id}")
+    public User update(@PathVariable Long id, @RequestBody User user) {
+        return userService.updateUser(id, user);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+}
+
+2️⃣ Department
+DepartmentRepository
+package com.erp.repository;
+
+import com.erp.entity.Department;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface DepartmentRepository extends JpaRepository<Department, Long> {}
+
+DepartmentService
+package com.erp.service;
+
+import com.erp.entity.Department;
+import com.erp.repository.DepartmentRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class DepartmentService {
+
+    private final DepartmentRepository deptRepo;
+
+    public List<Department> getAllDepartments() {
+        return deptRepo.findAll();
+    }
+
+    public Department getDepartmentById(Long id) {
+        return deptRepo.findById(id).orElseThrow(() -> new RuntimeException("Department not found"));
+    }
+
+    public Department createDepartment(Department dept) {
+        return deptRepo.save(dept);
+    }
+
+    public Department updateDepartment(Long id, Department dept) {
+        return deptRepo.findById(id).map(existing -> {
+            existing.setName(dept.getName());
+            return deptRepo.save(existing);
+        }).orElseThrow(() -> new RuntimeException("Department not found"));
+    }
+
+    public void deleteDepartment(Long id) {
+        deptRepo.deleteById(id);
+    }
+}
+
+DepartmentController
+package com.erp.controller;
+
+import com.erp.entity.Department;
+import com.erp.service.DepartmentService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/departments")
+@RequiredArgsConstructor
+public class DepartmentController {
+
+    private final DepartmentService deptService;
+
+    @GetMapping
+    public List<Department> getAll() {
+        return deptService.getAllDepartments();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Department> getById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(deptService.getDepartmentById(id));
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping
+    public Department create(@RequestBody Department dept) {
+        return deptService.createDepartment(dept);
+    }
+
+    @PutMapping("/{id}")
+    public Department update(@PathVariable Long id, @RequestBody Department dept) {
+        return deptService.updateDepartment(id, dept);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        deptService.deleteDepartment(id);
+        return ResponseEntity.noContent().build();
+    }
+}
+
+3️⃣ Employee
+EmployeeRepository
+package com.erp.repository;
+
+import com.erp.entity.Employee;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {}
+
+EmployeeService
+package com.erp.service;
+
+import com.erp.entity.Employee;
+import com.erp.repository.EmployeeRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class EmployeeService {
+
+    private final EmployeeRepository empRepo;
+
+    public List<Employee> getAllEmployees() {
+        return empRepo.findAll();
+    }
+
+    public Employee getEmployeeById(Long id) {
+        return empRepo.findById(id).orElseThrow(() -> new RuntimeException("Employee not found"));
+    }
+
+    public Employee createEmployee(Employee emp) {
+        return empRepo.save(emp);
+    }
+
+    public Employee updateEmployee(Long id, Employee emp) {
+        return empRepo.findById(id).map(existing -> {
+            existing.setDesignation(emp.getDesignation());
+            existing.setSalary(emp.getSalary());
+            existing.setHireDate(emp.getHireDate());
+            existing.setUser(emp.getUser());
+            return empRepo.save(existing);
+        }).orElseThrow(() -> new RuntimeException("Employee not found"));
+    }
+
+    public void deleteEmployee(Long id) {
+        empRepo.deleteById(id);
+    }
+}
+
+EmployeeController
+package com.erp.controller;
+
+import com.erp.entity.Employee;
+import com.erp.service.EmployeeService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/employees")
+@RequiredArgsConstructor
+public class EmployeeController {
+
+    private final EmployeeService empService;
+
+    @GetMapping
+    public List<Employee> getAll() {
+        return empService.getAllEmployees();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Employee> getById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(empService.getEmployeeById(id));
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping
+    public Employee create(@RequestBody Employee emp) {
+        return empService.createEmployee(emp);
+    }
+
+    @PutMapping("/{id}")
+    public Employee update(@PathVariable Long id, @RequestBody Employee emp) {
+        return empService.updateEmployee(id, emp);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        empService.deleteEmployee(id);
+        return ResponseEntity.noContent().build();
+    }
+}
+
+4️⃣ Attendance
+AttendanceRepository
+package com.erp.repository;
+
+import com.erp.entity.Attendance;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
+    List<Attendance> findByEmployeeId(Long empId);
+}
+
+AttendanceService
+package com.erp.service;
+
+import com.erp.entity.Attendance;
+import com.erp.repository.AttendanceRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class AttendanceService {
+
+    private final AttendanceRepository attRepo;
+
+    public List<Attendance> getAll() {
+        return attRepo.findAll();
+    }
+
+    public List<Attendance> getByEmployee(Long empId) {
+        return attRepo.findByEmployeeId(empId);
+    }
+
+    public Attendance create(Attendance att) {
+        return attRepo.save(att);
+    }
+
+    public void delete(Long id) {
+        attRepo.deleteById(id);
+    }
+}
+
+AttendanceController
+package com.erp.controller;
+
+import com.erp.entity.Attendance;
+import com.erp.service.AttendanceService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/attendance")
+@RequiredArgsConstructor
+public class AttendanceController {
+
+    private final AttendanceService attService;
+
+    @GetMapping
+    public List<Attendance> getAll() {
+        return attService.getAll();
+    }
+
+    @GetMapping("/employee/{empId}")
+    public List<Attendance> getByEmployee(@PathVariable Long empId) {
+        return attService.getByEmployee(empId);
+    }
+
+    @PostMapping
+    public Attendance create(@RequestBody Attendance att) {
+        return attService.create(att);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        attService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}
+
+5️⃣ Product
+ProductRepository
+package com.erp.repository;
+
+import com.erp.entity.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {}
+
+ProductService
+package com.erp.service;
+
+import com.erp.entity.Product;
+import com.erp.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ProductService {
+
+    private final ProductRepository prodRepo;
+
+    public List<Product> getAll() {
+        return prodRepo.findAll();
+    }
+
+    public Product getById(Long id) {
+        return prodRepo.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    public Product create(Product p) {
+        return prodRepo.save(p);
+    }
+
+    public Product update(Long id, Product p) {
+        return prodRepo.findById(id).map(existing -> {
+            existing.setName(p.getName());
+            existing.setCategory(p.getCategory());
+            existing.setStockQty(p.getStockQty());
+            existing.setUnitPrice(p.getUnitPrice());
+            return prodRepo.save(existing);
+        }).orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    public void delete(Long id) {
+        prodRepo.deleteById(id);
+    }
+}
+
+ProductController
+package com.erp.controller;
+
+import com.erp.entity.Product;
+import com.erp.service.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/products")
+@RequiredArgsConstructor
+public class ProductController {
+
+    private final ProductService prodService;
+
+    @GetMapping
+    public List<Product> getAll() {
+        return prodService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(prodService.getById(id));
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping
+    public Product create(@RequestBody Product p) {
+        return prodService.create(p);
+    }
+
+    @PutMapping("/{id}")
+    public Product update(@PathVariable Long id, @RequestBody Product p) {
+        return prodService.update(id, p);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        prodService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}
+
+
+✅ এখন পুরো HR + Users + Products + Attendance backend scaffold Service Layer + Controller ready।
+
+ভাই, পরের ধাপে আমি চাইলে Sales + Purchase + Invoice modules এর Service + Controller একই স্টাইলে বানিয়ে দিই, যাতে পুরো backend CRUD complete হয়।
+
+তুমি কি আমি সেটা এখন করি?
+
+
+
+Option 1: SalesService এ implement করা (recommended for total revenue)
+@Service
+public class SalesService {
+    // existing fields and methods ...
+
+    // Total Revenue
+    public double getTotalRevenue() {
+        return salesRepository.findAll()
+                .stream()
+                .mapToDouble(Sales::getTotalAmount)
+                .sum();
+    }
+
+    // Customer-wise or date-wise sales report can also be added here
+}
+
+Option 2: ProductService এ implement করা (recommended for low stock)
+@Service
+public class ProductService {
+    // existing fields and methods ...
+
+    public List<Product> getLowStockProducts() {
+        return prodRepo.findAll()
+                .stream()
+                .filter(p -> p.getStockQty() <= p.getReorderLevel())
+                .toList();
+    }
+}
+
+Controller Layer
+SalesController (total revenue)
+@GetMapping("/report/total-revenue")
+public ResponseEntity<Double> getTotalRevenue() {
+    double revenue = salesService.getTotalRevenue();
+    return ResponseEntity.ok(revenue);
+}
+
+ProductController (low stock)
+@GetMapping("/report/low-stock")
+public ResponseEntity<List<Product>> getLowStockProducts() {
+    return ResponseEntity.ok(prodService.getLowStockProducts());
+}
+
+
+✅ Summary
+
+Total revenue report → SalesService + SalesController
+
+Low stock report → ProductService + ProductController
+
+Future: date-wise, customer-wise, product-wise reports SalesService এ method add করে SalesController এ endpoint expose করা যাবে।
+
+যদি চান, আমি এখন Sales Reports + Customer-wise + Date-wise + Low stock সব reports সহ ready-to-use endpoints তৈরি করে দিতে পারি।
+আপনি কি আমি সেটা করি?
+
+You said:
+customer ar sathe r kono entity ar relation hobe na taito?
+ChatGPT said:
+
+ঠিক বলছেন! 😄
+
+আপনার ERP project-এর current scope অনুযায়ী:
+
+Customer entity শুধুমাত্র Sales এর সাথে relation রাখবে।
+
+অর্থাৎ Sales → Customer (Many Sales can belong to One Customer)
+
+Customer আর কোনো entity (Product, StockTransaction, etc.) এর সাথে direct relation লাগবে না।
+
+Relation Diagram (simplified)
+Customer 1 --- * Sales
+Sales 1 --- * SalesItem
+SalesItem * --- 1 Product
+Product 1 --- * SalesItem
+
+
+Customer ↔ Sales: এক Customer অনেক Sales করতে পারে।
+
+Sales ↔ SalesItem: এক Sale অনেক Items থাকতে পারে।
+
+SalesItem ↔ Product: এক Item এক Product reference করে।
+
+StockTransaction ↔ Product: Product এর stock movement track করে।
+
+💡 Important:
+
+Low stock বা StockTransaction কে Customer এর সাথে link করার দরকার নেই।
+
+Customer শুধুমাত্র Sales history এবং Invoice/Report দেখতে পাবে।
+
+আপনি চাইলে আমি এখন Customer entity + Sales relation + Customer CRUD endpoints বানিয়ে দিয়ে পুরো Sales Management module ready করে দিতে পারি।
+
+আপনি কি আমি সেটা করি?
+
+You said:
+bt amar akta question ace customer order kivabe korbe
+ChatGPT said:
+
+ঠিক আছে, আমি step by step clear করি। 😄
+
+আপনার current ERP project অনুযায়ী Customer সরাসরি system এ login বা order place করতে পারবে না, কারণ এখন পর্যন্ত frontend (Angular) বা Customer portal implement হয়নি।
+
+1️⃣ Current Flow (Backend Only)
+
+Admin / Sales Manager Sales entry create করে customer এর জন্য।
+
+Sale create হলে:
+
+Product stockQty কমে যায়
+
+SalesStatus = PENDING
+
+StockTransaction create হয়
+
+Customer কোনো direct action নেয় না।
+
+শুধুমাত্র Invoice/Order status দেখার সুযোগ থাকবে যখন Angular dashboard বানানো হবে।
+
+2️⃣ Customer Order করার Future Option
+Option A: Customer Portal / Frontend
+
+Customer login করে:
+
+Product list browse করে
+
+Quantity select করে cart create করে
+
+Checkout করলে API call হবে /api/sales POST request
+
+Backend এ Sale create হবে (Admin manually approve optional)
+
+Option B: Email / Phone Order
+
+Customer call/email/WhatsApp করলে
+
+Sales Manager ERP এ Sale entry manually create করে
+
+Backend stockQty auto update
+
+3️⃣ Summary
+
+এখন পর্যন্ত: Admin / ERP staff Sale create করে।
+
+Customer শুধু view করতে পারবে (Angular later)।
+
+ভবিষ্যতে: Customer portal/API integration করলে self-order enable হবে।
+
+আপনি চাইলে আমি একটা future-ready Customer order API বানিয়ে দিতে পারি, যেটা Angular front-end থেকে call করা যাবে।
+আপনি কি আমি সেটা করি?
+
+You said:
+Option A: Customer Portal / Frontend
+
+Customer login করে:
+
+Product list browse করে
+
+Quantity select করে cart create করে
+
+Checkout করলে API call হবে /api/sales POST request
+
+Backend এ Sale create হবে (Admin manually approve optional) ata sudhu forntend diye controll kora somvob hobe?
+ChatGPT said:
+
+হ্যাঁ! 😄 এটা পুরোপুরি frontend (Angular) দিয়ে control করা সম্ভব, কিন্তু backend support ছাড়া full workflow চলে না। আমি step by step explain করি:
+
+1️⃣ Frontend Controlled Part
+
+Customer login হলে Angular dashboard / portal দেখাবে।
+
+Product list browse: Angular service /api/products থেকে fetch করবে।
+
+Quantity select & cart create: Angular component (cart array) manage করবে।
+
+Checkout button: Angular POST request /api/sales করবে।
+
+সবটাই frontend logic, যেমন cart management, selection, validation।
+
+2️⃣ Backend Required Part
+
+Frontend শুধুমাত্র request পাঠাবে, কিন্তু backend কাজ করবে:
+
+StockQty update → ProductService / SalesService
+
+Sales creation → Sales entity save হবে
+
+StockTransaction create → inventory tracking
+
+SalesStatus → PENDING (default)
+
+অর্থাৎ, frontend request alone suficiente নয়; backend API must process and validate the order।
+
+3️⃣ Optional Admin Approval
+
+আপনি চাইলে backend এ approve flag রাখতে পারেন:
+
+Sale create হলে pendingApproval = true
+
+Admin approve করলে status = PENDING অথবা SHIPPED update করবে
+
+এটা optional, workflow secure করতে useful।
+
+Summary
+
+Frontend → cart, checkout, customer interactions
+
+Backend → order creation, stock update, transaction, status
+
+শুধুমাত্র frontend দিয়ে product stock এবং sales record update সম্ভব নয়।
+
+💡 Tip:
+আপনি চাইলে আমি একটা Customer Checkout API ready structure বানিয়ে দিতে পারি, যেটা Angular front-end থেকে call করলে Sale create + stock update + status = PENDING হয়ে যাবে।
+
+আপনি কি আমি সেটা করি?

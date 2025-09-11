@@ -14,16 +14,18 @@ public class Product {
     private String category;
     private Integer stockQty;
     private Double unitPrice;
+    private Integer reorderLevel;
 
     public Product() {
     }
 
-    public Product(Long id, String name, String category, Integer stockQty, Double unitPrice) {
+    public Product(Long id, String name, String category, Integer stockQty, Double unitPrice, Integer reorderLevel) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.stockQty = stockQty;
         this.unitPrice = unitPrice;
+        this.reorderLevel = reorderLevel;
     }
 
     public Long getId() {
@@ -64,5 +66,13 @@ public class Product {
 
     public void setUnitPrice(Double unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public Integer getReorderLevel() {
+        return reorderLevel;
+    }
+
+    public void setReorderLevel(Integer reorderLevel) {
+        this.reorderLevel = reorderLevel;
     }
 }

@@ -46,4 +46,18 @@ public class ProductRestController {
         prodService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // Low Stock Endpoint
+    @GetMapping("/low-stock")
+    public List<Product> getLowStock() {
+        return prodService.getAll().stream()
+                .filter(p -> p.getStockQty() <= p.getReorderLevel())
+                .toList();
+    }
+
+    @GetMapping("/report/low-stock")
+    public ResponseEntity<List<Product>> getLowStockProducts() {
+        return ResponseEntity.ok(prodService.getLowStockProducts());
+    }
+
 }
